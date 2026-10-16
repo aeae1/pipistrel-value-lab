@@ -477,7 +477,12 @@ function downloadVisibleCSV(){
 }
 function loadRecord(id){
  const o=OBS.find(x=>x.id===id);if(!o)return;
- const updates={variant:o.variant,askingPrice:o.price,askingCurrency:o.currency,origin:o.region};
+ const base=vs[o.variant].typ,region=REGIONS[o.region]||REGIONS.Other;
+ const updates={variant:o.variant,askingPrice:o.price,askingCurrency:o.currency,origin:o.region,
+  engine:base.engine,avionics:base.avionics,autopilot:base.autopilot,prop:base.prop,navigator:'none',
+  year:o.year??vs[o.variant].refYear,hours:o.hours??450,condition:'good',damage:'unknown',hangared:'unknown',registration:'unknown',
+  shippingLow:region.shipping[0],shippingHigh:region.shipping[1],registrationCosts:region.paperwork,
+  ...Object.fromEntries(Object.keys(EXTRA).map(k=>[k,false]))};
  if(o.year!=null)updates.year=o.year;
  if(o.hours!=null)updates.hours=o.hours;
  // An unseen engine model/hours/TBO is NOT silently represented as a documented one.
@@ -495,14 +500,19 @@ function loadRecord(id){
  updates.rocketYear=0;
  setConfig(updates);
  const unknowns=[];
+ if(o.engine==null)unknowns.push('engine model / injection');
+ if(o.avionics==null)unknowns.push('exact avionics suite');
+ if(o.prop==null)unknowns.push('propeller specification');
  if(o.engineHours==null)unknowns.push('engine time');
  if(o.engineServiceYear==null)unknowns.push('engine service / overhaul date');
  if(o.engineTboHours==null)unknowns.push('engine TBO eligibility');
  if(o.parachute==null)unknowns.push('rescue installation');
  if(o.repackDue==null && o.repackStatus!=='due' && !o.rescueDue)unknowns.push('parachute repack deadline');
  if(o.autopilot==null)unknowns.push('autopilot specification');
+ if(o.year==null)unknowns.push('manufacture year');
+ if(o.hours==null)unknowns.push('airframe hours');
  const note=$('listingLoadedNotice');
- note.innerHTML=`<b>Loaded source record ${esc(o.id)} · ${esc(vs[o.variant].name)}</b><br>Known advertisement fields were copied. Missing technical values are <strong>hypothetical placeholders</strong>, not seller-certified specifications. ${unknowns.length?'Before relying on this scenario, verify: '+esc(unknowns.join(', '))+'.':''} <a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">Open listing ↗</a>`;
+ note.innerHTML=`<b>Loaded source record ${esc(o.id)} · ${esc(vs[o.variant].name)}</b><br>Known advertisement fields were copied. Missing technical values and model-baseline equipment defaults are <strong>hypothetical placeholders</strong>, not seller-certified specifications. ${unknowns.length?'Before relying on this scenario, verify: '+esc(unknowns.join(', '))+'.':''} <a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">Open listing ↗</a>`;
  note.classList.remove('hidden');
  selectTab('estimate');
 }
