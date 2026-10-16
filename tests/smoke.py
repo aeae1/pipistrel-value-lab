@@ -2,6 +2,9 @@
 """Offline desktop/mobile UI smoke tests. Requires playwright + installed Chromium."""
 from __future__ import annotations
 import json
+import os
+import shutil
+import tempfile
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
@@ -22,10 +25,10 @@ def exercise(browser, width, height, screenshot):
     page.locator('#priceCenter').wait_for()
     initial=as_money(page.locator('#priceCenter').inner_text())
     # Capture the standard FI Virus configuration before modifying inputs for tests.
-    page.screenshot(path=str(ROOT/'docs'/screenshot),full_page=(width>500))
+    page.screenshot(path=str(Path(os.environ.get('PVL_SCREENSHOT_DIR',tempfile.gettempdir()))/screenshot),full_page=(width>500))
     assert initial > 20000,(width,initial)
-    assert page.locator('#heroRecords').inner_text().startswith('92 ')
-    assert page.locator('#heroModel').inner_text().startswith('46 ')
+    assert page.locator('#heroRecords').inner_text().startswith(str(len(json.loads((ROOT/'data/observations.json').read_text())))+' ')
+    assert page.locator('#heroModel').inner_text().startswith(str(page.evaluate('OBS.filter(isEligible).length'))+' ')
     assert not page.locator('#condition option[value="project"]').count()
     assert not page.locator('#damage option[value="structural"]').count()
     assert not page.locator('#dbStatus option[value="salvage"]').count()
@@ -57,13 +60,19 @@ def exercise(browser, width, height, screenshot):
     page.locator('button[data-sort-key="usd"]').click()
     assert page.locator('#marketTable th[data-sort-col="usd"]').get_attribute('aria-sort')=='descending'
     page.locator('#dbSort').select_option('tboHours-asc')
-    assert page.locator('#databaseRows tr').first.locator('td').nth(6).inner_text().startswith('1,159')
+    assert page.locator('#databaseRows tr').first.locator('td').nth(6).inner_text().startswith('815')
     page.locator('#dbSearch').fill('SP-SFLY')
     assert page.locator('#databaseRows tr').count()==1
     page.locator('#databaseRows button[data-load-record]').click()
     assert page.locator('#engineEvidence').input_value()=='uncertain'
     assert page.locator('#repackEvidence').input_value()=='unknown'
-    assert 'hypothetical placeholders' in page.locator('#listingLoadedNotice').inner_text()
+    assert 'excluded from its own comparables' in page.locator('#listingLoadedNotice').inner_text()
+    assert page.locator('#engineHours').input_value()=='1185'
+    assert page.locator('#serviceYear').input_value()==''
+    assert page.locator('#engineDue').input_value()=='2023-05'
+    assert '−3.4' in page.locator('#engineYearsLeft').inner_text() or '-3.4' in page.locator('#engineYearsLeft').inner_text()
+    assert page.locator('#propStatus').input_value()=='unknown'
+    assert page.locator('#autopilot').input_value()=='unknown'
     page.locator('button[data-tab="database"]').click()
     page.locator('#dbSearch').fill('')
     page.locator('#dbSort').select_option('date-desc')
@@ -75,6 +84,50 @@ def exercise(browser, width, height, screenshot):
     page.locator('#dbSearch').fill('')
     page.locator('#dbEngine').select_option('is100')
     assert 'D-MAFV' in page.locator('#databaseRows').inner_text()
+    page.locator('#clearFilters').click()
+    # Every column is clickable in both directions, including mobile overflow.
+    for key in page.locator('#marketTable th[data-sort-col]').evaluate_all('(els)=>els.map(e=>e.dataset.sortCol)'):
+        page.locator(f'button[data-sort-key="{key}"]').click()
+        first=page.locator(f'th[data-sort-col="{key}"]').get_attribute('aria-sort')
+        page.locator(f'button[data-sort-key="{key}"]').click()
+        second=page.locator(f'th[data-sort-col="{key}"]').get_attribute('aria-sort')
+        assert {first,second}=={'ascending','descending'}
+    page.locator('#dbVariant').select_option('virus_explorer')
+    page.locator('#dbRegion').select_option('US')
+    page.locator('#dbMaxPrice').fill('180000')
+    assert 'N195EA' in page.locator('#databaseRows').inner_text()
+    assert 'N26WU' not in page.locator('#databaseRows').inner_text()
+    page.locator('#preferredSearch').click()
+    assert page.locator('#dbRescue').input_value()=='yes'
+    assert page.locator('#dbEngine').input_value()=='is100'
+    assert 'No records match' in page.locator('#databaseRows').inner_text()
+    page.locator('#clearFilters').click()
+    with page.expect_download() as download:
+        page.locator('#downloadCSV').click()
+    csv_text=Path(download.value.path()).read_text(encoding='utf-8-sig')
+    assert 'aircraft_id' in csv_text and 'date_basis' in csv_text
+    assert 'parachute_repack_months_left_seller_claim' in csv_text
+    # Loading a dated repack, then sparse evidence, must clear the prior deadline.
+    page.locator('#dbSearch').fill('V11')
+    page.locator('button[data-load-record="V11"]').click()
+    assert page.locator('#repackDue').input_value()=='2028-01'
+    assert page.locator('#repackEvidence').input_value()=='deadline'
+    page.locator('button[data-tab="database"]').click()
+    page.locator('#dbSearch').fill('V43')
+    page.locator('button[data-load-record="V43"]').click()
+    assert page.locator('#repackDue').input_value()==''
+    assert page.locator('#engineTbo').input_value()==''
+    assert page.locator('#engine').input_value()=='unknown'
+    assert page.locator('#engineHoursLeft').inner_text()=='Unknown'
+    assert 'cost scenario only' in page.locator('#eligibilityStatus').inner_text()
+    page.locator('#eligibility').select_option('ineligible')
+    assert 'Blocked' in page.locator('#budgetLabel').inner_text()
+    # input + change must not erase a real delta on blur.
+    page.locator('#negotiation').fill('10')
+    delta=page.locator('#priceDelta').inner_text()
+    page.locator('#negotiation').dispatch_event('change')
+    assert page.locator('#priceDelta').inner_text()==delta and 'No change' not in delta
+    assert page.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1')
     page.locator('button[data-tab="research"]').click()
     assert 'Linked research library' in page.locator('#tab-research').inner_text()
     page.locator('button[data-tab="estimate"]').click()
@@ -86,7 +139,8 @@ def exercise(browser, width, height, screenshot):
 
 def main():
     with sync_playwright() as p:
-        browser=p.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+        executable=os.environ.get('CHROMIUM_EXECUTABLE') or shutil.which('chromium')
+        browser=p.chromium.launch(headless=True,**({'executable_path':executable} if executable else {}),args=['--no-sandbox'])
         try:
             desktop=exercise(browser,1440,900,'desktop-preview.png')
             mobile=exercise(browser,390,844,'mobile-preview.png')

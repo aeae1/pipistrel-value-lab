@@ -1,6 +1,6 @@
 # Maintaining the price research
 
-Snapshot starting point: **2026-10-15**. Listings are evidence, not sales. Update carefully.
+Snapshot starting point: **2026-10-16**. Listings are evidence, not sales. Update carefully.
 
 ## Adding or updating an aircraft
 
@@ -18,7 +18,7 @@ Snapshot starting point: **2026-10-15**. Listings are evidence, not sales. Updat
 
 ```json
 {
-  "id": "V42",
+  "id": "EXAMPLE",
   "family": "virus",
   "variant": "virus_sw",
   "year": 2019,
@@ -26,7 +26,7 @@ Snapshot starting point: **2026-10-15**. Listings are evidence, not sales. Updat
   "currency": "EUR",
   "location": "Slovenia",
   "region": "Europe",
-  "date": "2026-10-15",
+  "date": "2026-10-16",
   "url": "https://example.com/actual-ad",
   "reg": null,
   "hours": 540,
@@ -56,3 +56,9 @@ A closed listing, an ownership transfer, a broker's statement of “sold”, or 
 - Below 0.40: ambiguous, heavily discounted confidence / context only.
 
 These grades are editorial judgments, not objective statistical probabilities.
+
+New records also require `aircraftId`, `priceType: "asking"`, `dateBasis`, `access`, and `fieldEvidence`. Keep `observedAt` separate from the advertisement date and do not claim a retrieval for inherited evidence. `fieldEvidence[field]` may identify `seller-stated`, `inferred`, `conflicting`, or a legacy claim, with its URL. Unpopulated fields are unknown; no record is independently verified merely because a page was accessible. Use `duplicateOf` plus the canonical `aircraftId` for suspected repeats and exclude them. Each price-history event has its own currency and URL. Unordered conflicting offers belong in `alternateOffers`, not an invented dated price sequence.
+
+Never encode “repack due, exact date unknown” as a numeric month. Supply `repackStatus: "due"`; use `repackDue` only for an actual YYYY-MM deadline. Engine hours, propeller hours and airframe hours are different fields. `autopilotType` is optional: installed-but-unspecified is distinct from verified axes.
+
+The example above illustrates core fields only; add the required provenance before submitting a real record. `node tests/model.test.cjs` checks calculation invariants, `python3 tests/backtest.py` holds out entire identity groups through the production engine, and browser CI tests all sortable headings, presets, filters and export. Do not adjust priors solely to optimize this retrospective asking corpus.

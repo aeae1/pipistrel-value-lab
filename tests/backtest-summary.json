@@ -1,9 +1,94 @@
 {
-  "record_count": 38,
-  "median_absolute_percent_error": 9.92,
-  "mean_absolute_percent_error": 14.02,
-  "in_band_count": 31,
-  "in_band_percent": 81.6,
-  "caveat": "Asking-price in-sample leave-one-listing-out exercise, not external transaction-price verification"
+  "record_count": 41,
+  "median_absolute_percent_error": 14.58,
+  "mean_absolute_percent_error": 17.71,
+  "mean_signed_percent_error": -10.02,
+  "in_band_count": 34,
+  "in_band_percent": 82.9,
+  "method": "Leave one aircraft identity group out; exact UI record-to-scenario mapping; negotiation zero",
+  "by_variant": {
+    "sinus_classic": {
+      "record_count": 8,
+      "median_absolute_percent_error": 21.9,
+      "mean_absolute_percent_error": 21.8,
+      "mean_signed_percent_error": -15.67,
+      "in_band_count": 6,
+      "in_band_percent": 75.0
+    },
+    "sinus_flex": {
+      "record_count": 6,
+      "median_absolute_percent_error": 23.44,
+      "mean_absolute_percent_error": 27.25,
+      "mean_signed_percent_error": 3.2,
+      "in_band_count": 5,
+      "in_band_percent": 83.3
+    },
+    "sinus_max": {
+      "record_count": 1,
+      "median_absolute_percent_error": 9.85,
+      "mean_absolute_percent_error": 9.85,
+      "mean_signed_percent_error": -9.85,
+      "in_band_count": 1,
+      "in_band_percent": 100.0
+    },
+    "virus_explorer": {
+      "record_count": 5,
+      "median_absolute_percent_error": 9.24,
+      "mean_absolute_percent_error": 11.78,
+      "mean_signed_percent_error": -1.08,
+      "in_band_count": 5,
+      "in_band_percent": 100.0
+    },
+    "virus_long": {
+      "record_count": 3,
+      "median_absolute_percent_error": 10.52,
+      "mean_absolute_percent_error": 19.1,
+      "mean_signed_percent_error": -12.08,
+      "in_band_count": 2,
+      "in_band_percent": 66.7
+    },
+    "virus_sw": {
+      "record_count": 17,
+      "median_absolute_percent_error": 13.16,
+      "mean_absolute_percent_error": 14.97,
+      "mean_signed_percent_error": -14.44,
+      "in_band_count": 14,
+      "in_band_percent": 82.4
+    },
+    "virus_sw121": {
+      "record_count": 1,
+      "median_absolute_percent_error": 7.9,
+      "mean_absolute_percent_error": 7.9,
+      "mean_signed_percent_error": -7.9,
+      "in_band_count": 1,
+      "in_band_percent": 100.0
+    }
+  },
+  "largest_residuals": [
+    {
+      "id": "S12",
+      "signed_pct_error": 45.75
+    },
+    {
+      "id": "S21",
+      "signed_pct_error": 45.61
+    },
+    {
+      "id": "S05",
+      "signed_pct_error": -41.64
+    },
+    {
+      "id": "V16",
+      "signed_pct_error": -41.22
+    },
+    {
+      "id": "V43",
+      "signed_pct_error": -38.0
+    },
+    {
+      "id": "V03",
+      "signed_pct_error": -33.74
+    }
+  ],
+  "caveat": "Retrospective asking-price corpus with hand-selected priors, incomplete specs and possible unidentified duplicates. Not independent sales-price validation. Bands are judgment ranges. Earlier 38-row results used different imputation and holdout rules and are not directly comparable."
 }
-

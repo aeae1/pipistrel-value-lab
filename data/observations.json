@@ -24,7 +24,12 @@
     "status": "current",
     "avionicsDetail": "Dynon displays; Garmin GTN 650 WAAS",
     "autopilotDetail": "AeroCruze-100",
-    "propDetail": "MT MTV-33"
+    "propDetail": "MT MTV-33",
+    "aircraftId": "reg:N510RL",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V02",
@@ -51,12 +56,14 @@
       {
         "date": "2026-08-24",
         "price": 157000,
-        "url": "https://www.barnstormers.com/listing.php?mode=usersearch&page=208&user=97962"
+        "url": "https://www.barnstormers.com/listing.php?mode=usersearch&page=208&user=97962",
+        "currency": "USD"
       },
       {
         "date": "2026-10-01",
         "price": 149000,
-        "url": "https://www.barnstormers.com/listing.php?id=914876&page=144"
+        "url": "https://www.barnstormers.com/listing.php?id=914876&page=144",
+        "currency": "USD"
       }
     ],
     "notes": "Garmin G3X, ADS-B in/out, autopilot, MT hydraulic CS prop; GRS repack due. Price reduced from $157,000 Aug 24 to $149,000 Oct 1, 2026. Exact Rotax engine variant NOT stated in available listing, so engine remains unknown. Experimental LSA stated by seller.",
@@ -64,7 +71,12 @@
     "avionicsDetail": "Garmin G3X; ADS-B In/Out",
     "autopilotDetail": "Autopilot fitted; type not stated",
     "propDetail": "MT hydraulic constant-speed",
-    "repackStatus": "due"
+    "repackStatus": "due",
+    "aircraftId": "record:V02",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V03",
@@ -83,7 +95,12 @@
     "quality": 0.61,
     "notes": "2010 Virus SW, 912 ULS2, 199 TT. High-price outlier; advertisement details not all verified.",
     "status": "current",
-    "flag": "high"
+    "flag": "high",
+    "aircraftId": "record:V03",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V04",
@@ -98,23 +115,30 @@
     "url": "https://www.trade-a-plane.com/search?category_level1=Single+Engine+Piston&make=PIPISTREL&s-page_size=96&s-sort_key=make&s-sort_order=asc&s-type=aircraft",
     "reg": "N129RR",
     "hours": 432,
-    "engineHours": 32,
+    "engineHours": null,
     "source": "Trade-A-Plane · dated broker price reduction",
     "quality": 0.72,
-    "notes": "2022 N129RR is Pipistrel Virus SW121A Explorer (FAA model code VSWX121A0127, not the SW100). Same seller advertised $209,500 and 32 TT May 2025, reduced to $187,500 with 432 TT in a captured April 28, 2026 Trade-A-Plane index. These are one aircraft, not two transactions; current availability unconfirmed. Original ad says no damage history, nearly new and IFR upgrade contemplated; engine details unverified.",
+    "notes": "2022 N129RR is Pipistrel Virus SW121A Explorer (FAA model code VSWX121A0127, not the SW100). Same seller advertised $209,500 and 32 TT May 2025, reduced to $187,500 with 432 TT in a captured April 28, 2026 Trade-A-Plane index. These are one aircraft, not two transactions; current availability unconfirmed. Original ad says no damage history, nearly new and IFR upgrade contemplated; engine details unverified. Engine time 32 h belonged to the older 2025 advertisement and is not carried forward to the 432 h airframe snapshot.",
     "status": "historical",
     "priceHistory": [
       {
         "date": "2025-05-08",
         "price": 209500,
-        "url": "https://www.trade-a-plane.com/search?category_level1=Single+Engine+Piston&make=PIPISTREL&model=VIRUS&s-type=aircraft"
+        "url": "https://www.trade-a-plane.com/search?category_level1=Single+Engine+Piston&make=PIPISTREL&model=VIRUS&s-type=aircraft",
+        "currency": "USD"
       },
       {
         "date": "2026-04-28",
         "price": 187500,
-        "url": "https://www.trade-a-plane.com/search?category_level1=Single+Engine+Piston&make=PIPISTREL&s-page_size=96&s-sort_key=make&s-sort_order=asc&s-type=aircraft"
+        "url": "https://www.trade-a-plane.com/search?category_level1=Single+Engine+Piston&make=PIPISTREL&s-page_size=96&s-sort_key=make&s-sort_order=asc&s-type=aircraft",
+        "currency": "USD"
       }
-    ]
+    ],
+    "aircraftId": "reg:N129RR",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V05",
@@ -143,7 +167,12 @@
     "flag": "classification",
     "skipModel": true,
     "avionicsDetail": "Garmin G3X; GMC305",
-    "autopilotDetail": "Garmin GMC305"
+    "autopilotDetail": "Garmin GMC305",
+    "aircraftId": "reg:D-EABD",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V06",
@@ -167,7 +196,12 @@
     "quality": 0.81,
     "notes": "Original listing quoted €145,000 in another aggregator; PlaneFile displays €152,250 possibly 5% syndication markup. Use €145k as likely originating price, flag discrepancy.",
     "status": "current",
-    "flag": "price-conflict"
+    "flag": "price-conflict",
+    "aircraftId": "record:V06",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V07",
@@ -189,7 +223,12 @@
     "quality": 0.85,
     "notes": "Virus SW121A Explorer; amount ex South African VAT; USD conversion fluctuates on Controller. 2026-09-21 quoted $236,920.",
     "status": "current",
-    "reg": null
+    "reg": null,
+    "aircraftId": "record:V07",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V08",
@@ -212,7 +251,12 @@
     "source": "PlaneCheck / AeroGurus archive",
     "quality": 0.73,
     "notes": "€185,000 historically quoted; updated ad may say price on request.",
-    "status": "historical"
+    "status": "historical",
+    "aircraftId": "reg:9H-RMO",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V09",
@@ -224,27 +268,29 @@
     "location": "Poland",
     "region": "Europe",
     "date": "2026-10-14",
-    "url": "https://planefox.com/listing/SP-SFLY",
+    "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051",
     "reg": "SP-SFLY",
     "hours": 1185,
-    "engineHours": 841,
+    "engineHours": 1185,
     "engine": "uls100",
     "avionics": "legacyGlass",
     "parachute": true,
-    "source": "PlaneFox · Plane4You dealer",
-    "quality": 0.97,
-    "notes": "Same registration SP-SFLY: PlaneNest last observed €59k 2026-09-28, PlaneFox €55k updated Oct 14. 2008 Virus 912, 1185 TT, 841 engine TT, Galaxy parachute, Garmin G5. Another advertised description stated calendar engine TBO expired May 2023. VAT included in PlaneFox price; verify export VAT eligibility.",
+    "source": "Plane4You · direct broker; PlaneFox price history",
+    "quality": 0.8,
+    "notes": "Direct broker: 1,185 airframe and engine hours; 841 is PROPELLER time, mislabeled as engine time by PlaneFox. Broker labels engine 912 ULS but gives serial 4409165; reconcile model and serial against the Rotax bulletin. Detailed rescue field says Galaxy while highlights say BRS. Older listing claimed engine calendar expiry May 2023; current broker states 2,000 h / 15 yr but does not repeat the due date. No serial-specific extension verified.",
     "status": "current",
     "priceHistory": [
       {
         "date": "2026-09-28",
         "price": 59000,
-        "url": "https://www.planenest.com/en/classifieds/pipistrel-virus-sp-sfly-1532"
+        "url": "https://www.planenest.com/en/classifieds/pipistrel-virus-sp-sfly-1532",
+        "currency": "EUR"
       },
       {
         "date": "2026-10-14",
         "price": 55000,
-        "url": "https://planefox.com/listing/SP-SFLY"
+        "url": "https://planefox.com/listing/SP-SFLY",
+        "currency": "EUR"
       }
     ],
     "avionicsDetail": "Garmin G5; Brauniger AlphaMFD",
@@ -252,7 +298,46 @@
     "engineTboHours": 2000,
     "engineTboCalendarDue": "2023-05",
     "engineTboBasis": "Seller-advertised, serial/eligibility unverified",
-    "engineSerial": "4409165"
+    "engineSerial": "4409165",
+    "aircraftId": "reg:SP-SFLY",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "full-page",
+    "fieldEvidence": {
+      "price": {
+        "state": "seller-stated",
+        "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051"
+      },
+      "hours": {
+        "state": "seller-stated",
+        "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051"
+      },
+      "engineHours": {
+        "state": "seller-stated",
+        "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051"
+      },
+      "propHours": {
+        "state": "seller-stated",
+        "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051"
+      },
+      "engine": {
+        "state": "conflicting",
+        "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051"
+      },
+      "engineTboCalendarDue": {
+        "state": "legacy-seller-claim",
+        "url": "https://www.planenest.com/en/classifieds/pipistrel-virus-sp-sfly-1532"
+      },
+      "parachute": {
+        "state": "conflicting-make",
+        "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051"
+      }
+    },
+    "propHours": 841,
+    "serial": "281V912",
+    "engineCalendarYears": 15,
+    "flag": "technical-conflict",
+    "observedAt": "2026-10-16"
   },
   {
     "id": "V10",
@@ -275,7 +360,12 @@
     "notes": "New replacement 80-hp 912UL engine with zero hours according to seller; Dynon D100/D160, BPRS.",
     "status": "current",
     "avionicsDetail": "Dynon D100 / D160",
-    "rescueDetail": "BPRS; service date not stated"
+    "rescueDetail": "BPRS; service date not stated",
+    "aircraftId": "record:V10",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V11",
@@ -300,7 +390,19 @@
     "avionicsDetail": "Dynon SkyView HDX 10-inch",
     "propDetail": "MT MTV-33 hydraulic CS",
     "repackDue": "2028-01",
-    "rescueDetail": "Galaxy GRS 6/473 SD; due Jan 2028"
+    "rescueDetail": "Galaxy GRS 6/473 SD; due Jan 2028",
+    "aircraftId": "record:V11",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "engineHours": 330,
+    "beringerBrakes": true,
+    "electricTrim": true,
+    "longRange": true,
+    "wheelFairings": true,
+    "adsb": true,
+    "observedAt": "2026-10-16"
   },
   {
     "id": "V12",
@@ -324,7 +426,18 @@
     "notes": "Engine hours slightly greater than airframe, repack in 2023, Dynon D180.",
     "status": "historical",
     "avionicsDetail": "Dynon D180",
-    "repackServiceYear": 2023
+    "repackServiceYear": 2023,
+    "aircraftId": "record:V12",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "propDetail": "Woodcomp Varia 170/2/R",
+    "beringerBrakes": true,
+    "electricTrim": true,
+    "longRange": true,
+    "wheelFairings": true,
+    "observedAt": "2026-10-16"
   },
   {
     "id": "V13",
@@ -341,7 +454,12 @@
     "source": "Aircraft.com · archived",
     "quality": 0.51,
     "notes": "Advertised €130,000 ex VAT; €155k inclusive, unclear original offer date.",
-    "status": "historical"
+    "status": "historical",
+    "aircraftId": "record:V13",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V14",
@@ -357,9 +475,17 @@
     "hours": null,
     "source": "PlaneFile · syndication",
     "quality": 0.48,
-    "notes": "2019 Virus LSA listed €117,600; year/model trim details sparse. 121 classification uncertain.",
+    "notes": "2019 Virus LSA listed €117,600; year/model trim details sparse. 121 classification uncertain. Price is exactly 1.05 × HB-NPJ’s €112,000; likely syndication markup. Excluded and grouped with V40 pending identification.",
     "status": "current",
-    "flag": "classification"
+    "flag": "classification",
+    "aircraftId": "reg:HB-NPJ",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "duplicateOf": "V40",
+    "skipModel": true,
+    "identityBasis": "Possible same aircraft; grouped conservatively to prevent double counting"
   },
   {
     "id": "V15",
@@ -382,7 +508,12 @@
     "quality": 0.55,
     "notes": "SW100 iS, ~210 hours; indexed €109,990 may be stale, verify directly.",
     "status": "historical",
-    "avionicsDetail": "Legacy glass; model not verified"
+    "avionicsDetail": "Legacy glass; model not verified",
+    "aircraftId": "reg:I-C393",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V16",
@@ -403,8 +534,18 @@
     "parachute": true,
     "source": "AircraftVx · Trade-A-Plane 2023",
     "quality": 0.81,
-    "notes": "Original short-wing-span Virus, Galaxy BPRS, Brauniger MFD. Engine listed Rotax 912 without exact hp.",
-    "status": "historical"
+    "notes": "Original Virus (not the later SW variant), Galaxy BPRS, Brauniger MFD. Engine listed Rotax 912 without exact hp.",
+    "status": "historical",
+    "aircraftId": "reg:N8103D",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {
+      "engine": {
+        "state": "inferred",
+        "detail": "912 model stated; exact UL/horsepower inferred in legacy record"
+      }
+    }
   },
   {
     "id": "V17",
@@ -429,7 +570,20 @@
     "notes": "Virus SWIS, Dynon SkyView HDX and AP, like new; “off market” ≠ verified sold.",
     "status": "historical",
     "avionicsDetail": "Dynon SkyView HDX",
-    "autopilotDetail": "Autopilot fitted; axes not stated"
+    "autopilotDetail": "Autopilot fitted; axes not stated",
+    "aircraftId": "reg:N487W",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "full-page",
+    "fieldEvidence": {
+      "engine": {
+        "state": "inferred",
+        "detail": "SWIS model designation; engine field only states Rotax 912"
+      }
+    },
+    "heatedPitot": true,
+    "ledLights": true,
+    "observedAt": "2026-10-16"
   },
   {
     "id": "V18",
@@ -457,7 +611,12 @@
     "flag": "year-conflict",
     "avionicsDetail": "Dynon EFIS",
     "autopilotDetail": "Dynon autopilot",
-    "propDetail": "Woodcomp electric constant-speed"
+    "propDetail": "Woodcomp electric constant-speed",
+    "aircraftId": "reg:N937M",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V19",
@@ -469,7 +628,7 @@
     "location": "Heber City, Utah",
     "region": "US",
     "date": "2026-07-28",
-    "url": "https://www.elemental.aero/inventory/2023-pipistrel-explorer-195ea/",
+    "url": "https://www.elemental.aero/inventory/2023-pipistrel-explorer-n195ea/",
     "reg": "N195EA",
     "hours": 283,
     "engineHours": 283,
@@ -484,20 +643,30 @@
       {
         "date": "2024-03-27",
         "price": 243221,
-        "url": "https://aircraftvx.com/a/N195EA/"
+        "url": "https://aircraftvx.com/a/N195EA/",
+        "currency": "USD"
       },
       {
         "date": "2026-07-28",
         "price": 169000,
-        "url": "https://www.elemental.aero/inventory/2023-pipistrel-explorer-195ea/"
+        "url": "https://www.elemental.aero/inventory/2023-pipistrel-explorer-195ea/",
+        "currency": "USD"
       }
     ],
-    "notes": "2023 Explorer with dual G3X, GMC507, BRS, 283 TT. Historic March 2024 near-new asking $243,221, current 2026 dealer asking $169,000. fyiAero separately has a sold-labelled LAST ASK at $220k Aug 2026, inconsistent across aggregators—no final-sale figure known. Same airframe counted only once.",
+    "notes": "2023 Explorer with dual G3X, GMC507, BRS, 283 TT. Historic March 2024 near-new asking $243,221, current 2026 dealer asking $169,000. fyiAero separately has a sold-labelled LAST ASK at $220k Aug 2026, inconsistent across aggregators—no final-sale figure known. Same airframe counted only once. Dealer explicitly describes Experimental category; IFR claim requires the individual operating limitations and installation records.",
     "status": "current",
     "flag": "price-conflict",
     "avionicsDetail": "Dual Garmin G3X",
     "autopilotDetail": "Garmin GMC507",
-    "rescueDetail": "BRS; repack date unknown"
+    "rescueDetail": "BRS; repack date unknown",
+    "aircraftId": "reg:N195EA",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "registration": "us-exp",
+    "dualGlass": true,
+    "observedAt": "2026-10-16"
   },
   {
     "id": "V20",
@@ -514,7 +683,12 @@
     "source": "fyiAero · indexed listing history",
     "quality": 0.61,
     "notes": "2025 N26WU listed at $275k in Sep 2026; another older record at $220k; not independent sale.",
-    "status": "current"
+    "status": "current",
+    "aircraftId": "reg:N26WU",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V21",
@@ -532,7 +706,12 @@
     "source": "fyiAero · indexed listing",
     "quality": 0.57,
     "notes": "2022 D-EVIW August 2026 asking $217k; same aircraft $220k in another archived sold-labelled row, not transaction.",
-    "status": "historical"
+    "status": "historical",
+    "aircraftId": "reg:D-EVIW",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V22",
@@ -558,7 +737,12 @@
     "status": "historical",
     "avionicsDetail": "Dynon EFIS",
     "autopilotDetail": "Dynon autopilot",
-    "propDetail": "Woodcomp electric propeller"
+    "propDetail": "Woodcomp electric propeller",
+    "aircraftId": "reg:D-EYFF",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V23",
@@ -579,7 +763,13 @@
     "flag": null,
     "avionics": "legacyGlass",
     "avionicsDetail": "Dynon SkyView D1000",
-    "propDetail": "Two-blade; overhauled Jan 2025"
+    "propDetail": "Two-blade; overhauled Jan 2025",
+    "aircraftId": "record:V23",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "engineHours": 860
   },
   {
     "id": "V24",
@@ -602,7 +792,12 @@
     "avionics": "legacyGlass",
     "autopilot": true,
     "avionicsDetail": "Dynon D180; Kanardia backup",
-    "autopilotDetail": "Dynon autopilot"
+    "autopilotDetail": "Dynon autopilot",
+    "aircraftId": "reg:F-JTVP",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V25",
@@ -625,7 +820,12 @@
     "avionics": "legacyGlass",
     "parachute": true,
     "repackStatus": "due",
-    "propDetail": "Propeller replaced; date not stated"
+    "propDetail": "Propeller replaced; date not stated",
+    "aircraftId": "reg:IA226",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V26",
@@ -650,7 +850,13 @@
     "parachute": true,
     "avionicsDetail": "Dynon D180",
     "autopilotDetail": "Dynon autopilot",
-    "repackServiceYear": 2024
+    "repackServiceYear": 2024,
+    "aircraftId": "record:V26",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "hoseServiceYear": 2024
   },
   {
     "id": "V27",
@@ -669,7 +875,14 @@
     "notes": "2022 Explorer VAT free (seller claims) 174 TT; may be D-EVIW, duplicate of V21, excluded from regression.",
     "status": "current",
     "flag": "possible-duplicate",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "reg:D-EVIW",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "duplicateOf": "V21",
+    "identityBasis": "Possible same aircraft; grouped conservatively to prevent double counting"
   },
   {
     "id": "V28",
@@ -688,7 +901,14 @@
     "notes": "2020 Pipistrel VSW121 €135k, insufficient registration; potential duplicate of Romanian 2020 listing.",
     "status": "current",
     "flag": "possible-duplicate",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:V06",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "duplicateOf": "V06",
+    "identityBasis": "Possible same aircraft; grouped conservatively to prevent double counting"
   },
   {
     "id": "V29",
@@ -710,7 +930,12 @@
     "avionics": "g3x",
     "autopilot": true,
     "avionicsDetail": "Garmin G3X; GMC305",
-    "autopilotDetail": "Garmin GMC305"
+    "autopilotDetail": "Garmin GMC305",
+    "aircraftId": "reg:SE-MKJ",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V30",
@@ -727,7 +952,14 @@
     "quality": 0.37,
     "notes": "Variant SW and price observed; manufacturer year not stated, exclude from model.",
     "status": "current",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "reg:OM-S925",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "duplicateOf": "V37",
+    "identityBasis": "Possible same aircraft; grouped conservatively to prevent double counting"
   },
   {
     "id": "V31",
@@ -744,7 +976,14 @@
     "quality": 0.35,
     "notes": "Virus LSA Poland €89k but year not stated, perhaps non-SW121, exclude from model.",
     "status": "current",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "reg:SP-SFLV",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "duplicateOf": "V36",
+    "identityBasis": "Possible same aircraft; grouped conservatively to prevent double counting"
   },
   {
     "id": "V32",
@@ -766,12 +1005,17 @@
     "quality": 0.9,
     "notes": "Factory-spec new Virus SW100iS 600D advertised €186,598 excluding VAT; not a used comp and autopilot not necessarily activated.",
     "status": "new",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:V32",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V33",
     "family": "virus",
-    "variant": "virus_explorer",
+    "variant": "virus_sw121",
     "year": 2020,
     "price": 205000,
     "currency": "USD",
@@ -786,7 +1030,12 @@
     "quality": 0.85,
     "notes": "Historical new price estimate for SW121 type, not an airplane advertisement; retained only as a reference.",
     "status": "new",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:V33",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S01",
@@ -807,10 +1056,24 @@
     "autopilot": true,
     "source": "Controller · Lanier Flight Center",
     "quality": 1.0,
-    "notes": "Garmin G3X/Garmin AP/GTX335, both long and short wing tips, fresh annual included. Parachute not established.",
+    "notes": "Garmin G3X/Garmin AP/GTX335, both long and short wing tips, fresh annual included. Parachute not established. Direct Lanier page title uses N178SM but description uses N1264L; serial 1178SFNM912LSA retained. Registration discrepancy needs seller resolution.",
     "status": "current",
     "avionicsDetail": "Garmin G3X; GTX335",
-    "autopilotDetail": "Garmin autopilot"
+    "autopilotDetail": "Garmin autopilot",
+    "aircraftId": "reg:N178SM",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "full-page",
+    "fieldEvidence": {
+      "reg": {
+        "state": "conflicting",
+        "url": "https://www.lanierflightcenter.com/product/used-2024-pipistrel-sinus/"
+      }
+    },
+    "serial": "1178SFNM912LSA",
+    "wingTips": true,
+    "flag": "identity-conflict",
+    "observedAt": "2026-10-16"
   },
   {
     "id": "S02",
@@ -828,7 +1091,14 @@
     "notes": "2017 Sinus Max Flex U.S. price $73,395 in aggregation; identity not established and may duplicate independently verified 2017 Barnstormers example. Excluded to prevent double-counting.",
     "status": "current",
     "flag": "possible-duplicate",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:S21",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "duplicateOf": "S21",
+    "identityBasis": "Possible same aircraft; grouped conservatively to prevent double counting"
   },
   {
     "id": "S03",
@@ -846,7 +1116,14 @@
     "notes": "PlaneFile syndicated €73,500 probably incorporates 5% markup on a €70,000 underlying Polish 2018 Sinus Max offer; likely overlaps 2018 440-hour Wroclaw €69k S12, not proven unique. Retained for audit, excluded from valuation.",
     "status": "current",
     "skipModel": true,
-    "flag": "possible-duplicate"
+    "flag": "possible-duplicate",
+    "aircraftId": "record:S12",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "duplicateOf": "S12",
+    "identityBasis": "Possible same aircraft; grouped conservatively to prevent double counting"
   },
   {
     "id": "S04",
@@ -863,7 +1140,12 @@
     "source": "Aeromarkt · original private advertisement",
     "quality": 0.85,
     "notes": "Verified 2006 €69k including VAT at Aeromarkt original. Syndicator PlaneFile reported €72,450 (exact 5% markup). Original replaces syndicated amount.",
-    "status": "current"
+    "status": "current",
+    "aircraftId": "record:S04",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S05",
@@ -886,7 +1168,14 @@
     "avionics": "legacyGlass",
     "parachute": true,
     "repackDue": "2026-12",
-    "rescueDetail": "Parachute due Dec 2026"
+    "rescueDetail": "Parachute due Dec 2026",
+    "aircraftId": "record:S05",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "towKit": true,
+    "premiumInterior": true
   },
   {
     "id": "S06",
@@ -908,7 +1197,12 @@
     "notes": "Same aircraft appears on multiple sites and 2025 archive; counted once. Parachute installed; overhaul/repack required.",
     "status": "current",
     "repackStatus": "due",
-    "rescueDetail": "Parachute overhaul/repack required"
+    "rescueDetail": "Parachute overhaul/repack required",
+    "aircraftId": "record:S06",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S07",
@@ -932,7 +1226,14 @@
     "notes": "Dynon Skyview 700, PowerFLARM, GRS; dual 30L tanks, Beringer, adjustable prop.",
     "status": "current",
     "avionicsDetail": "Dynon SkyView 700; PowerFLARM",
-    "propDetail": "Adjustable-pitch"
+    "propDetail": "Adjustable-pitch",
+    "aircraftId": "reg:D-MASF",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "flarm": true,
+    "beringerBrakes": true
   },
   {
     "id": "S08",
@@ -953,7 +1254,12 @@
     "quality": 0.96,
     "notes": "Good condition minor wear, hangared, 912UL, MGL iEFIS.",
     "status": "current",
-    "avionicsDetail": "MGL iEFIS"
+    "avionicsDetail": "MGL iEFIS",
+    "aircraftId": "record:S08",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S09",
@@ -971,8 +1277,43 @@
     "parachute": true,
     "source": "PlaneNest · Flugzeugmarkt.de",
     "quality": 0.91,
-    "notes": "Reduced from €77k to €72,500 (2026-10). In 2022 aero-offers 860h advertised €72k; likely same plane.",
-    "status": "current"
+    "notes": "PlaneNest snapshot asks €72,500 with 840 airframe hours. Direct Winglist seller page instead states €77,000 ex tax, 890 airframe/engine hours, Rotax 912 UL2 and Galaxy repack needed. No reliable ordering of these snapshots: do not infer a price reduction or merge 890 engine hours into the 840-hour snapshot. Original ask retained; conflicting direct source linked.",
+    "status": "current",
+    "aircraftId": "reg:OM-W010",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "full-page",
+    "fieldEvidence": {
+      "engine": {
+        "state": "seller-stated",
+        "url": "https://www.winglist.aero/listings/V9NIUa08/2004-pipistrel-sinus-912"
+      },
+      "serial": {
+        "state": "seller-stated",
+        "url": "https://www.winglist.aero/listings/V9NIUa08/2004-pipistrel-sinus-912"
+      },
+      "repackStatus": {
+        "state": "seller-stated",
+        "url": "https://www.winglist.aero/listings/V9NIUa08/2004-pipistrel-sinus-912"
+      }
+    },
+    "engine": "ul80",
+    "serial": "126S912",
+    "repackStatus": "due",
+    "flag": "source-conflict",
+    "alternateOffers": [
+      {
+        "price": 77000,
+        "currency": "EUR",
+        "hours": 890,
+        "engineHours": 890,
+        "taxBasis": "ex tax",
+        "url": "https://www.winglist.aero/listings/V9NIUa08/2004-pipistrel-sinus-912",
+        "observedAt": "2026-10-16",
+        "date": null
+      }
+    ],
+    "observedAt": "2026-10-16"
   },
   {
     "id": "S10",
@@ -993,7 +1334,12 @@
     "quality": 0.97,
     "notes": "Functional with wear, older radio needs upgrading, Brauniger Alpha MFD.",
     "status": "current",
-    "avionicsDetail": "Brauniger Alpha MFD; older radio"
+    "avionicsDetail": "Brauniger Alpha MFD; older radio",
+    "aircraftId": "record:S10",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S11",
@@ -1013,7 +1359,12 @@
     "notes": "Very low €37k asking price for 2020 Sinus SP-SOMZ is confirmed on PlaneNest, while an Aircraft.com advertisement for this registration states ready to fly with all ADs/SBs current. Source price needs seller confirmation; model weight excluded as a major uncorroborated price outlier, NOT because aircraft is a project. Exact airworthiness still requires inspection.",
     "status": "current",
     "flag": "low-unverified",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "reg:SP-SOMZ",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S12",
@@ -1034,7 +1385,12 @@
     "engine": "ul80",
     "avionics": "hdx",
     "wingTips": true,
-    "avionicsDetail": "Dynon SkyView HDX"
+    "avionicsDetail": "Dynon SkyView HDX",
+    "aircraftId": "record:S12",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S13",
@@ -1054,7 +1410,12 @@
     "notes": "2006 Sinus lightened, 2400 TT; unusual price at high hours; likely special airframe/engine equipment, flag outlier.",
     "status": "current",
     "flag": "high",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "reg:F-JZKN",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S14",
@@ -1075,7 +1436,12 @@
     "status": "current",
     "skipModel": true,
     "engineServiceYear": 2022,
-    "engineDetail": "Replacement engine (seller stated) · 173 h"
+    "engineDetail": "Replacement engine (seller stated) · 173 h",
+    "aircraftId": "record:S14",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S15",
@@ -1095,7 +1461,15 @@
     "status": "current",
     "reg": "D-MYPS",
     "propDetail": "Adjustable propeller",
-    "avionicsDetail": "FLARM; other instruments unknown"
+    "avionicsDetail": "FLARM; other instruments unknown",
+    "aircraftId": "reg:D-MYPS",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "flarm": true,
+    "longRange": true,
+    "prop": "inflight"
   },
   {
     "id": "S16",
@@ -1112,7 +1486,12 @@
     "quality": 0.7,
     "notes": "2005 Sinus 912 assembled new price €60,700; not an aircraft offer, excludes 21 years of price change.",
     "status": "new",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:S16",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S17",
@@ -1137,18 +1516,27 @@
       {
         "date": "2026-05-17",
         "price": 179000,
-        "url": "https://www.trade-a-plane.com/search?make=PIPISTREL&model=SINUS+FLEX&s-type=aircraft"
+        "url": "https://www.trade-a-plane.com/search?make=PIPISTREL&model=SINUS+FLEX&s-type=aircraft",
+        "currency": "USD"
       },
       {
         "date": "2026-07-16",
         "price": 168000,
-        "url": "https://planefox.com/listing/N579LP"
+        "url": "https://planefox.com/listing/N579LP",
+        "currency": "USD"
       }
     ],
     "notes": "2024 Sinus Flex Max E-LSA tailwheel, 77 TT, Garmin G3X/G5 and autopilot; 80-hp Rotax 912 UL2 verified via FAA registration. Reduced from $179k to $168k.",
     "status": "current",
     "avionicsDetail": "Garmin G3X; Garmin G5",
-    "autopilotDetail": "Autopilot installed; axes not stated"
+    "autopilotDetail": "Autopilot installed; axes not stated",
+    "aircraftId": "reg:N579LP",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "landingGear": "tail",
+    "registration": "us-lsa"
   },
   {
     "id": "S18",
@@ -1173,18 +1561,26 @@
       {
         "date": "2026-04-18",
         "price": 194000,
-        "url": "https://www.trade-a-plane.com/search?location_country=USA&make=PIPISTREL&s-page_size=12&s-sort_key=overhaul1_time&s-sort_order=asc&s-type=aircraft"
+        "url": "https://www.trade-a-plane.com/search?location_country=USA&make=PIPISTREL&s-page_size=12&s-sort_key=overhaul1_time&s-sort_order=asc&s-type=aircraft",
+        "currency": "USD"
       },
       {
         "date": "2026-08-03",
         "price": 179000,
-        "url": "https://planefox.com/listing/N519LP"
+        "url": "https://planefox.com/listing/N519LP",
+        "currency": "USD"
       }
     ],
     "notes": "2024 Sinus Flex Max S-LSA, 89 TT, Garmin G3X, G5 and autopilot, 912UL2 80 hp per FAA. Price reduced from $194k to $179k.",
     "status": "current",
     "avionicsDetail": "Garmin G3X; Garmin G5",
-    "autopilotDetail": "Autopilot installed; axes not stated"
+    "autopilotDetail": "Autopilot installed; axes not stated",
+    "aircraftId": "reg:N519LP",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "registration": "us-lsa"
   },
   {
     "id": "S19",
@@ -1203,7 +1599,14 @@
     "source": "Trade-A-Plane · Southwind Aviation",
     "quality": 0.87,
     "notes": "2013 Sinus Flex, 420 airframe/engine hours, both wingtip sets included according to seller; 5-year service items completed August 2025.",
-    "status": "historical"
+    "status": "historical",
+    "aircraftId": "reg:N51PU",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "wingTips": true,
+    "hoseServiceYear": 2025
   },
   {
     "id": "S20",
@@ -1230,12 +1633,14 @@
       {
         "date": "2026-05-21",
         "price": 220000,
-        "url": "https://www.trade-a-plane.com/search?s-page=105&s-sort_key=model&s-sort_order=asc&s-type=aircraft"
+        "url": "https://www.trade-a-plane.com/search?s-page=105&s-sort_key=model&s-sort_order=asc&s-type=aircraft",
+        "currency": "USD"
       },
       {
         "date": "2026-07-14",
         "price": 199000,
-        "url": "https://www.trade-a-plane.com/search?make=PIPISTREL&model=SINUS+FLEX&s-type=aircraft"
+        "url": "https://www.trade-a-plane.com/search?make=PIPISTREL&model=SINUS+FLEX&s-type=aircraft",
+        "currency": "USD"
       }
     ],
     "notes": "Retail-listed 2025 Sinus Flex Max at 98 TT (manufacturer FAA registry shows manufacture year 2024); Rotax 912UL 80hp, variable feathering prop, G3X, G5, GMC507, BRS. Asking reduced from $220k to $199k. Verify precise model year.",
@@ -1244,7 +1649,12 @@
     "avionicsDetail": "Garmin G3X; Garmin G5",
     "autopilotDetail": "Garmin GMC507",
     "propDetail": "Variable feathering propeller",
-    "rescueDetail": "BRS; repack date unknown"
+    "rescueDetail": "BRS; repack date unknown",
+    "aircraftId": "reg:N391EA",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "S21",
@@ -1270,24 +1680,34 @@
       {
         "date": "2026-08-11",
         "price": 110000,
-        "url": "https://www.barnstormers.com/listing.php?id=665654&page=208"
+        "url": "https://www.barnstormers.com/listing.php?id=665654&page=208",
+        "currency": "USD"
       },
       {
         "date": "2026-09-04",
         "price": 99900,
-        "url": "https://www.barnstormers.com/listing.php?id=1290097&page=203"
+        "url": "https://www.barnstormers.com/listing.php?id=1290097&page=203",
+        "currency": "USD"
       },
       {
         "date": "2026-10-06",
         "price": 69900,
-        "url": "https://alltheplanes.com/listing/2017-pipistrel-sinus-flex-max-s-lsa-a9fef9cd"
+        "url": "https://alltheplanes.com/listing/2017-pipistrel-sinus-flex-max-s-lsa-a9fef9cd",
+        "currency": "USD"
       }
     ],
     "notes": "2017 Sinus Flex Max tailwheel S-LSA; 960 TT, 290 on engine, iPad-based avionics. ASK dropped $110k > $99.9k > $69.9k in ~8 weeks and broker marks SOLD. Final ASK is NOT verified sale proceeds. Downweight due rapid markdown.",
     "status": "historical",
     "flag": "rapid-markdown",
     "avionicsDetail": "iPad-based avionics",
-    "autopilotDetail": "None advertised"
+    "autopilotDetail": "None advertised",
+    "aircraftId": "record:S21",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "landingGear": "tail",
+    "registration": "us-lsa"
   },
   {
     "id": "A01",
@@ -1305,7 +1725,12 @@
     "quality": 0.38,
     "notes": "Historical ad, no manufacture year; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A01",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A02",
@@ -1323,7 +1748,12 @@
     "quality": 0.38,
     "notes": "VENDO SINUS; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A02",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A03",
@@ -1341,7 +1771,12 @@
     "quality": 0.38,
     "notes": "Sinus 912; maybe repricing of 2023-09-26 €77k; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A03",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A04",
@@ -1359,7 +1794,12 @@
     "quality": 0.38,
     "notes": "High-price outlier; model year unknown; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A04",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A05",
@@ -1377,7 +1817,12 @@
     "quality": 0.38,
     "notes": "Sinus 912; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A05",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A06",
@@ -1395,7 +1840,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A06",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A07",
@@ -1413,7 +1863,12 @@
     "quality": 0.38,
     "notes": "Possibly same SP-SOMZ 2020 Sinus 2026 asking €37k; do not double count; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A07",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A08",
@@ -1431,7 +1886,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A08",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A09",
@@ -1449,7 +1909,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A09",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A10",
@@ -1467,7 +1932,12 @@
     "quality": 0.38,
     "notes": "Sinus 912; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A10",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A11",
@@ -1485,7 +1955,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A11",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A12",
@@ -1503,7 +1978,12 @@
     "quality": 0.38,
     "notes": "Sinus Flex; may be 2021 listing at €147.6k repriced; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A12",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A13",
@@ -1521,7 +2001,12 @@
     "quality": 0.38,
     "notes": "Sinus 650 hours; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A13",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A14",
@@ -1539,7 +2024,12 @@
     "quality": 0.38,
     "notes": "Sinus 912; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A14",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A15",
@@ -1557,7 +2047,12 @@
     "quality": 0.38,
     "notes": "Sinus LSA; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A15",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A16",
@@ -1575,7 +2070,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A16",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A17",
@@ -1593,7 +2093,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A17",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A18",
@@ -1611,7 +2116,12 @@
     "quality": 0.38,
     "notes": "Sinus 912; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A18",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A19",
@@ -1629,7 +2139,12 @@
     "quality": 0.38,
     "notes": "Sinus LSA; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A19",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A20",
@@ -1647,7 +2162,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A20",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A21",
@@ -1665,7 +2185,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A21",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A22",
@@ -1683,7 +2208,12 @@
     "quality": 0.38,
     "notes": "Sinus; high asking outlier; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A22",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A23",
@@ -1701,7 +2231,12 @@
     "quality": 0.38,
     "notes": "Same plane offered at €109k July 2020: keep latest only; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A23",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A24",
@@ -1719,7 +2254,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A24",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A25",
@@ -1737,7 +2277,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A25",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A26",
@@ -1755,7 +2300,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A26",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A27",
@@ -1773,7 +2323,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A27",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A28",
@@ -1791,7 +2346,12 @@
     "quality": 0.38,
     "notes": "Sinus LSA 912; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A28",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A29",
@@ -1809,7 +2369,12 @@
     "quality": 0.38,
     "notes": "Sinus; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A29",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A30",
@@ -1827,7 +2392,12 @@
     "quality": 0.38,
     "notes": "Sinus 912 550kg ready; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A30",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "A31",
@@ -1845,7 +2415,12 @@
     "quality": 0.38,
     "notes": "Sinus 912 well equipped; manufacture year not provided—excluded from year-adjusted valuation.",
     "status": "archive",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "record:A31",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V35",
@@ -1866,7 +2441,12 @@
     "quality": 0.84,
     "notes": "Confirmed 2020 Virus SW100 600D powered by Rotax 912 iS 100 hp, 960 TT, registration D-MAFV, S/N 1270005. Asking €120,000 on June 18, 2026. Aggregated ad; availability and equipment not fully verified. Important fuel-injected comp.",
     "status": "historical",
-    "engineDetail": "Rotax 912 iS (100 hp), injected"
+    "engineDetail": "Rotax 912 iS (100 hp), injected",
+    "aircraftId": "reg:D-MAFV",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V36",
@@ -1890,7 +2470,13 @@
     "notes": "2009 Virus LSA titled by seller as Virus SW, €89k. Stratomaster Odyssey Gen2 glass, 2-axis autopilot, older PCAS and glass. Exact approved variant and engine not conclusively stated; verify by serial.",
     "status": "current",
     "avionicsDetail": "Stratomaster Odyssey Gen 2",
-    "autopilotDetail": "Two-axis autopilot"
+    "autopilotDetail": "Two-axis autopilot",
+    "aircraftId": "reg:SP-SFLV",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "autopilotType": "twoaxis"
   },
   {
     "id": "V37",
@@ -1914,7 +2500,14 @@
     "notes": "2022 short wing OM-S925, €135k 400 TT, 600 kg MTOW, Dynon SkyView HDX1100 and autopilot, PowerFlarm Fusion, 180 L long-range tanks, night VFR, owner says excellent.",
     "status": "current",
     "avionicsDetail": "Dynon SkyView HDX 1100",
-    "autopilotDetail": "Autopilot installed"
+    "autopilotDetail": "Autopilot installed",
+    "aircraftId": "reg:OM-S925",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "flarm": true,
+    "longRange": true
   },
   {
     "id": "V38",
@@ -1937,7 +2530,12 @@
     "quality": 0.8,
     "notes": "2019 SW600D D-MYVI, 600 kg German UL, Rotax 912 ULS carbureted, Dynon SkyView HDX 1100. Total hours not included in available listing; do not infer.",
     "status": "current",
-    "avionicsDetail": "Dynon SkyView HDX 1100"
+    "avionicsDetail": "Dynon SkyView HDX 1100",
+    "aircraftId": "reg:D-MYVI",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
   },
   {
     "id": "V39",
@@ -1961,7 +2559,16 @@
     "status": "current",
     "avionicsDetail": "Garmin G3X",
     "autopilotDetail": "Garmin GMC305",
-    "rescueDetail": "Parachute service in 2023; repack not confirmed"
+    "rescueDetail": "Parachute service in 2023; repack not confirmed",
+    "aircraftId": "record:V39",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "flarm": true,
+    "heatedPitot": true,
+    "hoseServiceYear": 2023,
+    "repackServiceYear": 2023
   },
   {
     "id": "V40",
@@ -1987,7 +2594,14 @@
     "flag": "classification",
     "skipModel": true,
     "avionicsDetail": "Dual Garmin G3X",
-    "autopilotDetail": "Two-axis autopilot"
+    "autopilotDetail": "Two-axis autopilot",
+    "aircraftId": "reg:HB-NPJ",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {},
+    "dualGlass": true,
+    "autopilotType": "twoaxis"
   },
   {
     "id": "V41",
@@ -2008,6 +2622,194 @@
     "notes": "2014 Virus UL €68k, variant and actual registration approval not confirmed. Held as context, never used for short-wing or long-wing benchmark.",
     "status": "current",
     "flag": "classification",
-    "skipModel": true
+    "skipModel": true,
+    "aircraftId": "reg:9A-UAD",
+    "dateBasis": "Legacy listing/index date; exact publication basis not independently established",
+    "priceType": "asking",
+    "access": "inherited-source-record",
+    "fieldEvidence": {}
+  },
+  {
+    "id": "V42",
+    "family": "virus",
+    "status": "historical",
+    "quality": 0.75,
+    "priceType": "asking",
+    "observedAt": "2026-10-16",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "variant": "virus_long",
+    "year": 2009,
+    "price": 69000,
+    "currency": "USD",
+    "location": "Spirit Lake, Idaho",
+    "region": "US",
+    "date": "2024-12-03",
+    "dateBasis": "Seller sold-label date; retained asking price is not verified proceeds",
+    "url": "https://wingsandwheels.com/classifieds/6090.html",
+    "reg": "N10ZG",
+    "serial": "300V912",
+    "hours": 423,
+    "engineHours": 239,
+    "engine": "ul80",
+    "avionics": "analog",
+    "avionicsDetail": "Brauniger instrumentation; LX S3 vario",
+    "beringerBrakes": true,
+    "registration": "us-exp",
+    "source": "Wings & Wheels · owner classified",
+    "notes": "Seller page marks Sold December 3, 2024, despite generic In stock cart text. Retained $69k is the advertised amount, not verified proceeds. 2009 aircraft, 423 airframe/239 engine h; rescue, service date and TBO unknown.",
+    "aircraftId": "reg:N10ZG"
+  },
+  {
+    "id": "V43",
+    "family": "virus",
+    "status": "current",
+    "quality": 0.55,
+    "priceType": "asking",
+    "observedAt": "2026-10-16",
+    "access": "search-index-only",
+    "fieldEvidence": {},
+    "variant": "virus_sw",
+    "year": 2011,
+    "price": 159000,
+    "currency": "USD",
+    "location": "Payson, Arizona",
+    "region": "US",
+    "date": "2026-10-16",
+    "dateBasis": "Search-index observation date; ad publication unknown",
+    "url": "https://www.trade-a-plane.com/search?listing_id=2459646&make=PIPISTREL&model=VIRUS+SW&model_group=NO+MODEL+GROUP&s-type=aircraft",
+    "reg": "N678WX",
+    "serial": "395VSW",
+    "hours": 360,
+    "engineHours": 360,
+    "engine": null,
+    "engineDetail": "Rotax 912; exact suffix not retrieved",
+    "engineSerial": "6777656",
+    "source": "Trade-A-Plane · owner ad, indexed text only",
+    "notes": "Indexed seller text: 360 TT airframe/engine, $159,000, fresh five-year items and August 2026 annual. Direct page blocked retrieval (403); model/engine suffix, current availability and rescue details unverified. FAA registration source corroborates 2011/395VSW100, not airworthiness or price.",
+    "aircraftId": "reg:N678WX"
+  },
+  {
+    "id": "S22",
+    "family": "sinus",
+    "status": "historical",
+    "quality": 0.75,
+    "priceType": "asking",
+    "observedAt": "2026-10-16",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "variant": "sinus_classic",
+    "year": 2007,
+    "price": 92000,
+    "currency": "USD",
+    "location": "Georgetown, Texas",
+    "region": "US",
+    "date": "2024-02-13",
+    "dateBasis": "Advertisement cancellation date, not sale or initial listing date",
+    "url": "https://wingsandwheels.com/classifieds/motorgliders/pipistrel-sinus2136088075.html",
+    "reg": "N82DX",
+    "serial": "241SN9120907",
+    "hours": 1006,
+    "engineHours": 1006,
+    "engine": "ul80",
+    "avionics": "legacyGlass",
+    "avionicsDetail": "Kanardia Nesis III; ILEC SC-7",
+    "autopilot": true,
+    "autopilotDetail": "Digitrack with altitude hold",
+    "autopilotType": "twoaxis",
+    "adsb": true,
+    "beringerBrakes": true,
+    "registration": "us-exp",
+    "source": "Wings & Wheels · owner classified",
+    "flag": "hours-conflict",
+    "notes": "Cancelled/not renewed February 13, 2024. Structured fields say 1,006 h versus description 1,001 h; use structured snapshot. Seller describes Experimental Exhibition following Europe import, not generic LSA eligibility. Parachute installation and maintenance dates unknown; $92k is an ask, not proceeds.",
+    "aircraftId": "reg:N82DX"
+  },
+  {
+    "id": "S23",
+    "family": "sinus",
+    "status": "historical",
+    "quality": 0.75,
+    "priceType": "asking",
+    "observedAt": "2026-10-16",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "variant": "sinus_classic",
+    "year": 2007,
+    "price": 119000,
+    "currency": "USD",
+    "location": "Roanoke, Virginia",
+    "region": "US",
+    "date": "2025-09-08",
+    "dateBasis": "Seller posting date",
+    "url": "https://www.motorgliders.org/classifieds.html/motorgliders/used-tmgs_30_30_30/2007-pipistrel-sinus-r203/",
+    "hours": null,
+    "engine": "ul80",
+    "avionics": "legacyGlass",
+    "avionicsDetail": "Dynon D180; Garmin aera 795",
+    "navigator": "basic",
+    "adsb": true,
+    "ledLights": true,
+    "prop": "inflight",
+    "source": "Touring Motor Glider Association · seller classified",
+    "skipModel": true,
+    "flag": "identity-unverified",
+    "notes": "Asking $119,000; optional trailer $6,000 separately. Last annual May 23, 2025. Registration, serial and hours absent: retained as context pending identity, possible overlap with other 2007 aircraft. Advertisement contains a transponder model inconsistency; ADS-B remains seller-stated.",
+    "aircraftId": "record:S23"
+  },
+  {
+    "id": "S24",
+    "family": "sinus",
+    "status": "historical",
+    "quality": 0.75,
+    "priceType": "asking",
+    "observedAt": "2026-10-16",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "variant": "sinus_max",
+    "year": 2023,
+    "price": 185000,
+    "currency": "USD",
+    "location": "United States (precise location unverified)",
+    "region": "US",
+    "date": "2024-02-29",
+    "dateBasis": "Dated Barnstormers eFlyer publication",
+    "url": "https://eflyer.barnstormers.com/2024/854/854-eFLYER.html",
+    "hours": 100,
+    "engine": "ul80",
+    "avionics": "g3x",
+    "autopilot": true,
+    "adsb": true,
+    "source": "Barnstormers eFlyer issue 854 · original dated advertisement",
+    "skipModel": true,
+    "flag": "identity-unverified",
+    "notes": "Dated 2023 Sinus Max ad: $185,000, 100 TTSN, 80 hp carbureted engine, G3X and Garmin autopilot. Registration/serial and exact Flex/Max classification unavailable; context only to avoid treating an unidentified old offer as a new independent aircraft.",
+    "aircraftId": "record:S24"
+  },
+  {
+    "id": "V44",
+    "family": "virus",
+    "status": "historical",
+    "quality": 0.4,
+    "priceType": "asking",
+    "observedAt": "2026-10-16",
+    "access": "full-page",
+    "fieldEvidence": {},
+    "variant": "virus_long",
+    "year": 2008,
+    "price": 52000,
+    "currency": "EUR",
+    "location": "Poland",
+    "region": "Europe",
+    "date": "2026-08-21",
+    "dateBasis": "Aggregator updated date; first seen March 25, 2026",
+    "url": "https://planefox.com/listing/ILL-ZMYMB",
+    "hours": 1325,
+    "engineHours": 625,
+    "source": "PlaneFox · indexed social classified",
+    "skipModel": true,
+    "flag": "identity-unverified",
+    "notes": "2008 Virus ask €52,000; 1,325 airframe and 625 engine hours. No registration/serial recovered; possible overlap with other Polish aircraft. Context only pending identity and direct seller evidence.",
+    "aircraftId": "record:V44"
   }
 ]

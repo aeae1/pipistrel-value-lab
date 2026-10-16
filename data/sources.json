@@ -16,8 +16,8 @@
   },
   {
     "title": "Rotax 912 non-iS TBO by serial",
-    "url": "https://www.manualslib.com/manual/1960422/Brp-Rotax-912-Series.html?page=44",
-    "detail": "912 UL/ULS generation-dependent 1,000/1,200/1,500/2,000 hours and 10/12/15-year schedules."
+    "url": "https://legacy.rotaxowner.com/si_tb_info/serviceb/sb-912-057-ul.pdf",
+    "detail": "Rotax SB-912-057 UL original issue: serial-specific eligibility and required modifications for extended TBO; use current applicable manual/bulletins for an individual engine."
   },
   {
     "title": "Galaxy GRS servicing",
@@ -156,7 +156,7 @@
   },
   {
     "title": "2023 Explorer dealer original $169k",
-    "url": "https://www.elemental.aero/inventory/2023-pipistrel-explorer-195ea/",
+    "url": "https://www.elemental.aero/inventory/2023-pipistrel-explorer-n195ea/",
     "detail": "2023 N195EA, 283 TT, dual G3X, 912 S3 carbureted, BRS rescue, original dealer ask $169k."
   },
   {
@@ -173,5 +173,55 @@
     "title": "PlaneFox 2017 Virus SW100 Italy",
     "url": "https://planefox.com/listing/ILL-FBHZK",
     "detail": "2017 €123k equipment-rich SW with Garmin G3X autopilot and 2023 parachute service."
+  },
+  {
+    "title": "SP-SFLY original broker technical record",
+    "url": "https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051",
+    "detail": "Direct source separates 1,185 engine hours from 841 propeller hours; engine label/serial and rescue-brand conflicts remain."
+  },
+  {
+    "title": "N82DX historic Sinus ask",
+    "url": "https://wingsandwheels.com/classifieds/motorgliders/pipistrel-sinus2136088075.html",
+    "detail": "Cancelled February 2024; $92,000 asking, 2007 aircraft, imported Experimental Exhibition seller claim."
+  },
+  {
+    "title": "N10ZG original Virus historic ask",
+    "url": "https://wingsandwheels.com/classifieds/6090.html",
+    "detail": "$69,000, 2009, 423 airframe/239 engine h; publication and availability unknown."
+  },
+  {
+    "title": "2011 Virus SW N678WX indexed owner ad",
+    "url": "https://www.trade-a-plane.com/search?listing_id=2459646&make=PIPISTREL&model=VIRUS+SW&model_group=NO+MODEL+GROUP&s-type=aircraft",
+    "detail": "$159,000, 360 hours; full page blocked, indexed evidence only."
+  },
+  {
+    "title": "OM-W010 conflicting direct seller snapshot",
+    "url": "https://www.winglist.aero/listings/V9NIUa08/2004-pipistrel-sinus-912",
+    "detail": "€77,000 ex tax and 890 hours conflict with the €72,500 / 840-hour syndicated snapshot; one aircraft."
+  },
+  {
+    "title": "Dated 2024 Sinus Max asking archive",
+    "url": "https://eflyer.barnstormers.com/2024/854/854-eFLYER.html",
+    "detail": "Issue 854: 2023 Sinus Max $185,000; identity not established, context only."
+  },
+  {
+    "title": "FAA MOSAIC manufacture and certification FAQ",
+    "url": "https://www.faa.gov/aircraft/MOSAIC/mosaic_faq_manufacture_cert_LSA",
+    "detail": "Aircraft rule effective July 24, 2026; individual manufacturer compliance statement, foreign-manufacture conditions and category-specific certification paths."
+  },
+  {
+    "title": "EASA SW121 airbrake bellcrank directive",
+    "url": "https://ad.easa.europa.eu/ad/2026-0070-E",
+    "detail": "Effective April 1, 2026; applicability groups depend on serial and replacement history. No individual listing compliance inferred."
+  },
+  {
+    "title": "EASA door-lock directive revision 1",
+    "url": "https://ad.easa.europa.eu/blob/EASA_AD_2026_0137_R1.pdf/AD_2026-0137R1_2",
+    "detail": "Effective September 22, 2026; SW121/121A and related variants. Group-specific modification and conditional compliance extension; check exact records."
+  },
+  {
+    "title": "Manufacturer-hosted EASA TCDS issue 11",
+    "url": "https://www.pipistrel-aircraft.com/wp-content/uploads/2023/04/TCDS-EASA.A.573-issue-11.pdf",
+    "detail": "Historical 2022 type sheet: SW121 and SW121A engine/landing-gear basis. Consult EASA for current revision."
   }
 ]

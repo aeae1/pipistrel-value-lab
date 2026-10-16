@@ -2,6 +2,15 @@
 
 **Owner:** GitHub account `aeae1` · **Repository:** https://github.com/aeae1/pipistrel-value-lab · **Branch:** `main` · **Snapshot:** 16 October 2026.
 
+
+## Latest completed implementation — 16 October 2026
+
+GitHub Pages has been configured for `main` / root and the public site was opened successfully. Version 1.1 source now contains **98 observations, 48 eligible asks, 45 research references**. SP-SFLY engine time is corrected to **1,185 h** (841 h belongs to the propeller); serial/model and brand conflicts remain. Missing maintenance stays blank, deadlines transfer, presets clear stale state, identity groups are excluded from their own comps, and standard equipment is credited once. New filters, provenance CSV and a separate US-eligibility gate are implemented. README preview images were removed at the user's request.
+
+The new actual-engine grouped audit has **41 records**, **14.58% median / 17.71% mean absolute asking-price difference**, **−10.02% signed mean**, and **34/41** in band. Earlier 9.92% metrics below describe the previous implementation and must not be presented as current or directly comparable. Node model regression groups pass. The portable desktop/mobile smoke suite runs in `.github/workflows/validate.yml`; consult the latest commit's workflow status for browser results. The local Work browser download returned empty/corrupt archives, so local Python smoke execution was blocked by a missing executable. Public-site interaction checks use Work's cloud browser.
+
+See RESEARCH.md's latest audit section for six new offers, targeted primary-source corrections, the 2026 EASA directives, the FAA MOSAIC FAQ and unresolved evidence. **Not all inherited source pages were reverified**. The original handoff below remains historical task context; use the current data, source and test files as authority.
+
 ## Your task
 
 Take over a substantive ongoing research/software project: build and maintain the most credible, auditable, user-friendly interactive **purchase-price estimator** for airworthy **Pipistrel Virus and Sinus** aircraft. Start by inspecting the public GitHub repository, its actual latest commit, README, RESEARCH.md, data, model source, and test scripts. Continue real work and push improved code/data to the repository; don't merely produce a plan or status. The chat's previous working files may not be automatically present in Work, but the repository is authoritative. When additional source files are available, prioritize exact latest GitHub versions.
@@ -58,7 +67,7 @@ Check `https://github.com/aeae1/pipistrel-value-lab` for current code and check 
 
 ## Further research & engineering priorities
 
-**Priority A — reliability/data quality.** Check every model-eligible source and questionable nameplate/engine serial; verify SW121 versus SW121A Explorer classifications and certification years. Specifically review SP-SFLY: several live advertisements identify a 2008 airframe, 1,185 airframe hours, 841 engine hours, claimed Rotax 912 ULS serial 4409165, 2,000-hour claimed TBO and calendar TBO expired May 2023; historical pricing €59,000 versus a later €55,000 broker advertisement. Don't assert the engine serial and official applicability are confirmed just because a seller gives a model label. Preserve price-history as **one plane**, not two comps. Check source snapshots, dates, seller price changes, repeat ads and exact aircraft registration/serial.
+**Priority A — reliability/data quality.** Check every model-eligible source and questionable nameplate/engine serial; verify SW121 versus SW121A Explorer classifications and certification years. Specifically review SP-SFLY: several live advertisements identify a 2008 airframe, 1,185 airframe hours, 1,185 engine hours (841 was propeller time, corrected in this pass), claimed Rotax 912 ULS serial 4409165, 2,000-hour claimed TBO and calendar TBO expired May 2023; historical pricing €59,000 versus a later €55,000 broker advertisement. Don't assert the engine serial and official applicability are confirmed just because a seller gives a model label. Preserve price-history as **one plane**, not two comps. Check source snapshots, dates, seller price changes, repeat ads and exact aircraft registration/serial.
 
 **Priority B — technical evidence.** Record type-certification and U.S. operating eligibility by exact model/year/serial; engine serial-specific TBO limits with service bulletin/rebuild paperwork; GRS/BRS repack versus rocket expiration, avionics suite and compatible autopilot, propeller overhaul/permit, wingtip options and approved MTOW. Design separate `known`, `seller-stated`, `inferred`, and `unknown` evidence states, and show what is actually documented. If unknown, don't fabricate a numeric due date. Certification/model/engine combinations that are impossible under standard approvals must be blocked or prominently flagged.
 

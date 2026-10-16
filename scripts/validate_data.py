@@ -31,7 +31,7 @@ def main() -> int:
     for ix, item in enumerate(records, start=1):
         label = str(item.get('id') or f'row {ix}')
         ids.append(label)
-        for key in ('id','family','variant','price','currency','location','region','date','url','source','status','quality','notes'):
+        for key in ('id','family','variant','price','currency','location','region','date','url','source','status','quality','notes','aircraftId','priceType','dateBasis','access','fieldEvidence'):
             if key not in item:
                 errors.append(f'{label}: missing {key}')
         if item.get('variant') not in VALID_VARIANTS:
@@ -54,6 +54,23 @@ def main() -> int:
             errors.append(f'{label}: quality must be 0-1')
         if item.get('family') != item.get('variant','').split('_')[0]:
             errors.append(f'{label}: family/variant contradiction')
+        if item.get('priceType') != 'asking':
+            errors.append(f'{label}: only asking prices belong in this corpus; bids/shares/sales require a separate schema')
+        for key in ('engineHours','propHours','engineTboHours'):
+            if item.get(key) is not None and (not isinstance(item[key],(float,int)) or item[key] < 0):
+                errors.append(f'{label}: invalid {key}')
+        for key in ('parachute','autopilot'):
+            if item.get(key) is not None and not isinstance(item[key],bool):
+                errors.append(f'{label}: {key} must be boolean or unknown')
+        for key in ('engineTboCalendarDue','repackDue'):
+            if item.get(key) is not None and not re.fullmatch(r'\d{4}-(0[1-9]|1[0-2])',item[key]):
+                errors.append(f'{label}: {key} must be YYYY-MM')
+        if item.get('observedAt'):
+            try:date.fromisoformat(item['observedAt'])
+            except ValueError:errors.append(f'{label}: invalid observedAt')
+        for event in item.get('priceHistory',[]):
+            if event.get('currency') not in ('USD','EUR') or event.get('price',0)<=0 or not event.get('url','').startswith('https://'):
+                errors.append(f'{label}: invalid price-history provenance')
         try: date.fromisoformat(item.get('date',''))
         except Exception:errors.append(f'{label}: invalid observation date')
         parsed=urlsplit(item.get('url',''))
@@ -71,6 +88,15 @@ def main() -> int:
             errors.append(f'{label}: factory new record cannot be a used comp')
     for key,n in Counter(ids).items():
         if n>1: errors.append(f'duplicate observation id {key}: {n}')
+    by_id={o['id']:o for o in records}
+    for o in records:
+        if o.get('duplicateOf'):
+            canonical=by_id.get(o['duplicateOf'])
+            if not canonical or not o.get('skipModel') or o['aircraftId']!=canonical['aircraftId']:
+                errors.append(f'{o["id"]}: duplicate must be excluded and share the canonical identity group')
+    weighted_groups=[o['aircraftId'] for o in records if o['status'] in ('current','historical') and not o.get('skipModel') and o.get('year') is not None]
+    for key,n in Counter(weighted_groups).items():
+        if n>1:errors.append(f'repeated weighted aircraft identity: {key}')
     for reg,n in Counter(used_regs).items():
         if n>1: errors.append(f'repeated registration among weighted comparables: {reg}')
     if not isinstance(sources,list) or not sources:

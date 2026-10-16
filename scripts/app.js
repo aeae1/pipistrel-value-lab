@@ -9,12 +9,13 @@ const ASOF='2026-10-16';
 const YEAR=2026;
 const $=id=>document.getElementById(id);
 const clamp=(v,l,h)=>Math.min(h,Math.max(l,v));
-const finite=(v,fallback=0)=>Number.isFinite(+v)? +v : fallback;
+const finite=(v,fallback=0)=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(+v)? +v : fallback;
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(finite(n));
 const eur=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(finite(n));
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pct=v=>Math.round(v*100)+'%';
 const fmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(finite(n));
+const hoursFmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(finite(n));
 const vs={
  virus_long:{name:'Virus · original long wing',refYear:2010,ask:93000,family:'virus',desc:'Older longer-wing Virus, not a Virus SW; engine and weight class vary.',typ:{engine:'uls100',avionics:'analog',autopilot:'none',prop:'inflight',rescue:'grs'}},
  virus_sw:{name:'Virus SW · 100 / 100iS',refYear:2018,ask:150000,family:'virus',desc:'Short-wing Virus SW: 80/100 hp, injected 912iS, or 914 turbo by particular approval and serial.',typ:{engine:'uls100',avionics:'legacyGlass',autopilot:'basic',prop:'constant',rescue:'grs'}},
@@ -27,39 +28,41 @@ const vs={
 const PREMIUM={
  engine:{ul80:-7000,uls100:0,is100:14000,s3:1500,turbo:11000},
  avionics:{analog:-7000,legacyGlass:0,hdx:6200,g3x:9000,g1000:11500},
- autopilot:{none:0,basic:2600,twoaxis:6500},
+ autopilot:{none:0,basic:2600,installed:4550,twoaxis:6500},
  prop:{fixed:-6300,ground:-3700,inflight:0,constant:4700},
  navigator:{none:0,basic:500,gnx:3100,gtn650:5500,gtn750:9000}
 };
 const EXTRA={adsb:1500,flarm:1350,dualGlass:3100,oxygen:1000,towKit:3300,wingTips:4800,longRange:1750,premiumInterior:2100,beringerBrakes:950,heatedPitot:950,electricTrim:800,ledLights:450,enginePreheat:400,wheelFairings:500};
+// Equipment included in the disclosed variant anchor; never charge for it twice.
+const BASE_EXTRAS={virus_explorer:['dualGlass','adsb','towKit'],sinus_flex:['wingTips'],sinus_max:['wingTips']};
 const REGIONS={US:{shipping:[900,3000],paperwork:2500},Europe:{shipping:[14000,30000],paperwork:6000},Canada:{shipping:[3000,9000],paperwork:4200},Other:{shipping:[18000,40000],paperwork:7000}};
 const FIELDS=Array.from(document.querySelectorAll('[data-persist]'));
 const QUERY_KEY='pvl-scenario';
-const STORAGE_KEY='pipistrel-value-lab-v2';
+const STORAGE_KEY='pipistrel-value-lab-v3';
 let lastReport=null;
 let lastDatabase=[];
 let scenarios=[];
 let loading=false;
 let initialized=false;
 let lastDisplayedMid=null;
+let lastDisplayedConfig=null;
 let tableSort={key:'date',direction:'desc'};
 
 function fieldValue(el){return el.type==='checkbox'?el.checked:el.value;}
 function getConfig(){
  const c={}; for(const el of FIELDS){c[el.id]=fieldValue(el)};
  const numbers=['askingPrice','year','hours','engineHours','serviceYear','engineTbo','engineCalendar','repackYear','repackInterval','rocketYear','fxRate','negotiation','budget','shippingLow','shippingHigh','registrationCosts','duty','tax','vatRebate'];
- for(const key of numbers){c[key]=finite(c[key],0)}
- c.year=clamp(Math.round(c.year),2000,2026);c.hours=clamp(c.hours,0,30000);
- c.engineHours=clamp(c.engineHours,0,30000); c.engineTbo=clamp(c.engineTbo,100,4000);
- c.serviceYear=clamp(c.serviceYear,1970,2026);c.engineCalendar=clamp(c.engineCalendar,1,30);
- c.repackYear=clamp(c.repackYear,1980,2026);c.repackInterval=clamp(c.repackInterval,1,20);
+ const optional=new Set(['hours','engineHours','serviceYear','engineTbo','engineCalendar','repackYear','repackInterval']);
+ for(const key of numbers){c[key]=finite(c[key],optional.has(key)?null:0)}
+ c.year=clamp(Math.round(c.year),2000,2026);if(c.hours!==null)c.hours=clamp(c.hours,0,30000);
+ for(const [key,lo,hi] of [['engineHours',0,30000],['engineTbo',100,4000],['serviceYear',1970,2026],['engineCalendar',1,30],['repackYear',1980,2026],['repackInterval',1,20]])if(c[key]!==null)c[key]=clamp(c[key],lo,hi);
  c.negotiation=clamp(c.negotiation,0,20);c.fxRate=clamp(c.fxRate,.5,2.5);
  c.askingPrice=clamp(c.askingPrice,0,1000000);
  c.tax=clamp(c.tax,0,15);c.duty=clamp(c.duty,0,100);c.vatRebate=clamp(c.vatRebate,0,25);
  return c;
 }
 function setConfig(values,{render=true}={}){
- for(const el of FIELDS){if(Object.hasOwn(values,el.id)){if(el.type==='checkbox'){el.checked=Boolean(values[el.id])}else if(el.tagName==='SELECT'&&![...el.options].some(o=>o.value===String(values[el.id]))){continue;}else{el.value=String(values[el.id])}}}
+ for(const el of FIELDS){if(Object.hasOwn(values,el.id)){const value=values[el.id]??'';if(el.type==='checkbox'){el.checked=Boolean(value)}else if(el.tagName==='SELECT'&&![...el.options].some(o=>o.value===String(value))){continue;}else{el.value=String(value)}}}
  syncSliders();if(render)renderAll();
 }
 function store(){if(!initialized)return;try{window.localStorage.setItem(STORAGE_KEY,JSON.stringify(getConfig()))}catch{}}
@@ -76,25 +79,26 @@ function syncSliders(){
 function selectTab(tab){document.querySelectorAll('.tab').forEach(b=>{const active=b.dataset.tab===tab;b.classList.toggle('active',active);b.setAttribute('aria-selected',active?'true':'false')});document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('active',p.id==='tab-'+tab));if(tab==='database')renderDatabase();if(tab==='research')renderPriors();window.scrollTo({top:0,behavior:'instant'})}
 
 function engineRemaining(c,override=null){
- const h=override?.hours??c.engineHours,y=override?.serviceYear??c.serviceYear;
- const tbo=override?.tbo??c.engineTbo,cal=override?.calendar??c.engineCalendar;
- const hoursLeft=tbo-h;
- const yearsLeft=y+cal-YEAR;
- const remaining=Math.min(hoursLeft/tbo,yearsLeft/cal);
- const used=clamp(1-remaining,0,1);
- return{hoursLeft,yearsLeft,remaining:clamp(remaining,0,1),used,hoursExpired:hoursLeft<=0,calendarExpired:yearsLeft<=0};
+ const h=finite(override?.hours??c.engineHours,null),y=finite(override?.serviceYear??c.serviceYear,null);
+ const tbo=finite(override?.tbo??c.engineTbo,null),cal=finite(override?.calendar??c.engineCalendar,null);
+ const direct=override?null:dueMonths(c.engineDue);
+ const hoursLeft=h!==null&&tbo>0?tbo-h:null;
+ const yearsLeft=direct!==null?direct/12:y!==null&&cal>0?y+cal-YEAR:null;
+ const fractions=[hoursLeft!==null?hoursLeft/tbo:null,yearsLeft!==null?yearsLeft/(cal||15):null].filter(x=>x!==null);
+ const remaining=fractions.length?clamp(Math.min(...fractions),0,1):null;
+ return{hoursLeft,yearsLeft,remaining,used:remaining===null?null:1-remaining,hoursExpired:hoursLeft!==null&&hoursLeft<=0,calendarExpired:yearsLeft!==null&&yearsLeft<=0};
 }
 function engineDepreciation(c,overrides=null){
  const r=engineRemaining(c,overrides);
  const referenceEngineCost=c.engine==='turbo'?30000:(c.engine==='is100'?29000:24500);
  // Resale adjustment is only a FRACTION of hypothetical overhaul cost; not the overhaul estimate itself.
- return Math.round(referenceEngineCost*0.49*Math.pow(r.used,1.27));
+ return r.used===null?0:Math.round(referenceEngineCost*0.49*Math.pow(r.used,1.27));
 }
-function parachuteYears(c){if(c.rescue==='none'||c.rescue==='unknown'||c.repackEvidence!=='date')return null;return c.repackYear+c.repackInterval-YEAR}
+function parachuteYears(c){if(c.rescue==='none'||c.rescue==='unknown')return null;if(c.repackEvidence==='deadline'){const m=dueMonths(c.repackDue);return m===null?null:m/12}if(c.repackEvidence!=='date'||c.repackYear==null||c.repackInterval==null)return null;return c.repackYear+c.repackInterval-YEAR}
 function rescueLoss(c){
  if(c.rescue==='none'||c.rescue==='unknown')return 0; // Absence/unknown is priced by rescuePremium, NOT charged twice.
  let due=parachuteYears(c);
- let loss=c.repackEvidence==='unknown'?1850:c.repackEvidence==='due'?3200:due<=0?3200:due<=2?2000:due<=4?1100:due<=6?250:0;
+ let loss=c.repackEvidence==='due'?3200:due===null?1850:due<=0?3200:due<=2?2000:due<=4?1100:due<=6?250:0;
  if(c.rocketYear>0){let rem=c.rocketYear-YEAR;loss+=rem<=0?1800:rem<=2?700:0}
  return loss;
 }
@@ -118,7 +122,13 @@ function gearPremium(c){
 }
 function baselineGear(v){
  const t=vs[v].typ;
- return optionValue('engine',t.engine)+optionValue('avionics',t.avionics)+optionValue('autopilot',t.autopilot)+optionValue('prop',t.prop);
+ return optionValue('engine',t.engine)+optionValue('avionics',t.avionics)+optionValue('autopilot',t.autopilot)+optionValue('prop',t.prop)+(BASE_EXTRAS[v]||[]).reduce((s,k)=>s+EXTRA[k],0);
+}
+function pricingConfig(input){
+ const c={...input};
+ for(const key of ['engine','avionics','autopilot','prop'])if(!Object.hasOwn(PREMIUM[key],c[key]))c[key]=vs[c.variant].typ[key];
+ c.hours=finite(c.hours,500);
+ return c;
 }
 function refAsking(v,year){const p=vs[v];return p.ask*Math.pow(1.029,clamp(year-p.refYear,-22,17))}
 function airframeTimeEffect(v,h){const rate=v.includes('explorer')?20:v==='sinus_max'?20:v==='virus_sw121'?17:v==='virus_sw'?16:11;return clamp((500-h)*rate,-38000,22000)}
@@ -148,11 +158,19 @@ function maintenanceDelta(c){
  // original engine with approximately airframe TT and a 2000h/15yr reference.
  // This comparison is NOT a claim that every engine is eligible for 2000 h.
  const normal=engineDepreciation(c,{hours:c.hours,serviceYear:c.year,tbo:2000,calendar:15});
- const actual=engineDepreciation(c);
+ // Missing dimensions use the SAME reference as the baseline, so blanks are
+ // neutral rather than zero-hour/new engines. Known limits/due months still bind.
+ const actual=engineDepreciation({...c,engineHours:c.engineHours??c.hours,serviceYear:c.serviceYear??c.year,engineTbo:c.engineTbo??2000,engineCalendar:c.engineCalendar??15});
  const parachute=c.rescue==='none'||c.rescue==='unknown'?0:250-rescueLoss(c);
  return Math.round(normal-actual+parachute-statusLoss(c));
 }
 function isEligible(o){return ['current','historical'].includes(o.status)&&o.airworthiness!=='nonairworthy'&&!o.skipModel&&o.year!=null&&o.price>2000}
+function aircraftKey(o){return o.aircraftId||o.reg?.toUpperCase().replace(/\s/g,'')||o.id}
+function independentRecords(records){
+ const unique=new Map();
+ for(const o of records){const key=aircraftKey(o),old=unique.get(key);if(!old||(o.quality??0)>(old.quality??0)||((o.quality??0)===(old.quality??0)&&o.date>old.date))unique.set(key,o)}
+ return [...unique.values()];
+}
 function usd(o,fx){return o.currency==='EUR'?o.price*fx:o.price}
 function comparableAdjust(o,c){
  let v=usd(o,c.fxRate);
@@ -166,7 +184,8 @@ function comparableAdjust(o,c){
  for(const k of ['engine','avionics','prop']){
   if(o[k]!==undefined&&o[k]!==null){v+=optionValue(k,c[k])-optionValue(k,o[k])}
  }
- if(o.autopilot!==undefined &&o.autopilot!==null){v+=optionValue('autopilot',c.autopilot)-(o.autopilot?optionValue('autopilot','twoaxis'):0)}
+ if(o.autopilot!==undefined &&o.autopilot!==null){v+=optionValue('autopilot',c.autopilot)-optionValue('autopilot',o.autopilotType||(o.autopilot?'installed':'none'))}
+ for(const key of Object.keys(EXTRA))if(typeof o[key]==='boolean')v+=((c[key]?1:0)-(o[key]?1:0))*EXTRA[key];
  if(o.parachute!==undefined&&o.parachute!==null){v+=rescuePremium(c)-(o.parachute?0:-6200)}
  if(o.rescueDue===true&&c.rescue!=='none'&&c.rescue!=='unknown')v+=2300;
  if(o.damage==='repaired'&&c.damage==='none')v+=Math.min(12500,usd(o,c.fxRate)*.07);
@@ -198,8 +217,9 @@ function robustSummary(vals){
  const trimmed=vals.map(x=>({...x,value:clamp(x.value,median*.69,median*1.31)}));
  return{mid:weightedMean(trimmed)*.55+median*.45,median,n:vals.length,w:vals.reduce((s,x)=>s+x.w,0),spread:Math.sqrt(vals.reduce((s,x)=>s+x.w*Math.pow((x.value-median)/median,2),0)/vals.reduce((s,x)=>s+x.w,0))};
 }
-function calculate(c){
- const vals=OBS.filter(isEligible).map(o=>({...o,w:compWeight(o,c),value:comparableAdjust(o,c)})).filter(o=>o.w>.012);
+function calculate(input){
+ const c=pricingConfig(input),source=OBS.find(o=>o.id===c.sourceId);
+ const vals=independentRecords(OBS.filter(o=>isEligible(o)&&(!source||aircraftKey(o)!==aircraftKey(source)))).map(o=>({...o,w:compWeight(o,c),value:comparableAdjust(o,c)})).filter(o=>o.w>.012);
  const exact=vals.filter(x=>x.variant===c.variant);
  let using=exact.length>=3?exact:vals;
  // If sparse, use gently corrected family comparisons as context but not as equal substitutes.
@@ -217,8 +237,11 @@ function calculate(c){
  const midpoint=Math.max(12000,Math.round(ask*negotiable));
  const n=exact.length;
  let width=clamp(.135+.20/Math.sqrt(1+eqWeight),.16,.40);
+ if(result)width=Math.max(width,Math.min(.40,result.spread));
  if(n<2)width=Math.max(width,.28);
  if(c.engineEvidence!=='verified')width+=.05;
+ if(['engineHours','serviceYear','engineTbo','engineCalendar'].some(k=>input[k]==null||input[k]===''))width+=.025;
+ if(['engine','avionics','autopilot','prop'].some(k=>input[k]==='unknown'))width+=.025;
  if(c.rescue!=='none'&&c.rescue!=='unknown'&&c.rocketYear===0)width+=.015;
  if(c.rescue==='unknown'||c.repackEvidence==='unknown')width+=.025;
  if(c.variant==='sinus_flex')width=Math.max(width,.35);
@@ -249,13 +272,13 @@ function acquisition(c,r){
 }
 function showHealth(c){
  const er=engineRemaining(c);
- $('engineHoursLeft').textContent=fmt(er.hoursLeft)+' h';
- $('engineYearsLeft').textContent=er.yearsLeft.toFixed(1)+' yr';
+ $('engineHoursLeft').textContent=er.hoursLeft===null?'Unknown':hoursFmt(er.hoursLeft)+' h';
+ $('engineYearsLeft').textContent=er.yearsLeft===null?'Unknown':er.yearsLeft.toFixed(1)+' yr';
  $('engineHoursCard').classList.toggle('bad',er.hoursExpired);
  $('engineCalendarCard').classList.toggle('bad',er.calendarExpired);
- $('engineExplanation').textContent=er.calendarExpired||er.hoursExpired?'At least one stated limit is reached. An overhaul, documented extension, or permissible on-condition regime must be verified.':`The shorter of ${(er.hoursLeft).toFixed(0)} h and ${er.yearsLeft.toFixed(0)} calendar years determines the stated TBO horizon; serial number and edition govern.`;
+ $('engineExplanation').textContent=er.calendarExpired||er.hoursExpired?'At least one stated limit is reached. An overhaul, documented extension, or permissible on-condition regime must be verified.':er.hoursLeft===null||er.yearsLeft===null?'An engine-life dimension is unknown. Missing dimensions use a typical same-year reference in the price model; the displayed remaining life is not invented.':'The shorter hour/calendar horizon governs the selected schedule. Verify the engine serial, service date and current applicable bulletin.';
  const resc=parachuteYears(c);
- $('repackLeft').textContent=c.rescue==='none'?'Not fitted':c.rescue==='unknown'?'Unknown':c.repackEvidence==='unknown'?'Not verified':c.repackEvidence==='due'?'DUE / expired':resc<=0?'DUE / expired':resc+' yr';
+ $('repackLeft').textContent=c.rescue==='none'?'Not fitted':c.rescue==='unknown'?'Unknown':c.repackEvidence==='due'?'DUE / expired':resc===null?'Not verified':resc<=0?'DUE / expired':resc.toFixed(1)+' yr';
  $('repackCard').classList.toggle('bad',c.repackEvidence==='due'||(resc!==null&&resc<=0));
  const rocket=c.rocketYear;
  $('rocketLeft').textContent=c.rescue==='none'?'—':c.rescue==='unknown'?'Unknown':rocket===0?'Unverified':(rocket<=YEAR?'Due / expired':(rocket-YEAR)+' yr');
@@ -265,21 +288,27 @@ function showHealth(c){
  if(c.rescue!=='none'&&c.rescue!=='unknown'&&c.repackEvidence==='unknown')warnings.push('Repack date is not verified. The model applies an uncertainty adjustment, not a fabricated repack interval.');
  if(c.engineEvidence!=='verified')warnings.push('Engine TBO is unverified or on-condition. The calculation uses the selected numeric limits as a sensitivity exercise only; it does not validate legal operation beyond a published limit.');
  if(c.engineEvidence==='verified'&&c.engine==='ul80'&&c.engineTbo===2000)warnings.push('Older Rotax 912 UL/ULS serials often carried shorter limits. Verify service bulletin eligibility for a 2,000-hour TBO.');
- if((c.variant==='virus_sw121'||c.variant==='virus_explorer')&&c.engine==='is100')warnings.push('Non-standard specification: certified SW121 / SW121A Explorer ordinarily uses a carbureted Rotax 912 S3, not a 912iS. Verify the exact approval basis; an FI retrofit may not be permitted.');
+ if((c.variant==='virus_sw121'||c.variant==='virus_explorer')&&c.engine!=='s3'&&c.engine!=='unknown')warnings.push('Non-standard specification: certified SW121 / SW121A Explorer ordinarily uses a carbureted Rotax 912 S3. Verify the exact engine approval basis.');
+ if(['virus_sw121','virus_explorer'].includes(c.variant))warnings.push('2026 compliance records to check: EASA AD 2026-0070-E (airbrake bellcrank) and 2026-0137R1 (door locks). Applicability, serial groups and compliance times require the actual records; no listing has been cleared by this tool. Links are in Research.');
+ if(c.avionics==='g1000')warnings.push('G1000 is an unverified hypothetical installation for these variants. Its pricing prior does not establish physical suitability, approval or IFR authorization.');
  if(c.variant.startsWith('sinus')&&c.engine==='is100')warnings.push('Fuel-injected Sinus configuration is not a standard assumption. Confirm that this exact conversion is factory-approved for the serial and airworthiness category.');
  if(c.year<2021&&c.variant==='virus_explorer')warnings.push('SW121A Explorer type certification dates to 2021; an earlier build year needs verification.');
  if(c.year<2016&&c.variant==='virus_sw121')warnings.push('Certified Virus SW121 was type-certified in 2016. An earlier listing may be a mislabeled UL variant; verify the exact serial and approval.');
- if(c.landingGear==='tail'&&c.variant==='virus_sw121')warnings.push('Tailwheel SW121 scenario: verify that the exact certified variant and serial were approved for this landing-gear configuration.');
+ if(c.landingGear==='tail'&&['virus_sw121','virus_explorer'].includes(c.variant))warnings.push('Tailwheel certified SW121-family scenario: the referenced type sheet specifies tricycle gear. Verify any claimed alternative approval.');
  $('engineWarning').innerHTML=warnings.map(esc).join('<br>');$('engineWarning').classList.toggle('hidden',!warnings.length);
  $('variantHint').textContent=vs[c.variant].desc;
 }
 function renderEstimate(c,r){
  $('priceCenter').textContent=money(r.midpoint);
+ const signature=JSON.stringify(c),changed=signature!==lastDisplayedConfig;
  const d=lastDisplayedMid===null?null:r.midpoint-lastDisplayedMid;
  const delta=$('priceDelta');
+ if(changed){
  delta.className='price-delta'+(d>0?' positive':d<0?' negative':'');
  delta.textContent=d===null?'Adjust a control to see the dollar change.':d===0?'No change to the nearest dollar':(d>0?'+':'−')+money(Math.abs(d))+' since the previous setting · illustrative';
  lastDisplayedMid=r.midpoint;
+ lastDisplayedConfig=signature;
+ }
  $('miniPrice').textContent=money(r.midpoint);
  $('miniRange').textContent=money(r.low)+' – '+money(r.high);
  $('priceLow').textContent=money(r.low);
@@ -300,9 +329,12 @@ function renderAcquisition(c,r){
  const rows=[['Aircraft · modeled negotiated midpoint',money(a.purchase[1])],['Freight, ferry, packing or import (range)',money(a.shipLow)+' – '+money(a.shipHigh)],['Prebuy / paperwork / assembly allowance',money(a.admin)],['Potential customs surcharge',money(a.duty)],['Texas sales/use tax scenario',money(a.tax)],['Indicated landed midpoint',money(a.deliveredMid)],['Conservative landed interval',money(a.deliveredLow)+' – '+money(a.deliveredHigh)]];
  $('costBreakdown').innerHTML=rows.map((x,i)=>`<div class="${i>=5?'subtotal':''}">${esc(x[0])}</div><div class="number ${i>=5?'subtotal':''}">${esc(x[1])}</div>`).join('');
  const under=a.budgetDiff>=0;
- $('budgetDelta').className='mono '+(under?'under':'over');
+ const eligibility=c.eligibility||'unknown';
+ $('eligibilityStatus').textContent=eligibility==='confirmed'?'Eligibility basis reviewed by you · verify documents remain applicable':eligibility==='ineligible'?'Ineligible for the intended US operation · acquisition is blocked':'US eligibility not established · cost scenario only';
+ $('eligibilityStatus').className='warning';
+ $('budgetDelta').className='mono '+(eligibility==='confirmed'?(under?'under':'over'):'');
  $('budgetDelta').textContent=(under?'+':'−')+money(Math.abs(a.budgetDiff));
- $('budgetLabel').textContent=(under?'Below budget':'Above budget')+` · ${money(c.budget)}`;
+ $('budgetLabel').textContent=(eligibility==='ineligible'?'Blocked':eligibility==='unknown'?'Conditional budget arithmetic':under?'Below budget':'Above budget')+` · ${money(c.budget)}`;
  const desc=c.origin==='US'?'Domestic US purchase: a ferry/pickup allowance, prebuy and applicable Texas tax are estimated.':`International acquisition from ${c.origin}: FAA registration/airworthiness eligibility is NOT priced or assured; import can be impossible for some UL serials.`;
  $('importWarning').innerHTML=esc(desc)+' <strong>Verify exact serial, FAA airworthiness eligibility, US category, VAT export conditions and shipping quotes before placing a deposit.</strong>';
 }
@@ -324,9 +356,10 @@ function renderCompPreview(r,c){
  if(!top.length){$('compPreview').innerHTML='<div class="empty">No eligible matching records. Estimate uses transparent reference assumptions and should be treated as speculative.</div>';return}
  $('compPreview').innerHTML=top.map(o=>`<div style="border-bottom:1px solid #e9eeee;padding:10px 0"><div style="display:flex;justify-content:space-between;gap:9px"><div><div class="small strong">${esc(o.year??'?')} ${esc(vs[o.variant].name)}</div><div class="small muted">${esc(o.reg||o.location)} · ${o.hours==null?'Hours unknown':fmt(o.hours)+' h'}</div></div><div style="text-align:right;flex:none"><div class="small strong number">${money(usd(o,c.fxRate))}</div><span class="tag">${esc(o.status)}</span></div></div><div class="small" style="margin-top:6px"><a target="_blank" rel="noopener noreferrer" href="${esc(o.url)}">Source ↗</a><span class="muted"> · adjusted to scenario: ${money(o.value)}</span> <button type="button" class="action-load" data-load-record="${esc(o.id)}">Use as scenario ↗</button></div></div>`).join('');
 }
-function optionChanges(c){
+function optionChanges(input){
+ const c=pricingConfig(input);
  const t=vs[c.variant].typ;
- const arr=[['Engine / injection',optionValue('engine',c.engine)-optionValue('engine',t.engine)],['Flight deck',optionValue('avionics',c.avionics)-optionValue('avionics',t.avionics)],['Autopilot',optionValue('autopilot',c.autopilot)-optionValue('autopilot',t.autopilot)],['Propeller',optionValue('prop',c.prop)-optionValue('prop',t.prop)],['Navigation / GTN',optionValue('navigator',c.navigator)],['Rescue fitted',rescuePremium(c)],...Object.entries(EXTRA).map(([key,v])=>[({adsb:'ADS-B',flarm:'FLARM',dualGlass:'Dual flight displays',oxygen:'Installed oxygen',towKit:'Approved glider tow kit',wingTips:'Both wingtip sets',longRange:'Long-range fuel tanks',premiumInterior:'Interior / paint',beringerBrakes:'Beringer wheels / brakes',heatedPitot:'Heated pitot',electricTrim:'Electric trim',ledLights:'LED lighting',enginePreheat:'Engine preheater',wheelFairings:'Wheel fairings'}[key]),c[key]?v:0])];
+ const arr=[['Engine / injection',optionValue('engine',c.engine)-optionValue('engine',t.engine)],['Flight deck',optionValue('avionics',c.avionics)-optionValue('avionics',t.avionics)],['Autopilot',optionValue('autopilot',c.autopilot)-optionValue('autopilot',t.autopilot)],['Propeller',optionValue('prop',c.prop)-optionValue('prop',t.prop)],['Navigation / GTN',optionValue('navigator',c.navigator)],['Rescue fitted',rescuePremium(c)],...Object.entries(EXTRA).map(([key,v])=>[({adsb:'ADS-B',flarm:'FLARM',dualGlass:'Dual flight displays',oxygen:'Installed oxygen',towKit:'Approved glider tow kit',wingTips:'Both wingtip sets',longRange:'Long-range fuel tanks',premiumInterior:'Interior / paint',beringerBrakes:'Beringer wheels / brakes',heatedPitot:'Heated pitot',electricTrim:'Electric trim',ledLights:'LED lighting',enginePreheat:'Engine preheater',wheelFairings:'Wheel fairings'}[key]),((c[key]?1:0)-((BASE_EXTRAS[c.variant]||[]).includes(key)?1:0))*v])];
  return arr;
 }
 function renderSensitivity(c,r){
@@ -334,11 +367,11 @@ function renderSensitivity(c,r){
  const all=changes.slice(0,6);
  if(!all.length){$('sensitivity').innerHTML='<div class="note">Typical benchmark specification selected; no major equipment premiums versus this variant baseline. Try changing the Garmin, engine or propeller.</div>'}
  else{$('sensitivity').innerHTML=all.map(([name,v])=>`<div class="bar-section"><div class="bar-row"><span>${esc(name)}</span><b class="number" style="color:${v>=0?'#16776b':'#b2704c'}">${v>=0?'+':'−'}${money(Math.abs(v))}</b></div><div class="hbar"><i style="width:${Math.max(7,Math.round(100*Math.abs(v)/16000))}%;background:${v>=0?'linear-gradient(90deg,#5cb7b0,#1c847a)':'linear-gradient(90deg,#d2a97d,#bd7557)'}"></i></div></div>`).join('')}
- $('optionBreakdown').innerHTML='<table class="options-table"><thead><tr><th>Feature vs variant benchmark</th><th>Resale effect</th></tr></thead><tbody>'+optionChanges(c).map(([name,v])=>`<tr><td>${esc(name)}</td><td class="number" style="text-align:right">${v>=0?'+':'−'}${money(Math.abs(v))}</td></tr>`).join('')+'</tbody></table>';
+ $('optionBreakdown').innerHTML='<table class="options-table"><thead><tr><th>Feature vs variant benchmark</th><th>Prior difference (before blend)</th></tr></thead><tbody>'+optionChanges(c).map(([name,v])=>`<tr><td>${esc(name)}</td><td class="number" style="text-align:right">${v>=0?'+':'−'}${money(Math.abs(v))}</td></tr>`).join('')+'</tbody></table>';
 }
 function renderPriors(){
  $('priorRows').innerHTML=Object.entries(vs).map(([k,v])=>`<tr><td>${esc(v.name)}</td><td>${v.refYear}</td><td class="number">${money(v.ask)}</td></tr>`).join('');
- const sections=[['Engine choices',PREMIUM.engine,{ul80:'912 UL · 80 hp / carb',uls100:'912 ULS · 100 hp / carb',is100:'912 iS · 100 hp / injected',s3:'912 S3 · 100 hp certified / carb',turbo:'914 turbo'}],['Avionics',PREMIUM.avionics,{analog:'Analog instruments',legacyGlass:'Legacy glass panel',hdx:'Dynon HDX',g3x:'Garmin G3X',g1000:'Garmin G1000'}],['Autopilot',PREMIUM.autopilot,{none:'Not installed',basic:'Basic autopilot',twoaxis:'Two-axis autopilot'}],['Propeller',PREMIUM.prop,{fixed:'Fixed pitch',ground:'Ground adjustable',inflight:'In-flight adjustable',constant:'Constant speed'}],['Navigation',PREMIUM.navigator,{none:'None',basic:'Basic navigator',gnx:'Garmin GNX/IFR GPS',gtn650:'GTN 650',gtn750:'GTN 750'}],['Other equipment',EXTRA,{}]];
+ const sections=[['Engine choices',PREMIUM.engine,{ul80:'912 UL · 80 hp / carb',uls100:'912 ULS · 100 hp / carb',is100:'912 iS · 100 hp / injected',s3:'912 S3 · 100 hp certified / carb',turbo:'914 turbo'}],['Avionics',PREMIUM.avionics,{analog:'Analog instruments',legacyGlass:'Legacy glass panel',hdx:'Dynon HDX',g3x:'Garmin G3X',g1000:'Garmin G1000'}],['Autopilot',PREMIUM.autopilot,{none:'Not installed',basic:'Basic autopilot',installed:'Installed, axes unverified',twoaxis:'Two-axis autopilot'}],['Propeller',PREMIUM.prop,{fixed:'Fixed pitch',ground:'Ground adjustable',inflight:'In-flight adjustable',constant:'Constant speed'}],['Navigation',PREMIUM.navigator,{none:'None',basic:'Basic navigator',gnx:'Garmin GNX/IFR GPS',gtn650:'GTN 650',gtn750:'GTN 750'}],['Other equipment',EXTRA,{}]];
  $('optionCatalogRows').innerHTML=sections.map(([group,items,names])=>'<tr><td colspan="2" class="strong" style="background:#f2f7f5">'+esc(group)+'</td></tr>'+Object.entries(items).map(([k,v])=>`<tr><td>${esc(names[k]||k.replace(/([A-Z])/g,' $1'))}</td><td class="number">${v>=0?'+':'−'}${money(Math.abs(v))}</td></tr>`).join('')).join('');
  $('sourcesList').innerHTML=RESEARCH.map(s=>`<div class="source-box"><div><a target="_blank" rel="noopener noreferrer" href="${esc(s.url)}">${esc(s.title)} ↗</a><span class="small">${esc(s.detail)}</span></div></div>`).join('');
 }
@@ -347,7 +380,7 @@ function renderAll(){
  loading=true;
  try{
   syncSliders(); const c=getConfig(),r=calculate(c);lastReport=r;
-  showHealth(c);renderEstimate(c,r);renderAcquisition(c,r);renderOffer(c,r);renderCompPreview(r,c);renderSensitivity(c,r);
+  renderLoadedNotice(c);showHealth(c);renderEstimate(c,r);renderAcquisition(c,r);renderOffer(c,r);renderCompPreview(r,c);renderSensitivity(c,r);
   $('heroRecords').textContent=OBS.length+' source-linked observations';
   $('heroModel').textContent=OBS.filter(isEligible).length+' model-eligible asking records';
   store();
@@ -358,7 +391,7 @@ function renderAll(){
 // Important: unknown engine TBO/GRS cycles cannot be computed from manufacture year.
 const ENGINE_NAMES={ul80:'Rotax 912 UL · 80 hp, carb',uls100:'Rotax 912 ULS · 100 hp, carb',is100:'Rotax 912 iS · 100 hp, injected',s3:'Rotax 912 S3 · carb',turbo:'Rotax 914 · turbo'};
 function dueMonths(yyyyMm){
- if(!/^\d{4}-\d{2}$/.test(String(yyyyMm||'')))return null;
+ if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(String(yyyyMm||'')))return null;
  const [y,m]=yyyyMm.split('-').map(Number);
  return (y-2026)*12+(m-10);
 }
@@ -366,7 +399,7 @@ function marketFields(o,c){
  const tbo=o.engineTboHours!=null&&o.engineHours!=null?o.engineTboHours-o.engineHours:null;
  const calendar=dueMonths(o.engineTboCalendarDue);
  const repack=dueMonths(o.repackDue);
- const parachute=o.parachute===true?'Fitted':o.parachute===false?'Not fitted':'Unknown';
+ const parachute=o.parachute===true?'Fitted':o.parachute===false?'Not fitted':null;
  const rp=o.repackStatus==='due'||o.rescueDue===true?'Due (seller-stated)':repack!==null?(repack<=0?'Due / overdue':`${repack} months`):o.repackServiceYear!=null?`Service ${o.repackServiceYear}; due unknown`:'Unknown';
  return {
   aircraft:`${vs[o.variant]?.name||o.variant} ${o.reg||''}`,
@@ -377,7 +410,7 @@ function marketFields(o,c){
   tboCalendar:calendar,
   avionics:o.avionicsDetail||({analog:'Analog',legacyGlass:'Legacy glass',hdx:'Dynon HDX',g3x:'Garmin G3X',g1000:'Garmin G1000'}[o.avionics]||null),
   autopilot:o.autopilotDetail||(o.autopilot===true?'Installed · model unknown':o.autopilot===false?'None advertised':null),
-  parachute, repack:o.repackStatus==='due'||o.rescueDue===true?-1:repack,
+  parachute, repack, repackIsDue:o.repackStatus==='due'||o.rescueDue===true,
   repackLabel:rp,
   prop:o.propDetail||({fixed:'Fixed pitch',ground:'Ground adjustable',inflight:'In-flight adjustable',constant:'Constant speed'}[o.prop]||null),
   location:o.location, date:o.date, status:o.status
@@ -392,11 +425,20 @@ function sortedValues(a,b,key,direction,c){
  if(typeof x==='number'&&typeof y==='number')return sign*(x-y);
  return sign*String(x).localeCompare(String(y),undefined,{numeric:true,sensitivity:'base'});
 }
+function matchesFilters(o,f,c){
+ const q=(f.search||'').trim().toLowerCase();
+ const match=(k,v)=>!f[k]||f[k]==='all'||f[k]===v;
+ return match('family',o.family)&&match('variant',o.variant)&&match('region',o.region)&&match('status',o.status)
+  &&(match('use','all')||(f.use==='usable'?isEligible(o):!isEligible(o)))
+  &&(match('engine','all')||(o.engine===f.engine&&o.fieldEvidence?.engine?.state!=='inferred'))
+  &&(match('rescue','all')||(f.rescue==='yes'?o.parachute===true:f.rescue==='no'?o.parachute===false:o.parachute==null))
+  &&(match('autopilot','all')||(f.autopilot==='yes'?o.autopilot===true:f.autopilot==='no'?o.autopilot===false:o.autopilot==null))
+  &&(!(finite(f.maxPrice)>0)||usd(o,c.fxRate)<=+f.maxPrice)
+  &&(!q||[o.id,o.reg,o.serial,o.year,o.variant,o.location,o.notes,o.source,o.status,o.avionicsDetail,o.autopilotDetail,o.propDetail,o.engineDetail].join(' ').toLowerCase().includes(q));
+}
 function filteredDatabase(){
- const q=$('dbSearch').value.trim().toLowerCase(),family=$('dbFamily').value,status=$('dbStatus').value,use=$('dbUse').value,engine=$('dbEngine').value,rescue=$('dbRescue').value;
- let list=OBS.filter(o=>(family==='all'||o.family===family)&&(status==='all'||o.status===status)&&(use==='all'||(use==='usable'?isEligible(o):!isEligible(o)))&&(engine==='all'||o.engine===engine)&&(rescue==='all'||(rescue==='yes'?o.parachute===true:o.parachute===false))&&(!q||[o.id,o.reg,o.year,o.variant,o.location,o.notes,o.source,o.status,o.avionicsDetail,o.autopilotDetail,o.propDetail,o.engineDetail].join(' ').toLowerCase().includes(q)));
- const c=getConfig();list.sort((a,b)=>sortedValues(a,b,tableSort.key,tableSort.direction,c)||String(b.date).localeCompare(String(a.date)));
- return list;
+ const f=Object.fromEntries(['Family','Variant','Region','Status','Use','Engine','Rescue','Autopilot','MaxPrice','Search'].map(k=>[k[0].toLowerCase()+k.slice(1),$('db'+k).value])),c=getConfig();
+ return OBS.filter(o=>matchesFilters(o,f,c)).sort((a,b)=>sortedValues(a,b,tableSort.key,tableSort.direction,c)||String(b.date).localeCompare(String(a.date)));
 }
 function selectTableSort(key){
  if(tableSort.key===key)tableSort.direction=tableSort.direction==='asc'?'desc':'asc';
@@ -434,7 +476,7 @@ function renderDatabase(){
  });
  const unknown='<span class="unknown">Unknown</span>';
  const plain=v=>v==null||v===''?unknown:esc(v);
- const number=v=>v==null?unknown:fmt(v);
+ const number=v=>v==null?unknown:hoursFmt(v);
  const months=v=>v==null?unknown:`<span class="${v<=0?'overdue':''}">${v<=0?'OVERDUE':esc(String(v)+' months')}</span>`;
  $('databaseRows').innerHTML=rows.map(o=>{
   const f=marketFields(o,c),priceLabel=money(f.usd);
@@ -443,7 +485,7 @@ function renderDatabase(){
   const tboSub=f.tboHours==null?'':`<span class="subvalue">${o.engineTboBasis?'† Seller claim / unverified':'† Seller-advertised limit; verify serial'}</span>`;
   const calSub=f.tboCalendar==null?'':'<span class="subvalue">† Seller-stated due date</span>';
   const repackSub=o.repackDue?`<span class="subvalue">Seller due: ${esc(o.repackDue)}</span>`:o.repackServiceYear?'<span class="subvalue">Service date ≠ verified repack due date</span>':'';
-  const history=o.priceHistory?.length?`<b>Asking history (one aircraft)</b><p>${o.priceHistory.map(h=>esc(h.date)+' · '+money(o.currency==='EUR'?h.price*c.fxRate:h.price)).join('<br>')}</p>`:'';
+  const history=o.priceHistory?.length?`<b>Asking history (one aircraft)</b><p>${o.priceHistory.map(h=>esc(h.date)+' · '+money((h.currency||o.currency)==='EUR'?h.price*c.fxRate:h.price)).join('<br>')}</p>`:'';
   return `<tr>
    <td><div class="strong">${esc(vs[o.variant]?.name||o.variant)}</div><span class="subvalue">${esc(o.reg||o.id)} ${o.flag?'<span class="issue">⚠ '+esc(o.flag)+'</span>':''}</span></td>
    <td class="num">${number(f.year)}</td>
@@ -455,66 +497,54 @@ function renderDatabase(){
    <td class="num">${months(f.tboCalendar)}${calSub}</td>
    <td class="longcell">${plain(f.avionics)}</td>
    <td class="longcell">${plain(f.autopilot)}</td>
-   <td>${f.parachute==='Unknown'?unknown:esc(f.parachute)}</td>
-   <td class="num">${f.repack==null?`<span class="${f.repackLabel.startsWith('Due')?'overdue':'unknown'}">${esc(f.repackLabel)}</span>`:f.repack===-1?'<span class="overdue">DUE</span>':months(f.repack)}${repackSub}</td>
+   <td>${plain(f.parachute)}</td>
+   <td class="num">${f.repack==null?`<span class="${f.repackLabel.startsWith('Due')?'overdue':'unknown'}">${esc(f.repackLabel)}</span>`:months(f.repack)}${repackSub}</td>
    <td class="longcell">${plain(f.prop)}</td>
    <td class="longcell">${esc(f.location)}</td>
    <td class="num">${esc(f.date)}</td>
-   <td><span class="badge ${esc(o.status)}">${esc(o.status)}</span><span class="subvalue">${isEligible(o)?'Valuation comp':'Context only'}</span><button type="button" class="action-load" data-load-record="${esc(o.id)}">Load into calculator ↗</button><details><summary>Evidence &amp; notes</summary><div class="small" style="max-width:325px;line-height:1.6">${esc(o.notes||'Not specified')}<br>${history}<br>Source: ${esc(o.source||'Unknown')}<br><a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">Original listing ↗</a></div></details></td></tr>`;
+   <td><span class="badge ${esc(o.status)}">${esc(o.status)}</span><span class="subvalue">${isEligible(o)?'Valuation comp':'Context only'}</span><button type="button" class="action-load" data-load-record="${esc(o.id)}">Load into calculator ↗</button><details><summary>Evidence &amp; notes</summary><div class="small" style="max-width:325px;line-height:1.6">${esc(o.notes||'Not specified')}<br>${history}<br><b>Provenance</b>: ${esc(o.access||'legacy record')} · observed ${esc(o.observedAt||'not rechecked')}<br>Date basis: ${esc(o.dateBasis)}<br>Identity group: ${esc(aircraftKey(o))}<br>${Object.entries(o.fieldEvidence||{}).map(([k,v])=>esc(k+': '+v.state)+(v.url?' <a target="_blank" rel="noopener noreferrer" href="'+esc(v.url)+'">evidence ↗</a>':'')).join('<br>')}<br>Source: ${esc(o.source||'Unknown')}<br><a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">Original listing ↗</a></div></details></td></tr>`;
  }).join('');
  if(!rows.length)$('databaseRows').innerHTML='<tr><td colspan="16" style="text-align:center;padding:30px">No records match the current filters.</td></tr>';
 }
 function downloadVisibleCSV(){
  const rows=lastDatabase,c=getConfig();
- const keys=['id','family','variant','year','price_usd_equivalent','price_original','currency_original','fx_usd_per_eur','airframe_hours','engine','engine_hours','engine_tbo_left_hours_seller_claim','engine_tbo_calendar_months_left_seller_claim','avionics','autopilot','parachute_status','parachute_repack_months_left_documented','parachute_repack_detail','propeller','location','date','source','status','is_model_eligible','notes','url'];
- const v=x=>{let str=String(x??'');if(/^[=+\-@\t\r]/.test(str))str="'"+str;return '"'+str.replace(/"/g,'""')+'"'};
+ const keys=['id','family','variant','year','price_usd_equivalent','price_original','currency_original','fx_usd_per_eur','airframe_hours','engine','engine_hours','engine_tbo_left_hours_seller_claim','engine_tbo_calendar_months_left_seller_claim','avionics','autopilot','parachute_status','parachute_repack_months_left_seller_claim','parachute_repack_detail','propeller','location','date','source','status','is_model_eligible','notes','url','aircraft_id','date_basis','observed_at','access','field_evidence'];
+ const v=x=>{let str=String(x??'');if(typeof x!=='number'&&/^[=+\-@\t\r]/.test(str))str="'"+str;return '"'+str.replace(/"/g,'""')+'"'};
  const csv=keys.join(',')+'\r\n'+rows.map(o=>{
   const f=marketFields(o,c);
-  const record={id:o.id,family:o.family,variant:o.variant,year:o.year,price_usd_equivalent:Math.round(f.usd),price_original:o.price,currency_original:o.currency,fx_usd_per_eur:c.fxRate,airframe_hours:o.hours,engine:f.engine,engine_hours:o.engineHours,engine_tbo_left_hours_seller_claim:f.tboHours,engine_tbo_calendar_months_left_seller_claim:f.tboCalendar,avionics:f.avionics,autopilot:f.autopilot,parachute_status:f.parachute,parachute_repack_months_left_documented:f.repack,parachute_repack_detail:f.repackLabel,propeller:f.prop,location:o.location,date:o.date,source:o.source,status:o.status,is_model_eligible:isEligible(o),notes:o.notes,url:o.url};
+  const record={id:o.id,family:o.family,variant:o.variant,year:o.year,price_usd_equivalent:Math.round(f.usd),price_original:o.price,currency_original:o.currency,fx_usd_per_eur:c.fxRate,airframe_hours:o.hours,engine:f.engine,engine_hours:o.engineHours,engine_tbo_left_hours_seller_claim:f.tboHours,engine_tbo_calendar_months_left_seller_claim:f.tboCalendar,avionics:f.avionics,autopilot:f.autopilot,parachute_status:f.parachute,parachute_repack_months_left_seller_claim:f.repack,parachute_repack_detail:f.repackLabel,propeller:f.prop,location:o.location,date:o.date,source:o.source,status:o.status,is_model_eligible:isEligible(o),notes:o.notes,url:o.url,aircraft_id:aircraftKey(o),date_basis:o.dateBasis,observed_at:o.observedAt,access:o.access,field_evidence:JSON.stringify(o.fieldEvidence||{})};
   return keys.map(k=>v(record[k])).join(',');
  }).join('\r\n');
  const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='pipistrel-observations-'+ASOF+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);
 }
+// One mapping is shared by the UI and grouped holdout audit. No prior listing's
+// aircraft-specific fields can leak through. Financial assumptions may persist.
+function recordScenario(o,financial={}){
+ const region=REGIONS[o.region]||REGIONS.Other;
+ return {...financial,sourceId:o.id,variant:o.variant,askingPrice:o.price,askingCurrency:o.currency,origin:o.region,
+  year:o.year??vs[o.variant].refYear,hours:o.hours??null,
+  engine:o.engine??'unknown',avionics:o.avionics??'unknown',prop:o.prop??'unknown',navigator:o.navigator??'none',
+  autopilot:o.autopilotType||(o.autopilot===true?'installed':o.autopilot===false?'none':'unknown'),
+  condition:'good',damage:o.damage==='repaired'?'repaired':'unknown',hangared:'unknown',registration:o.registration??'unknown',eligibility:'unknown',landingGear:o.landingGear??'unknown',
+  engineHours:o.engineHours??null,serviceYear:o.engineServiceYear??null,engineTbo:o.engineTboHours??null,engineCalendar:o.engineCalendarYears??null,engineDue:o.engineTboCalendarDue??'',engineEvidence:'uncertain',
+  rescue:o.parachute===true?'other':o.parachute===false?'none':'unknown',
+  repackEvidence:o.repackDue?'deadline':o.repackStatus==='due'||o.rescueDue===true?'due':'unknown',
+  repackDue:o.repackDue??'',repackYear:o.repackServiceYear??null,repackInterval:null,rocketYear:0,
+  propStatus:'unknown',hoseStatus:o.hoseServiceYear!=null?(o.hoseServiceYear+5<=YEAR?'due':'current'):'unknown',gearboxStatus:'unknown',
+  shippingLow:region.shipping[0],shippingHigh:region.shipping[1],registrationCosts:region.paperwork,vatRebate:0,
+  ...Object.fromEntries(Object.keys(EXTRA).map(k=>[k,typeof o[k]==='boolean'?o[k]:(BASE_EXTRAS[o.variant]||[]).includes(k)]))};
+}
+function renderLoadedNotice(c){
+ const o=OBS.find(x=>x.id===c.sourceId),note=$('listingLoadedNotice');
+ if(!o){note.classList.add('hidden');return}
+ const unknowns=['year','hours','engine','avionics','prop','engineHours','engineServiceYear','engineTboHours','autopilot','parachute'].filter(k=>o[k]==null);
+ const inherited=Object.keys(EXTRA).filter(k=>o[k]==null&&(BASE_EXTRAS[o.variant]||[]).includes(k));
+ note.innerHTML=`<b>Starting record ${esc(o.id)} · ${esc(o.reg||vs[o.variant].name)}</b><br>Controls are editable. This aircraft and its grouped duplicates are excluded from its own comparables. Source claims are not independently verified. Missing specifications use disclosed variant assumptions in pricing; maintenance blanks remain visible. ${unknowns.length?'Unreported: '+esc(unknowns.join(', '))+'. ':''}${inherited.length?'Assumed baseline options: '+esc(inherited.join(', '))+'. ':''}<br>${esc(o.notes)} <a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">Open listing ↗</a>`;
+ note.classList.remove('hidden');
+}
 function loadRecord(id){
  const o=OBS.find(x=>x.id===id);if(!o)return;
- const base=vs[o.variant].typ,region=REGIONS[o.region]||REGIONS.Other;
- const updates={variant:o.variant,askingPrice:o.price,askingCurrency:o.currency,origin:o.region,
-  engine:base.engine,avionics:base.avionics,autopilot:base.autopilot,prop:base.prop,navigator:'none',
-  year:o.year??vs[o.variant].refYear,hours:o.hours??450,condition:'good',damage:'unknown',hangared:'unknown',registration:'unknown',
-  shippingLow:region.shipping[0],shippingHigh:region.shipping[1],registrationCosts:region.paperwork,
-  ...Object.fromEntries(Object.keys(EXTRA).map(k=>[k,false]))};
- if(o.year!=null)updates.year=o.year;
- if(o.hours!=null)updates.hours=o.hours;
- // An unseen engine model/hours/TBO is NOT silently represented as a documented one.
- if(o.engine&&Object.hasOwn(PREMIUM.engine,o.engine))updates.engine=o.engine;
- if(o.avionics&&Object.hasOwn(PREMIUM.avionics,o.avionics))updates.avionics=o.avionics;
- if(o.prop&&Object.hasOwn(PREMIUM.prop,o.prop))updates.prop=o.prop;
- updates.engineHours=o.engineHours??500; // illustrative placeholder, NOT aircraft record
- updates.serviceYear=o.engineServiceYear??(o.year??2020); // illustrative if absent
- updates.engineTbo=o.engineTboHours??2000; // placeholder; NOT serial-specific
- updates.engineEvidence='uncertain';
- updates.autopilot=o.autopilot===false?'none':o.autopilot===true?'basic':'none';
- updates.rescue=o.parachute===true?'other':o.parachute===false?'none':'unknown';
- updates.repackEvidence=(o.repackStatus==='due'||o.rescueDue===true)?'due':'unknown';
- updates.repackYear=2020; // ignored unless user documents it and selects repackEvidence=date
- updates.rocketYear=0;
- setConfig(updates);
- const unknowns=[];
- if(o.engine==null)unknowns.push('engine model / injection');
- if(o.avionics==null)unknowns.push('exact avionics suite');
- if(o.prop==null)unknowns.push('propeller specification');
- if(o.engineHours==null)unknowns.push('engine time');
- if(o.engineServiceYear==null)unknowns.push('engine service / overhaul date');
- if(o.engineTboHours==null)unknowns.push('engine TBO eligibility');
- if(o.parachute==null)unknowns.push('rescue installation');
- if(o.repackDue==null && o.repackStatus!=='due' && !o.rescueDue)unknowns.push('parachute repack deadline');
- if(o.autopilot==null)unknowns.push('autopilot specification');
- if(o.year==null)unknowns.push('manufacture year');
- if(o.hours==null)unknowns.push('airframe hours');
- const note=$('listingLoadedNotice');
- note.innerHTML=`<b>Loaded source record ${esc(o.id)} · ${esc(vs[o.variant].name)}</b><br>Known advertisement fields were copied. Missing technical values and model-baseline equipment defaults are <strong>hypothetical placeholders</strong>, not seller-certified specifications. ${unknowns.length?'Before relying on this scenario, verify: '+esc(unknowns.join(', '))+'.':''} <a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer">Open listing ↗</a>`;
- note.classList.remove('hidden');
- selectTab('estimate');
+ setConfig(recordScenario(o,getConfig()));selectTab('estimate');
 }
 function copyScenario(){
  try{let p=new URL(location.href);p.searchParams.set('c',encodeURIComponent(JSON.stringify(getConfig())));let txt=p.toString();
@@ -525,10 +555,12 @@ function copyScenario(){
 function bind(){
  document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));
  $('viewDatabase').addEventListener('click',()=>selectTab('database'));
- $('resetBtn').addEventListener('click',()=>{if(!confirm('Reset aircraft configuration and assumptions to research defaults?'))return;try{localStorage.removeItem(STORAGE_KEY)}catch{};history.replaceState(null,'',location.pathname);let defaults={askingPrice:0,askingCurrency:'USD',variant:'virus_sw',year:2018,hours:450,condition:'good',damage:'none',registration:'unknown',hangared:'documented',engine:'is100',engineHours:450,serviceYear:2018,engineTbo:2000,engineCalendar:15,engineEvidence:'verified',rescue:'grs',repackYear:2024,repackInterval:6,repackEvidence:'date',rocketYear:0,avionics:'g3x',autopilot:'twoaxis',navigator:'none',prop:'constant',propStatus:'ok',hoseStatus:'current',gearboxStatus:'current',landingGear:'nose',adsb:true,flarm:false,dualGlass:false,oxygen:false,towKit:false,wingTips:false,longRange:false,premiumInterior:false,beringerBrakes:false,heatedPitot:false,electricTrim:false,ledLights:false,enginePreheat:false,wheelFairings:false,origin:'US',fxRate:1.16,negotiation:4,budget:200000,shippingLow:900,shippingHigh:3000,registrationCosts:2500,duty:0,tax:8.25,vatRebate:0};setConfig(defaults);$('listingLoadedNotice').classList.add('hidden');selectTab('estimate')});
+ $('resetBtn').addEventListener('click',()=>{if(!confirm('Reset aircraft configuration and assumptions to research defaults?'))return;try{localStorage.removeItem(STORAGE_KEY)}catch{};history.replaceState(null,'',location.pathname);let defaults={sourceId:'',engineDue:'',repackDue:'',eligibility:'unknown',askingPrice:0,askingCurrency:'USD',variant:'virus_sw',year:2018,hours:450,condition:'good',damage:'none',registration:'unknown',hangared:'documented',engine:'is100',engineHours:450,serviceYear:2018,engineTbo:2000,engineCalendar:15,engineEvidence:'uncertain',rescue:'grs',repackYear:2024,repackInterval:6,repackEvidence:'date',rocketYear:0,avionics:'g3x',autopilot:'twoaxis',navigator:'none',prop:'constant',propStatus:'ok',hoseStatus:'current',gearboxStatus:'current',landingGear:'nose',adsb:true,flarm:false,dualGlass:false,oxygen:false,towKit:false,wingTips:false,longRange:false,premiumInterior:false,beringerBrakes:false,heatedPitot:false,electricTrim:false,ledLights:false,enginePreheat:false,wheelFairings:false,origin:'US',fxRate:1.16,negotiation:4,budget:200000,shippingLow:900,shippingHigh:3000,registrationCosts:2500,duty:0,tax:8.25,vatRebate:0};setConfig(defaults);$('listingLoadedNotice').classList.add('hidden');selectTab('estimate')});
  $('shareBtn').addEventListener('click',copyScenario);
  $('downloadCSV').addEventListener('click',downloadVisibleCSV);
- for(const id of ['dbSearch','dbFamily','dbUse','dbEngine','dbRescue','dbStatus'])$(id).addEventListener('input',renderDatabase);
+ $('preferredSearch').addEventListener('click',()=>{for(const id of ['dbFamily','dbVariant','dbRegion','dbAutopilot'])$(id).value='all';$('dbSearch').value='';$('dbEngine').value='is100';$('dbRescue').value='yes';$('dbUse').value='usable';$('dbStatus').value='current';$('dbMaxPrice').value='200000';renderDatabase()});
+ $('clearFilters').addEventListener('click',()=>{for(const id of ['dbFamily','dbVariant','dbRegion','dbAutopilot','dbEngine','dbRescue','dbUse','dbStatus'])$(id).value='all';$('dbSearch').value='';$('dbMaxPrice').value='';renderDatabase()});
+ for(const id of ['dbSearch','dbFamily','dbVariant','dbRegion','dbMaxPrice','dbAutopilot','dbUse','dbEngine','dbRescue','dbStatus'])$(id).addEventListener('input',renderDatabase);
  $('dbSort').addEventListener('change',e=>setQuickSort(e.target.value));
  document.querySelectorAll('#marketTable button[data-sort-key]').forEach(button=>button.addEventListener('click',()=>selectTableSort(button.dataset.sortKey)));
  document.addEventListener('click',e=>{const b=e.target.closest('button[data-load-record]');if(b)loadRecord(b.dataset.loadRecord)});
@@ -537,6 +569,10 @@ function bind(){
  $('variant').addEventListener('change',()=>{
   const v=$('variant').value;
   const p=vs[v];
+  $('sourceId').value='';$('engineDue').value='';$('repackDue').value='';
+  $('engineEvidence').value='uncertain';$('engineCalendar').value='15';$('engineTbo').value='2000';
+  $('repackEvidence').value='unknown';$('repackInterval').value='6';$('landingGear').value='nose';
+  for(const key of Object.keys(EXTRA))$(key).checked=(BASE_EXTRAS[v]||[]).includes(key);
   $('year').value=p.refYear;
   $('engine').value=p.typ.engine;
   $('avionics').value=p.typ.avionics;
@@ -547,12 +583,12 @@ function bind(){
   $('serviceYear').value=p.refYear;
   $('repackYear').value=2024;
   $('rocketYear').value=0;
-  $('wingTips').checked=v==='sinus_max'||v==='sinus_flex';
-  $('dualGlass').checked=v==='virus_explorer'||v==='virus_sw121';
+
   renderAll();
  });
  $('engine').addEventListener('change',()=>{
   let e=$('engine').value;
+  $('engineDue').value='';$('engineEvidence').value='uncertain';
   if(e==='is100'||e==='s3'||e==='uls100'){$('engineTbo').value='2000';$('engineCalendar').value='15'}
   if(e==='ul80'){$('engineTbo').value='2000';$('engineCalendar').value='15'}
   if(e==='turbo'){$('engineTbo').value='2000';$('engineCalendar').value='15'}

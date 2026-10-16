@@ -1,6 +1,6 @@
 # Pipistrel Virus + Sinus: purchase-price market research and valuation methodology
 
-**Research snapshot:** October 15, 2026  
+**Research snapshot:** October 16, 2026
 **Scope:** Used and historical Pipistrel **Virus** and **Sinus** only; worldwide advertisement evidence; approximate acquisition costs in Texas.  
 **Out of scope:** Panthera, Alpha, Velis, Taurus, ownership economics, financing, annual insurance and recurring flight expenses.  
 **Verification standard:** A source saying a listing disappeared or was “sold” is **not** accepted as proof of an achieved sale price.
@@ -9,7 +9,7 @@
 
 Virus and Sinus are exceptionally poor candidates for a one-number price guide. Even within the same calendar year, three aircraft can have very different asking prices due to the *approved aircraft category*, engine specification, the gearbox/propeller combination, avionics, damage/maintenance records and especially the difference between **US light-sport** and **European ultralight** markets. The history of engine and rescue-system service is also important: a plane can have few hours and very little remaining calendar life before a substantial event.
 
-We retained **92** source-linked records: **46** model-eligible, individually priced references and **46** price-history, factory/new-price, archive, ambiguous, or otherwise excluded contextual references. The explicitly non-airworthy $49,000 Phoenix salvage Virus is deliberately removed from the dataset and every chart; it is not a comparison for a flying aircraft. **31** of the excluded observations are curated fragments from an underlying **43-ad** Aero-Offers Sinus history collection; many lack reliable manufacturing year or are repeat ads. The background research library has **35** links. These counts are for the October 15 snapshot, not live inventories or independently completed transactions.
+We retained **98** source-linked records: **48** model-eligible, individually priced references and **50** price-history, factory/new-price, archive, ambiguous, or otherwise excluded contextual references. The explicitly non-airworthy $49,000 Phoenix salvage Virus is deliberately removed from the dataset and every chart; it is not a comparison for a flying aircraft. **31** of the excluded observations are curated fragments from an underlying **43-ad** Aero-Offers Sinus history collection; many lack reliable manufacturing year or are repeat ads. The background research library has **45** links. These counts are for the October 16 snapshot, not live inventories or independently completed transactions.
 
 The output deliberately consists of a modeled *typical ask*, a separate hypothetical *negotiated midpoint*, and a **broad purchase-price interval**. It does **not** assert that the midpoint is an actual fair-value sale result. Known non-airworthy, salvage, parts-only or restoration-project airframes are completely outside this research and price database. Ordinary for-sale aircraft are not independently inspected; airworthiness must still be confirmed. A custom expert prebuy, serial verification, airworthiness/registration check, and seller logbook review are necessary before any purchase offer.
 
@@ -19,7 +19,7 @@ The following are **asking** prices in the advertiser's original currency, not c
 
 | Aircraft and identity | Year | Hours | Asking price | What makes it informative |
 |---|---:|---:|---:|---|
-| [Virus original long wing SP-SFLY](https://planefox.com/listing/SP-SFLY) | 2008 | 1,185 airframe / 841 engine | **€55,000** | Poland. The same aircraft was seen at €59k on a [different index](https://www.planenest.com/en/classifieds/pipistrel-virus-sp-sfly-1532). Engine calendar limit reportedly expired May 2023. |
+| [Virus original long wing SP-SFLY](https://www.plane4you.eu/en/offers/pipistrel-virus-912-sp-sfly,1051) | 2008 | 1,185 airframe / 1,185 engine; 841 prop | **€55,000** | Poland. The same aircraft was seen at €59k on a [different index](https://www.planenest.com/en/classifieds/pipistrel-virus-sp-sfly-1532). Engine calendar limit reportedly expired May 2023. |
 | [Virus SW IA226](https://planefox.com/listing/IA226) | 2010 | 1,581 | **€95,000** | 912 ULS; dealer describes refurbishment and replacement propeller, **parachute needs service**. |
 | [Virus SW F-JTVP](https://planefox.com/listing/F-JTVP) | 2012 | 680 | **€95,000** | French seller, Dynon D180 with autopilot; avoid counting as the same 2012 D-EYFF. |
 | [Virus SW German seller](https://www.helmuts-ul-seiten.de/premium/virus-bayer-premium.html) | 2016 | 288 airframe / 328 engine | **€115,000** | 912 ULS, Dynon D180, adjustable Woodcomp prop, GRS repacked 2023. Note separate engine and airframe hours. |
@@ -29,13 +29,13 @@ The following are **asking** prices in the advertiser's original currency, not c
 | [Virus SW100 iS D-MAFV](https://trade.aero/aircraft/pipistrel-virus-sw-100-600d-mtow-600kg-d-mafv-sn-rotax-engine-912-is-100-hp-7249/) | 2020 | 960 | **€120,000** | Documented **fuel-injected Rotax 912 iS**, serial 1270005; Germany. Parachute presence and FAA import eligibility remain unverified. Historical June 2026 ad. |
 | [Virus SW OM-S925](https://planefox.com/listing/OM-S925) | 2022 | 400 | **€135,000** | Polish-listed Slovak registration, HDX/autopilot, FLARM, 180L tanks, 600kg MTOW. Fuel system unspecified. |
 | [Virus SW121A Explorer N129RR](https://www.trade-a-plane.com/search?category_level1=Single+Engine+Piston&make=PIPISTREL&s-page_size=96&s-sort_key=make&s-sort_order=asc&s-type=aircraft) | 2022 | 432 | **$187,500** | Same FAA registration as an earlier **$209,500/32-hour** dealer offer (May 2025); April 2026 asking snapshot is lower and more flown. 2022 aircraft identity confirmed as SW121A Explorer by the [registration index](https://planephd.com/n129RR/); counted **once**, not as two separate airplanes or sold prices. |
-| [Virus SW121A Explorer N195EA](https://www.elemental.aero/inventory/2023-pipistrel-explorer-195ea/) | 2023 | 283 | **$169,000** | Dual G3X, BRS, **912 S3 (carbureted)**. Older advertised ask $243,221; currently much lower. Seller identifies it as **Experimental**: investigate certification/approval before applying a certified Explorer premium. |
+| [Virus SW121A Explorer N195EA](https://www.elemental.aero/inventory/2023-pipistrel-explorer-n195ea/) | 2023 | 283 | **$169,000** | Dual G3X, BRS, **912 S3 (carbureted)**. Older advertised ask $243,221; currently much lower. Seller identifies it as **Experimental**: investigate certification/approval before applying a certified Explorer premium. |
 | [Sinus 912 high-time, advertised functional](https://www.planenest.com/en/classifieds/pipistrel-sinus-2285) | 2003 | 1,700 | **€39,000** | Lower-end, high-time old Sinus; configuration/condition matter more than simply age. |
 | [Sinus reconditioned, Italian dealer](https://planefox.com/listing/ILL-JPIEG) | 2001 | 250 airframe | **€95,000** | **Comprehensively refitted:** new engine, windows, paint, interior and modern instruments. Should not be treated as a normal 2001 Sinus. Parachute service due Dec 2026. |
 | [Sinus Max with removable tips, Poland](https://aeromarket24.com/advert/2769/PIPISTREL-SINUS-MAX-REMOVABLE-WINGTIPS) | 2018 | 440 | **€69,000** | European lower-end flex-type comparable; one of the model's challenging deviations. Confirm exact paperwork and tip sets. |
 | [Sinus Flex MAX E-LSA N579LP](https://planefox.com/listing/N579LP) | 2024 | 77 | **$168,000** | Garmin G3X/G5 + full autopilot, quick-change wingtip sets, 80-hp 912 UL; reduced from $179k. |
 | [Sinus Flex MAX S-LSA N519LP](https://planefox.com/listing/N519LP) | 2024 | 89 | **$179,000** | Modern Garmin glass and autopilot, feathering propeller; reduced from a $194k listing. |
-| [Sinus Max N178SM](https://www.lanierflightcenter.com/product/used-2024-pipistrel-sinus/) | 2024 | 402.6 airframe / 327.4 engine | **$185,000** | Original US dealer source, Garmin G3X autopilot, both long and short tips. A distinct registered airplane, not a duplicate of the N579LP/N519LP ads. |
+| [Sinus Max N178SM](https://www.lanierflightcenter.com/product/used-2024-pipistrel-sinus/) | 2024 | 402.6 airframe / 327.4 engine | **$185,000** | Original US dealer source, Garmin G3X autopilot, both long and short tips. The direct dealer title says N178SM but its description says N1264L; serial 1178SFNM912LSA retained, registration conflict unresolved. |
 
 **What these imply for a buyer:** an American 2018 SW with popular Garmin equipment may be listed around $150k while an older European 912 UL long-wing example can be far lower. A 2020 injected SW100 appears at €120k, but the practical U.S. acquisition value must account for technical approval and legal eligibility, not just freight. Conversely, a well-refitted 2001 Sinus can have a surprisingly high ask despite its age. None of these can be priced responsibly using age alone.
 
@@ -68,7 +68,7 @@ fraction_remaining = clamp(min(hours_remaining / TBO_hours,
 
 Example: a stated 2,000-hour, 15-year engine installed in 2012, at 400 hours in 2026, has 1,600 nominal hours left but only **one calendar year** before the 2027 calendar deadline. Treating that engine as 80% unused for resale purposes would miss the relevant near-term service event. If calendar expiration occurs, the tool warns; whether overhaul is a regulatory requirement or manufacturer recommendation depends on authority, exact certificate and documentation. The tool does **not** determine legal operating permission.
 
-Some early 912UL/ULS serials had limits of 1,000/1,200/1,500 hours; later units may reach 2,000 hours after specified changes or on later serials, plus varying calendar intervals. Specific applicable Rotax edition, service bulletins, engine serial and overhaul documentation take precedence over defaults. Sources: [Rotax 912 iS maintenance documentation](https://www.rotax-owner.com/manuals/MML_912iSeries_Ed2_R0.pdf) and [Rotax 912-series maintenance/TBO schedule](https://www.manualslib.com/manual/1960422/Brp-Rotax-912-Series.html?page=44).
+Some early 912UL/ULS serials had limits of 1,000/1,200/1,500 hours; later units may reach 2,000 hours after specified changes or on later serials, plus varying calendar intervals. Specific applicable Rotax edition, service bulletins, engine serial and overhaul documentation take precedence over defaults. Sources: [Rotax 912 iS maintenance documentation](https://www.rotax-owner.com/manuals/MML_912iSeries_Ed2_R0.pdf) and [Rotax 912-series maintenance/TBO schedule](https://legacy.rotaxowner.com/si_tb_info/serviceb/sb-912-057-ul.pdf).
 
 ### What the engine-age adjustment actually costs in the model
 
@@ -125,17 +125,23 @@ The model separates **price** confidence (scarcity of exact comparable advertise
 
 ### Evidence holdout audit (not a sales-price test)
 
-A reproducible leave-one-listing-out audit was run on the **38 model-eligible observations with known airframe hours**. For each source-listed aircraft, remove that asking record, configure year/time/known equipment, retain other comps and estimate the missing asking price with **0% negotiated reduction**. Results:
+The revised audit uses the actual production JavaScript in Node and the **same `recordScenario` mapping as the UI**. For each of 41 eligible records with airframe time, `sourceId` excludes its whole `aircraftId` group, including conservatively grouped suspected duplicates; negotiation is zero. Runtime comp selection also deduplicates groups. Unknowns remain visible and use the model's explicit fallback/reserve assumptions. No coefficient was fitted to these held-out rows.
 
-| Statistic | Result |
-|---|---:|
-| Records included in leave-one-out | 38 |
-| Median absolute error against withheld **asking** prices | **9.9%** |
-| Asks within the heuristic ask-to-ask interval | **31 / 38 (81.6%)** |
-| Sinus Flex subset | **6 examples**, median absolute error **13.9%** |
-| Original long-wing Virus subset | **2 examples**, median absolute error **29.9%** |
+Overall: **14.58% median absolute asking-price error**, **17.71% mean absolute error**, **−10.02% mean signed error** (underprediction on average), and **34/41 asks (82.9%)** inside the heuristic bands.
 
-The most severe residuals are **2018 European Sinus Max/Flex €69k**, **2017 U.S. Sinus Flex $69,900**, and the **$169k 2023 Explorer**. These cases are not hidden: they are explicit in [tests/backtest-results.csv](tests/backtest-results.csv), and widen the model intervals. This within-sample, retrospectively assembled corpus has correlated ads, incomplete exact specs, manually chosen priors and incomplete regulatory classifications. It **cannot** establish that a typical buyer will negotiate within 9.9% of the calculator's purchase midpoint. No verified sale prices were used, so such a claim would be unsound.
+| Variant | Aircraft | Median absolute error | Mean signed error | In band |
+|---|---:|---:|---:|---:|
+| sinus_classic | 8 | 21.90% | -15.67% | 6/8 |
+| sinus_flex | 6 | 23.44% | +3.20% | 5/6 |
+| sinus_max | 1 | 9.85% | -9.85% | 1/1 |
+| virus_explorer | 5 | 9.24% | -1.08% | 5/5 |
+| virus_long | 3 | 10.52% | -12.08% | 2/3 |
+| virus_sw | 17 | 13.16% | -14.44% | 14/17 |
+| virus_sw121 | 1 | 7.90% | -7.90% | 1/1 |
+
+Largest residuals: S12 +45.75%, S21 +45.61%, S05 −41.64%, V16 −41.22%, V43 −38.00%, V03 −33.74%. Refurbishment, category differences and missing specifications remain material weaknesses. Full results: [CSV](tests/backtest-results.csv), [summary](tests/backtest-summary.json).
+
+The earlier **38-row / 9.92% / 31-in-band** result used different preset imputation and listing-only exclusion. It is retained here as a historical result, **not an apples-to-apples improvement claim**. Manual priors, shared source indexes, unidentified repeats and absence of completed-sale data prevent independent accuracy claims. One-record variant subsets have almost no validation power; even broad band coverage does not establish calibrated probabilities. Unknown history/service reserves explain part of the signed bias and should be reconsidered only with better documentary evidence, not adjusted merely to make this corpus score look better.
 
 ## 7. International import and Texas acquisition assumptions
 
@@ -183,13 +189,32 @@ FAA aircraft **registration**, an **airworthiness certificate**, and a manufactu
 
 ## 10. Original research and official-reference library
 
-This document directly links to the most informative primary/individual evidence above. The app's **Research / sources** tab and `data/sources.json` contain the extended 35-link original URL bibliography, including Pipistrel factory aircraft pages, Rotax manuals, GRS/BRS service documents, FAA registry/import resources, Texas Comptroller guidance and historical pricing archives. Source material is paraphrased, not copied in bulk. No broker has sponsored or influenced this project.
+This document directly links to the most informative primary/individual evidence above. The app's **Research / sources** tab and `data/sources.json` contain the extended 45-link original URL bibliography, including Pipistrel factory aircraft pages, Rotax manuals, GRS/BRS service documents, FAA registry/import resources, Texas Comptroller guidance and historical pricing archives. Source material is paraphrased, not copied in bulk. No broker has sponsored or influenced this project.
 
 
-## 16 October 2026 UI / model audit update
+## 16 October 2026 source audit and implementation update
 
-The 92-record source dataset and 46 eligible records are retained. The October 2026 comparison against an independently generated aircraft pricing dashboard exposed its weaknesses: fixed straight-line depreciation and ±8% nominal range produced substantial asking-price errors, and it mixed non-airworthy salvage aircraft into its reference collection. We did not merge that valuation formula or aircraft database.
+Six offers were added; three have enough identity/year evidence for model inclusion, while three remain context-only:
 
-Features adapted as interaction ideas: sortable market data, a categorized **resale-prior** (not factory-option-price) guide, listing-to-scenario preset loading, a change-since-last-edit indicator, and whole-dollar price displays. Source-specific fields (engine time, engine TBO, calendar TBO, Garmin/Dynon avionics, parachute repack due, propeller) are shown where documented and remain **Unknown** elsewhere. Market table USD conversions use the editable scenario FX (initially 1 EUR = $1.16) and do not pretend to be spot-correct at each historical listing date.
+| ID | Evidence | Treatment |
+|---|---|---|
+| V42 · N10ZG | [Owner classified](https://wingsandwheels.com/classifieds/6090.html), $69k, 2009, 423 airframe / 239 engine hours | Sold-labelled December 3, 2024; retained amount is an ask, never confirmed proceeds |
+| V43 · N678WX | [Trade-A-Plane indexed owner ad](https://www.trade-a-plane.com/search?listing_id=2459646&make=PIPISTREL&model=VIRUS+SW&model_group=NO+MODEL+GROUP&s-type=aircraft), $159k, 2011, 360 hours | Lower-quality indexed evidence; direct page returned 403; exact engine suffix and rescue unknown |
+| S22 · N82DX | [Owner classified](https://wingsandwheels.com/classifieds/motorgliders/pipistrel-sinus2136088075.html), $92k, 2007 | Cancelled February 2024; 1,006 structured hours versus 1,001 in prose; Experimental Exhibition seller claim |
+| S23 · Roanoke | [TMGA seller](https://www.motorgliders.org/classifieds.html/motorgliders/used-tmgs_30_30_30/2007-pipistrel-sinus-r203/), $119k, posted September 2025 | Registration/serial/time absent; no model weight; optional $6k trailer separate |
+| S24 · 2023 Sinus Max | [Barnstormers dated eFlyer](https://eflyer.barnstormers.com/2024/854/854-eFLYER.html), $185k, February 29, 2024 | Unidentified, exact Max/Flex class unresolved; no model weight |
+| V44 · Polish 2008 Virus | [PlaneFox](https://planefox.com/listing/ILL-ZMYMB), €52k, 1,325/625 hours | No registration recovered; no model weight pending independence check |
 
-**Important accuracy nuance:** entering a listing preset cannot establish omitted engine serial/TBO or repack dates. The preset marks TBO documentation uncertain, repack status unknown, and displays an explicit note about hypothetical placeholders. The market table displays a claimed residual TBO but does not independently validate engine serial eligibility. Known non-airworthy/salvage/parts-only planes are absent; seller-advertised airworthiness itself remains unverified.
+**Corrections and conflicts.** SP-SFLY’s direct broker distinguishes 1,185 engine hours from 841 propeller hours. Its model/serial conflict is unresolved; the old May 2023 calendar deadline remains explicitly a legacy seller claim, not a new serial-based conclusion. N129RR's old 32-hour engine value was removed from the later 432-hour airframe snapshot. [OM-W010’s direct Winglist source](https://www.winglist.aero/listings/V9NIUa08/2004-pipistrel-sinus-912) conflicts with the €72,500 / 840-hour index: €77,000 ex tax and 890 hours. These are preserved as conflicting offers, not invented chronological depreciation. V14 is excluded and grouped with HB-NPJ because its €117,600 is exactly 105% of €112,000; this is a deduplication inference, not proven identity.
+
+**Provenance.** `dateBasis` identifies publication, index update, cancellation/sold label, or unresolved legacy date. `observedAt` is the separate retrieval date and is absent for inherited records not re-opened in this pass. `access` distinguishes full-page, indexed-only and inherited evidence. `fieldEvidence` captures explicit inference/conflict and field-specific source links; otherwise a populated ad field remains a seller claim, never independent technical verification. A reachable page does not prove current availability. This was a targeted audit, not a new verification of every inherited source. Some direct ads were inaccessible and the current EASA type-sheet page returned 429; the linked manufacturer-hosted 2022 type sheet is historical.
+
+**Technical reference updates.** [Rotax SB-912-057 UL](https://legacy.rotaxowner.com/si_tb_info/serviceb/sb-912-057-ul.pdf) specifies serial eligibility and required modifications; the stated SP-SFLY label/serial must be reconciled before assuming the extension. [Galaxy](https://www.galaxysky.cz/parachute-rescue-system-repack-and-revision-s128-en) specifies six-year repacks and a finite system life. Neither source supports fabricating missing overhaul or rocket expiry dates.
+
+For the certified family, check [EASA 2026-0070-E](https://ad.easa.europa.eu/ad/2026-0070-E), effective April 1, 2026, and [2026-0137R1](https://ad.easa.europa.eu/blob/EASA_AD_2026_0137_R1.pdf/AD_2026-0137R1_2), effective September 22, 2026. They address airbrake bellcranks and door locks. Groups depend on serial/part history; the door directive includes a conditional extension tied to an amended before-takeoff procedure. These are relevant references, not a complete AD search or clearance of any listed aircraft. Request current compliance records and qualified review under the aircraft’s actual jurisdiction.
+
+The [FAA MOSAIC certification FAQ](https://www.faa.gov/aircraft/MOSAIC/mosaic_faq_manufacture_cert_LSA) describes rules effective July 24, 2026. Factory-built light-sport certification needs an individual manufacturer statement of compliance, including Form 8130-15; foreign manufacture brings additional requirements. Kit-built and former-LSA experimental routes are specific categories, not a universal route for importing any European ultralight. The estimator's new eligibility selector is a separate go/no-go statement supplied by the buyer; selecting it is not FAA approval.
+
+**Model and UI.** Exact due months transfer into presets; unspecified engine hours, service year and numeric TBO remain blank. A missing engine-life dimension uses the same reference in the price calculation as the benchmark, while the health card remains unknown. Unknown engine/panel/prop/autopilot selections use disclosed variant assumptions. Standard Explorer dual displays/ADS-B/tow equipment and Flex tip sets are included once in anchors. Comparable spread now contributes to interval width. No new price anchors or option coefficients were fitted to improve the audit score. Missing-history and service reserves remain subjective and contribute to conservative bias.
+
+All 16 table columns retain numeric/unknown-last sorting, fractional engine/airframe times are preserved, and “due, date unknown” no longer exports a fabricated −1 month. CSV adds identity, date basis, retrieval/access and field provenance. FI filtering excludes inferred-only engine designations. The preferred search requires current, eligible, seller-stated injection and fitted rescue under $200k asking; at this snapshot it returns no established matches. D-MAFV remains an interesting historical FI lead with unresolved rescue and FAA eligibility. This is an evidence gap, not proof that a suitable aircraft cannot be found.

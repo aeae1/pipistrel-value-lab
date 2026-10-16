@@ -7,18 +7,14 @@
 ## Open the calculator
 
 - **Use it offline:** open [`index.html`](index.html) in a modern browser. It is a **single, self-contained HTML file**: no servers, dependencies, build services, trackers, analytics, or API keys. It works on desktop and mobile.
-- **GitHub Pages:** in the public repository, enable **Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)` → Save**. The default site will be at `https://<owner>.github.io/<repo>/` once Pages completes deployment. Repository creation and initial Pages setting require GitHub account authorization.
+- **Live website:** [Open Pipistrel Value Lab](https://aeae1.github.io/pipistrel-value-lab/). GitHub Pages publishes `main` / root. Publication and live controls verified 16 October 2026.
 - **Saved settings:** inputs persist locally in the browser, where storage is allowed. **Copy scenario link** builds a shareable URL with the controls embedded. Private/offline `file:` opening may restrict storage or clipboard; estimates continue to work.
-
-![Pipistrel Value Lab desktop interface](docs/desktop-preview.jpg)
-
-[Mobile interface preview](docs/mobile-preview.jpg)
 
 **Continuing in ChatGPT Work?** See [WORK_HANDOFF.md](WORK_HANDOFF.md) for the complete technical/research takeover brief and publication checklist.
 
 ## What's included
 
-**92** source-linked price observations, including **46** individually priced and model-eligible asking records, **31** historical Sinus archive entries intentionally *excluded* from statistical price weighting, 3 factory/new pricing records, and other held-out, duplicate, or uncertain records. **Parts-only, salvage and known non-airworthy project listings are not in the database.** **35** curated supporting research references. Source-linked search and CSV export are built in.
+**98** source-linked price observations, including **48** individually priced and model-eligible asking records, **31** historical Sinus archive entries intentionally *excluded* from statistical price weighting, 3 factory/new pricing records, and other held-out, duplicate, or uncertain records. **Parts-only, salvage and known non-airworthy project listings are not in the database.** **45** curated supporting research references. Source-linked search and CSV export are built in.
 
 The calculator covers these **seven distinct variant groups**:
 
@@ -51,7 +47,17 @@ A Virus SW100 912iS should **not** be conflated with a certified SW121 or Explor
 
 To understand exactly where these numbers come from, read **[Research findings, original links, limitations, and backtest](RESEARCH.md)**.
 
-The 38-record leave-one-listing-out audit (only records with stated airframe hours) measured **9.9% median absolute difference against asking prices**, with **31/38 asks (81.6%)** inside their corresponding *no-negotiation* heuristic bands. This is a **within-corpus consistency check**, not an out-of-sample sale-price accuracy claim; related listings, prior assumptions and scarcity of independent observations limit its implications. The full row-by-row result is in `tests/backtest-results.csv`.
+The **41-aircraft identity-group holdout** (known airframe hours, zero negotiation) measures **14.58% median absolute difference against asking prices**, **17.71% mean absolute difference**, and **−10.02% mean signed difference**. **34/41 asks (82.9%)** fall within the heuristic bands. Each held-out aircraft and its grouped duplicates are excluded, using the same preset assumptions as the UI. The former 38-record / 9.92% result used different imputation and holdout rules and is not directly comparable. This is retrospective corpus consistency, **not sale-price accuracy**. Full results and variant bias are in [the audit summary](tests/backtest-summary.json) and [row-level results](tests/backtest-results.csv).
+
+### October 16 source and model corrections
+
+- Corrected SP-SFLY to **1,185 engine hours**; **841 is propeller time**. Its advertised engine model/serial and rescue brand conflict remain flagged.
+- Added six dated or source-linked offers, including N10ZG, N678WX and N82DX; unidentified offers stay context-only. No sale proceeds were verified.
+- Presets clear previous aircraft maintenance, show missing fields as unknown, retain exact due months, and exclude the selected aircraft from its own comps. Runtime grouping prevents identified/suspected duplicates from inflating weight.
+- Explorer standard equipment and Flex tip sets are included once in the variant baseline. Unknown autopilot axes no longer become a claimed basic or two-axis installation.
+- Added exact-variant, region, max-ask, autopilot and unknown-parachute filters; the FI + parachute shortcut reports an empty result when the evidence does not establish both requirements.
+- FAA eligibility is an explicit, separate acquisition gate. Research includes the FAA MOSAIC certification FAQ and 2026 SW121-family airbrake/door-lock directives; individual compliance remains unverified.
+- Removed website preview images from this README.
 
 ## Code and data structure
 
@@ -68,20 +74,23 @@ CONTRIBUTING.md             How to add/correct a listing
 LICENSE                     MIT license for original site code
 .nojekyll                   Makes GitHub Pages serve directly
  tests/smoke.py             Chromium interaction checks, mobile + desktop
- tests/backtest.py          Asking-price leave-one-listing-out analysis
+ tests/backtest.py          Aircraft-group asking-price holdout (Node engine)
+ tests/model.test.cjs       Pure calculation / provenance regressions
+ .github/workflows/validate.yml  Data, build, model and desktop/mobile browser CI
  tests/backtest-results.csv Results of the holdout audit
- docs/desktop-preview.jpg   Optimized desktop screenshot in public repo
- docs/mobile-preview.jpg    Optimized mobile screenshot in public repo
 ```
 
-No build tooling is required to **use** the application. Developers updating JSON should run:
+The CI workflow runs these checks on pushes and pull requests. Smoke screenshots are temporary test output and are not embedded in the README. No build tooling is required to **use** the application. Developers updating JSON should run:
 
 ```sh
 python3 scripts/validate_data.py
 python3 scripts/build.py
 node --check scripts/app.js
-python3 tests/smoke.py     # optional: requires Playwright Python + a local Chromium
-python3 tests/backtest.py  # optional: same prerequisites
+node tests/model.test.cjs
+python3 tests/backtest.py  # executes the production JavaScript via Node
+python3 -m pip install playwright==1.56.0
+python3 -m playwright install chromium
+python3 tests/smoke.py     # uses managed Chromium, or CHROMIUM_EXECUTABLE
 ```
 
 **Scope:** Explicitly non-airworthy airframes, dismantled/parts-only aircraft, salvage and repair projects are completely omitted—not used as low-end comparables or displayed in the research database. Remaining classified ads are seller claims, not independently verified proof of current airworthiness.
