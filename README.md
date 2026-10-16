@@ -10,7 +10,11 @@
 - **GitHub Pages:** in the public repository, enable **Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)` → Save**. The default site will be at `https://<owner>.github.io/<repo>/` once Pages completes deployment. Repository creation and initial Pages setting require GitHub account authorization.
 - **Saved settings:** inputs persist locally in the browser, where storage is allowed. **Copy scenario link** builds a shareable URL with the controls embedded. Private/offline `file:` opening may restrict storage or clipboard; estimates continue to work.
 
-<!-- Optional screenshot: available in the downloadable research package. -->
+![Pipistrel Value Lab desktop interface](docs/desktop-preview.jpg)
+
+[Mobile interface preview](docs/mobile-preview.jpg)
+
+**Continuing in ChatGPT Work?** See [WORK_HANDOFF.md](WORK_HANDOFF.md) for the complete technical/research takeover brief and publication checklist.
 
 ## What's included
 
@@ -66,8 +70,8 @@ LICENSE                     MIT license for original site code
  tests/smoke.py             Chromium interaction checks, mobile + desktop
  tests/backtest.py          Asking-price leave-one-listing-out analysis
  tests/backtest-results.csv Results of the holdout audit
- docs/desktop-preview.png   Optional representative screenshot (download package only)
- docs/mobile-preview.png    Optional mobile screenshot (download package only)
+ docs/desktop-preview.jpg   Optimized desktop screenshot in public repo
+ docs/mobile-preview.jpg    Optimized mobile screenshot in public repo
 ```
 
 No build tooling is required to **use** the application. Developers updating JSON should run:
