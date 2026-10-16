@@ -48,6 +48,25 @@ def exercise(browser, width, height, screenshot):
     assert page.locator('#variantHint').inner_text().startswith('Flexible wingtip')
     assert as_money(page.locator('#priceCenter').inner_text())>20000
     page.locator('button[data-tab="database"]').click()
+    assert page.locator('#marketTable th').count()==16
+    assert page.locator('#databaseRows tr').first.locator('td').count()==16
+    page.locator('button[data-sort-key="usd"]').click()
+    assert page.locator('#marketTable th[data-sort-col="usd"]').get_attribute('aria-sort')=='ascending'
+    vals=page.evaluate(r'''() => [...document.querySelectorAll('#databaseRows tr')].map(tr=>Number(tr.children[2].innerText.match(/\$([\d,]+)/)[1].replace(/,/g,'')))''')
+    assert vals==sorted(vals)
+    page.locator('button[data-sort-key="usd"]').click()
+    assert page.locator('#marketTable th[data-sort-col="usd"]').get_attribute('aria-sort')=='descending'
+    page.locator('#dbSort').select_option('tboHours-asc')
+    assert page.locator('#databaseRows tr').first.locator('td').nth(6).inner_text().startswith('1,159')
+    page.locator('#dbSearch').fill('SP-SFLY')
+    assert page.locator('#databaseRows tr').count()==1
+    page.locator('#databaseRows button[data-load-record]').click()
+    assert page.locator('#engineEvidence').input_value()=='uncertain'
+    assert page.locator('#repackEvidence').input_value()=='unknown'
+    assert 'hypothetical placeholders' in page.locator('#listingLoadedNotice').inner_text()
+    page.locator('button[data-tab="database"]').click()
+    page.locator('#dbSearch').fill('')
+    page.locator('#dbSort').select_option('date-desc')
     page.locator('#dbSearch').fill('D-MAFV')
     assert 'D-MAFV' in page.locator('#databaseRows').inner_text()
     assert page.locator('#databaseRows tr').count()>=1
@@ -76,4 +95,3 @@ def main():
         finally:browser.close()
 
 if __name__ == '__main__':main()
-
