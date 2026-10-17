@@ -1,3 +1,5 @@
+[![Pipistrel Value Lab — Virus + Sinus aircraft market research, with a Virus SW flying over alpine lakes](docs/readme-banner.png)](https://aeae1.github.io/pipistrel-value-lab/)
+
 # Pipistrel Value Lab
 
 An interactive tool for researching **Pipistrel Virus and Sinus asking prices**, comparing aircraft configurations, and exploring purchase-cost scenarios.
