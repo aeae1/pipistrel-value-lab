@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def build() -> Path:
     template = (ROOT / 'template.html').read_text(encoding='utf-8')
     app = (ROOT / 'scripts' / 'app.js').read_text(encoding='utf-8')
+    visuals = (ROOT / 'scripts' / 'visuals.js').read_text(encoding='utf-8')
     payload = {
         'observations': json.loads((ROOT / 'data' / 'observations.json').read_text(encoding='utf-8')),
         'sources': json.loads((ROOT / 'data' / 'sources.json').read_text(encoding='utf-8')),
@@ -18,7 +19,7 @@ def build() -> Path:
     data_text = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c')
     if template.count('__DATA_JSON__') != 1 or template.count('__APP_JS__') != 1:
         raise RuntimeError('Template must contain one instance of each build marker')
-    result = template.replace('__DATA_JSON__', data_text).replace('__APP_JS__', app.rstrip())
+    result = template.replace('__DATA_JSON__', data_text).replace('__APP_JS__', visuals.rstrip() + '\n' + app.rstrip())
     out = ROOT / 'index.html'
     out.write_text(result, encoding='utf-8')
     print(f'Built {out.name} ({out.stat().st_size:,} bytes; '

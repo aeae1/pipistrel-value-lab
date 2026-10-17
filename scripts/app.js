@@ -380,7 +380,7 @@ function renderAll(){
  loading=true;
  try{
   syncSliders(); const c=getConfig(),r=calculate(c);lastReport=r;
-  renderLoadedNotice(c);showHealth(c);renderEstimate(c,r);renderAcquisition(c,r);renderOffer(c,r);renderCompPreview(r,c);renderSensitivity(c,r);
+  renderLoadedNotice(c);showHealth(c);renderEstimate(c,r);renderAcquisition(c,r);renderOffer(c,r);renderCompPreview(r,c);renderSensitivity(c,r);renderVisuals(c,r);
   $('heroRecords').textContent=OBS.length+' source-linked observations';
   $('heroModel').textContent=OBS.filter(isEligible).length+' model-eligible asking records';
   store();
@@ -607,6 +607,6 @@ function init(){
  // Add an analysis chart into the database's already-formed panel without external dependencies.
  const panel=$('dbCount');const host=document.createElement('div');host.id='dbScatterWrapper';host.style.cssText='margin:12px 0 21px;max-width:100%;';
  panel.insertAdjacentElement('afterend',host);
- initState();bind();renderPriors();renderAll();renderDatabase();
+ initState();bind();initVisuals();renderPriors();renderAll();renderDatabase();
 }
 init();

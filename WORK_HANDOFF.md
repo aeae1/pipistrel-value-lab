@@ -1,5 +1,15 @@
 # Work-mode takeover brief — Pipistrel Value Lab
 
+## 17 October 2026 visual interface update
+
+GitHub Pages is enabled and the public tool is at https://aeae1.github.io/pipistrel-value-lab/. The README now leads with that website; the repository About section has a description, Pages link, and aviation topics. README preview images remain removed.
+
+The valuation studio now includes a live explorer for year, TTAF, engine hours, avionics, autopilot, propeller, engine type, condition, and negotiation. Numeric controls move a marker along a curve; equipment choices use labeled steps. A pinned comparison, optional range band, sequential price bridge, acquisition cost ribbon, inline graphs, and a price/range bar that remains visible while scrolling support comparison. Graphs call the existing `calculate()` function and hold all other controls fixed. Unknown values have no invented marker. The engine-type graph intentionally keeps service limits fixed instead of applying the main engine selector's presets.
+
+Editable graph code is in `scripts/visuals.js`, composed before `scripts/app.js` by `scripts/build.py`; styles and markup remain in `template.html`. Commit the regenerated `index.html` with source changes. Tests cover curve bounds, cache invalidation, reconciliation, stepped controls, pinned comparisons, unknown markers, reduced motion, and desktop/mobile sticky-summary behavior. `CHROMIUM_EXECUTABLE` can select a local browser; otherwise Playwright's installed Chromium is used.
+
+The research snapshot remains 16 October 2026: 98 observations, 48 model-eligible asks, and 45 references. No model or observation changes were made in this visual update. The 41-aircraft audit remains 14.58% median absolute asking-price error and 34/41 within bands. Older notes below describe earlier milestones and may contain superseded counts or deployment tasks.
+
 **Owner:** GitHub account `aeae1` · **Repository:** https://github.com/aeae1/pipistrel-value-lab · **Branch:** `main` · **Snapshot:** 16 October 2026.
 
 

@@ -18,6 +18,8 @@ Settings are saved locally in your browser where storage is available. Use **Cop
 
 ## What you can explore
 
+- **Live price curves and equipment steps:** explore model year, airframe and engine hours, avionics, autopilot, propeller, engine type, condition, and negotiation. A moving marker follows your setting; pin a scenario to compare it with later changes.
+- **Visual price explanations:** see the adjustments that form the purchase midpoint and the mix of acquisition costs. Small graphs sit beside key inputs, and a pinned price-and-range bar stays visible while you scroll.
 - **Aircraft and equipment:** seven variant groups, multiple Rotax engine configurations, avionics, autopilot, propeller, parachute, wingtip sets, and other options.
 - **Maintenance and history:** engine hour and calendar limits, parachute repack and rocket deadlines, propeller overhaul, hose replacement, gearbox service, damage history, and logbook quality.
 - **Comparable offers:** sortable listing details, filters for variant, region, asking price, autopilot and parachute status, original source links, and CSV export with provenance. Missing information stays marked as unknown.
@@ -65,6 +67,7 @@ The website is published through GitHub Pages from `main` / the repository root.
 | File or directory | Purpose |
 | --- | --- |
 | [`scripts/app.js`](scripts/app.js) | Estimator logic and browser interface |
+| [`scripts/visuals.js`](scripts/visuals.js) | Interactive curves, equipment steps, and price breakdowns using the same estimator |
 | [`template.html`](template.html) | HTML and CSS template |
 | [`data/observations.json`](data/observations.json) | Aircraft offers, original prices, sources, and evidence quality |
 | [`data/sources.json`](data/sources.json) | Supporting manufacturer, maintenance, regulatory, and acquisition references |

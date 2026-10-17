@@ -6,7 +6,7 @@ import os
 import shutil
 import tempfile
 from pathlib import Path
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
 URL = (ROOT/'index.html').resolve().as_uri()
@@ -20,8 +20,7 @@ def exercise(browser, width, height, screenshot):
     page=browser.new_page(viewport={'width':width,'height':height},device_scale_factor=1)
     errors=[]
     page.on('pageerror',lambda e: errors.append(str(e)))
-    page.goto('about:blank')
-    page.set_content((ROOT/'index.html').read_text(encoding='utf8'),wait_until='load')
+    page.goto(URL,wait_until='load')
     page.locator('#priceCenter').wait_for()
     initial=as_money(page.locator('#priceCenter').inner_text())
     # Capture the standard FI Virus configuration before modifying inputs for tests.
@@ -35,6 +34,58 @@ def exercise(browser, width, height, screenshot):
     recids=page.evaluate('OBS.map(x=>x.id)')
     assert 'V34' not in recids
     assert page.evaluate('OBS.find(x=>x.id==="V04").variant')=='virus_explorer'
+    # Every explorer setting changes the real input; curves and live price agree.
+    expect(page.locator('#valueCurve .plot-point')).to_have_attribute('data-price', str(int(initial)))
+    point=page.locator('#valueCurve .plot-point')
+    initial_transform=point.get_attribute('style')
+    page.locator('#curveSlider').fill('1200')
+    expect(page.locator('#hours')).to_have_value('1200')
+    expect(point).to_have_attribute('data-value','1200')
+    assert point.get_attribute('style') != initial_transform
+    expect(point).to_have_attribute('data-price',str(int(as_money(page.locator('#priceCenter').inner_text()))))
+    page.locator('#pinCurve').click()
+    expect(page.locator('#clearCurvePin')).to_be_visible()
+    pinned=page.locator('#valueCurve .plot-pin').get_attribute('d')
+    page.locator('#curveSlider').fill('1700')
+    expect(point).to_have_attribute('data-value','1700')
+    assert page.locator('#valueCurve .plot-pin').get_attribute('d')==pinned
+    page.locator('#curveAxis').select_option('avionics')
+    expect(page.locator('#curveChoices')).to_be_visible()
+    page.locator('button[data-curve-choice="hdx"]').click()
+    expect(page.locator('#avionics')).to_have_value('hdx')
+    expect(point).to_have_attribute('data-value','hdx')
+    assert 'H' in page.locator('#valueCurve .plot-line').get_attribute('d')
+    expect(page.locator('button[data-curve-choice="hdx"]')).to_have_attribute('aria-pressed','true')
+    expect(page.locator('#miniCurve-avionics .plot-point')).to_have_attribute('data-price',str(int(as_money(page.locator('#priceCenter').inner_text()))))
+    # Hold other inputs fixed even when selecting another engine type in the graph.
+    tbo=page.locator('#engineTbo').input_value()
+    page.locator('#curveAxis').select_option('engine')
+    page.locator('button[data-curve-choice="turbo"]').click()
+    expect(page.locator('#engine')).to_have_value('turbo')
+    assert page.locator('#engineTbo').input_value()==tbo
+    page.locator('#curveAxis').select_option('year')
+    expect(page.locator('#curveSlider')).to_have_attribute('max','2026')
+    page.locator('#curveAxis').select_option('negotiation')
+    expect(page.locator('#curveSlider')).to_have_attribute('max','20')
+    # Price stays below the navigation while working deep in the form.
+    page.locator('#gearboxStatus').scroll_into_view_if_needed()
+    summary=page.locator('#mobileSummary').bounding_box()
+    nav=page.locator('.subbar').bounding_box()
+    assert summary and nav and summary['y']>=nav['y']+nav['height']-1 and summary['y']+summary['height']<height
+    # A reduced-motion preference disables marker animation.
+    page.emulate_media(reduced_motion='reduce')
+    assert page.locator('#valueCurve .plot-point').evaluate('(el)=>getComputedStyle(el).transitionDuration')=='0s'
+    page.emulate_media(reduced_motion='no-preference')
+    # Reset via the app's actual defaults, then capture the new graph interface.
+    page.on('dialog',lambda d:d.accept())
+    page.locator('#resetBtn').evaluate('(el)=>el.click()')
+    expect(page.locator('#hours')).to_have_value('450')
+    page.locator('#clearCurvePin').click()
+    page.locator('#curveAxis').select_option('avionics')
+    expect(page.locator('button[data-curve-choice="g3x"]')).to_have_attribute('aria-pressed','true')
+    page.locator('#visualWorkbench').scroll_into_view_if_needed()
+    page.screenshot(path=str(Path(os.environ.get('PVL_SCREENSHOT_DIR',tempfile.gettempdir()))/('visual-'+screenshot)),full_page=False)
+    assert page.evaluate('document.documentElement.scrollWidth<=window.innerWidth+1')
     before=initial
     page.locator('#engineHours').fill('1900')
     page.locator('#engineHours').dispatch_event('input')
@@ -119,6 +170,8 @@ def exercise(browser, width, height, screenshot):
     assert page.locator('#engineTbo').input_value()==''
     assert page.locator('#engine').input_value()=='unknown'
     assert page.locator('#engineHoursLeft').inner_text()=='Unknown'
+    page.locator('#engineHours').fill('')
+    expect(page.locator('#miniCurve-engineHours .plot-point')).to_be_hidden()
     assert 'cost scenario only' in page.locator('#eligibilityStatus').inner_text()
     page.locator('#eligibility').select_option('ineligible')
     assert 'Blocked' in page.locator('#budgetLabel').inner_text()

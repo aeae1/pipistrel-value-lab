@@ -21,6 +21,7 @@ jobs:
         run: |
           python3 scripts/validate_data.py
           node --check scripts/app.js
+          node --check scripts/visuals.js
           node tests/model.test.cjs
           python3 scripts/build.py
           git diff --exit-code -- index.html

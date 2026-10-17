@@ -24,7 +24,7 @@ function createEngine({source, observations} = {}) {
     defaults
   });
   const code = source || fs.readFileSync(path.join(root,'scripts/app.js'),'utf8');
-  vm.runInContext(code.replace(/\binit\(\);\s*$/, ''), context);
+  vm.runInContext(fs.readFileSync(path.join(root,'scripts/visuals.js'),'utf8')+'\n'+code.replace(/\binit\(\);\s*$/, ''), context);
   return {run: expression => vm.runInContext(expression, context), defaults};
 }
 module.exports = {createEngine};

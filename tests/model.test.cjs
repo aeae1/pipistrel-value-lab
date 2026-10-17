@@ -59,4 +59,16 @@ check('every record preset and each variant returns finite ordered bounds',()=>{
  assert.equal(run(`OBS.every(o=>{const r=calculate(recordScenario(o,defaults));return Number.isFinite(r.midpoint)&&r.low<=r.midpoint&&r.midpoint<=r.high})`),true);
  assert.equal(run('Object.keys(vs).every(variant=>Number.isFinite(calculate({...defaults,variant}).midpoint))'),true);
 });
+check('visual domains respect year/discount limits and retain high-hour scenarios',()=>{
+ assert.equal(run('axisDomain(defaults,"year")[1]'),2026);
+ assert.equal(run('axisDomain(defaults,"negotiation")[1]'),20);
+ assert.ok(run('axisDomain({...defaults,hours:12001},"hours")[1]')>=12001);
+});
+check('curves preserve other inputs, react to changed evidence and keep unknowns unknown',()=>{
+ assert.equal(run(`(()=>{const c={...defaults,engineHours:null,avionics:'unknown'},before=JSON.stringify(c);for(const axis of Object.keys(VISUAL_AXES))for(const p of curveSamples(c,axis)){const expected=calculate({...c,[axis]:p.value});if(p.mid!==expected.midpoint||p.low!==expected.low||p.high!==expected.high)return false}return JSON.stringify(c)===before})()`),true);
+ assert.notEqual(run('curveSamples({...defaults,fxRate:1},"hours")[0].mid'),run('curveSamples({...defaults,fxRate:1.5},"hours")[0].mid'));
+});
+check('price formation reconciles to the displayed midpoint for every record',()=>{
+ assert.equal(run(`OBS.every(o=>{const c=recordScenario(o,defaults),r=calculate(c),rows=priceBridge(c,r);return Math.abs(rows.slice(0,-1).reduce((s,row)=>s+row.value,0)-r.midpoint)<.000001&&rows.at(-1).end===r.midpoint})`),true);
+});
 console.log(`${checks} model regression groups passed.`);
