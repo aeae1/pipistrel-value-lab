@@ -89,18 +89,35 @@ function engineRemaining(c,override=null){
  const remaining=fractions.length?clamp(Math.min(...fractions),0,1):null;
  return{hoursLeft,yearsLeft,remaining,used:remaining===null?null:1-remaining,hoursExpired:hoursLeft!==null&&hoursLeft<=0,calendarExpired:yearsLeft!==null&&yearsLeft<=0};
 }
+function engineCostReference(engine){
+ // Rotech USD catalog, reviewed 2026-10-18. Packages have different accessories.
+ // A cost scale, NOT an installed overhaul quotation or a used-aircraft premium.
+ const catalog={ul80:20625,uls100:23718,is100:30092,turbo:37571};
+ return {usd:catalog[engine]??24500,sourced:Object.hasOwn(catalog,engine)};
+}
 function engineDepreciation(c,overrides=null){
  const r=engineRemaining(c,overrides);
- const referenceEngineCost=c.engine==='turbo'?30000:(c.engine==='is100'?29000:24500);
- // Resale adjustment is only a FRACTION of hypothetical overhaul cost; not the overhaul estimate itself.
+ const referenceEngineCost=engineCostReference(c.engine).usd;
+ // 0.49 and 1.27 remain disclosed assumptions, NOT fitted market coefficients.
+ // Partial capitalization retains residual value even at the stated service limit.
  return r.used===null?0:Math.round(referenceEngineCost*0.49*Math.pow(r.used,1.27));
 }
 function parachuteYears(c){if(c.rescue==='none'||c.rescue==='unknown')return null;if(c.repackEvidence==='deadline'){const m=dueMonths(c.repackDue);return m===null?null:m/12}if(c.repackEvidence!=='date'||c.repackYear==null||c.repackInterval==null)return null;return c.repackYear+c.repackInterval-YEAR}
+function servicePressure(years,points){
+ // Linear interpolation keeps the existing allowance milestones but removes
+ // arbitrary jumps at two-year bucket boundaries. Not a service-life schedule.
+ if(years<=points[0][0])return points[0][1];
+ for(let i=1;i<points.length;i++)if(years<=points[i][0]){
+  const [x0,y0]=points[i-1],[x1,y1]=points[i];
+  return y0+(y1-y0)*(years-x0)/(x1-x0);
+ }
+ return points.at(-1)[1];
+}
 function rescueLoss(c){
  if(c.rescue==='none'||c.rescue==='unknown')return 0; // Absence/unknown is priced by rescuePremium, NOT charged twice.
- let due=parachuteYears(c);
- let loss=c.repackEvidence==='due'?3200:due===null?1850:due<=0?3200:due<=2?2000:due<=4?1100:due<=6?250:0;
- if(c.rocketYear>0){let rem=c.rocketYear-YEAR;loss+=rem<=0?1800:rem<=2?700:0}
+ const due=parachuteYears(c);
+ let loss=c.repackEvidence==='due'?3200:due===null?1850:servicePressure(due,[[0,3200],[2,2000],[4,1100],[6,250],[8,0]]);
+ if(c.rocketYear>0)loss+=servicePressure(c.rocketYear-YEAR,[[0,1800],[2,700],[4,0]]);
  return loss;
 }
 function statusLoss(c){
@@ -280,6 +297,8 @@ function showHealth(c){
  const er=engineRemaining(c);
  $('engineHoursLeft').textContent=er.hoursLeft===null?'Unknown':hoursFmt(er.hoursLeft)+' h';
  $('engineYearsLeft').textContent=er.yearsLeft===null?'Unknown':er.yearsLeft.toFixed(1)+' yr';
+ const cost=engineCostReference(c.engine==='unknown'?vs[c.variant].typ.engine:c.engine);
+ $('engineCostNote').textContent=`${c.engine==='unknown'?'Assumed variant engine · ':''}Cost reference: ${money(cost.usd)} · ${cost.sourced?'new-engine catalog':'unquoted model assumption'}. Resale impact uses an assumed partial share; this is not an installed overhaul quote.`;
  $('engineHoursCard').classList.toggle('bad',er.hoursExpired);
  $('engineCalendarCard').classList.toggle('bad',er.calendarExpired);
  $('engineExplanation').textContent=er.calendarExpired||er.hoursExpired?'At least one stated limit is reached. An overhaul, documented extension, or permissible on-condition regime must be verified.':er.hoursLeft===null||er.yearsLeft===null?'An engine-life dimension is unknown. Missing dimensions use a typical same-year reference in the price model; the displayed remaining life is not invented.':'The shorter hour/calendar horizon governs the selected schedule. Verify the engine serial, service date and current applicable bulletin.';

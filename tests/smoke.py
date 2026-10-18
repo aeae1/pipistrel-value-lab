@@ -83,6 +83,23 @@ def exercise(browser, width, height, screenshot):
     expect(page.locator('#curveSlider')).to_have_attribute('max','2026')
     page.locator('#curveAxis').select_option('negotiation')
     expect(page.locator('#curveSlider')).to_have_attribute('max','20')
+    # Calendar curves change the real year fields without changing hours or interval.
+    saved_hours=page.locator('#engineHours').input_value()
+    for axis,value in [('serviceYear','2024'),('repackYear','2025')]:
+        page.locator('#curveAxis').select_option(axis)
+        page.locator('#curveSlider').fill(value)
+        expect(page.locator('#'+axis)).to_have_value(value)
+        expect(point).to_have_attribute('data-value',value)
+        expect(point).to_have_attribute('data-price',str(int(as_money(page.locator('#priceCenter').inner_text()))))
+        expect(page.locator('#miniCurve-'+axis+' .plot-point')).to_have_attribute('data-value',value)
+        expect(page.locator('#curveChangeLabel')).to_have_text('+1 year')
+    assert page.locator('#engineHours').input_value()==saved_hours
+    expect(page.locator('#repackInterval')).to_have_value('6')
+    expect(page.locator('#engineCostNote')).to_contain_text('37,571')
+    page.locator('#repackEvidence').select_option('deadline')
+    page.locator('#repackDue').fill('2029-06')
+    page.locator('#curveAxis').select_option('repackYear')
+    expect(page.locator('#curveNote')).to_contain_text('This input is inactive')
     # Price stays below the navigation while working deep in the form.
     page.locator('#gearboxStatus').scroll_into_view_if_needed()
     summary=page.locator('#mobileSummary').bounding_box()
@@ -188,6 +205,7 @@ def exercise(browser, width, height, screenshot):
     assert page.locator('#engineHoursLeft').inner_text()=='Unknown'
     page.locator('#engineHours').fill('')
     expect(page.locator('#miniCurve-engineHours .plot-point')).to_be_hidden()
+    expect(page.locator('#miniCurve-serviceYear .plot-point')).to_be_hidden()
     assert 'cost scenario only' in page.locator('#eligibilityStatus').inner_text()
     page.locator('#eligibility').select_option('ineligible')
     assert 'Blocked' in page.locator('#budgetLabel').inner_text()

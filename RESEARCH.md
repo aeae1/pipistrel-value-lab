@@ -1,6 +1,8 @@
 # Pipistrel Virus + Sinus: purchase-price market research and valuation methodology
 
-**Research snapshot:** October 16, 2026
+**Target listing snapshot:** October 16, 2026
+
+**Broader-evidence/model review:** October 18, 2026 — [full review](research/README.md)
 **Scope:** Used and historical Pipistrel **Virus** and **Sinus** only; worldwide advertisement evidence; approximate acquisition costs in Texas.  
 **Out of scope:** Panthera, Alpha, Velis, Taurus, ownership economics, financing, annual insurance and recurring flight expenses.  
 **Verification standard:** A source saying a listing disappeared or was “sold” is **not** accepted as proof of an achieved sale price.
@@ -9,7 +11,7 @@
 
 Virus and Sinus are exceptionally poor candidates for a one-number price guide. Even within the same calendar year, three aircraft can have very different asking prices due to the *approved aircraft category*, engine specification, the gearbox/propeller combination, avionics, damage/maintenance records and especially the difference between **US light-sport** and **European ultralight** markets. The history of engine and rescue-system service is also important: a plane can have few hours and very little remaining calendar life before a substantial event.
 
-We retained **98** source-linked records: **48** model-eligible, individually priced references and **50** price-history, factory/new-price, archive, ambiguous, or otherwise excluded contextual references. The explicitly non-airworthy $49,000 Phoenix salvage Virus is deliberately removed from the dataset and every chart; it is not a comparison for a flying aircraft. **31** of the excluded observations are curated fragments from an underlying **43-ad** Aero-Offers Sinus history collection; many lack reliable manufacturing year or are repeat ads. The background research library has **45** links. These counts are for the October 16 snapshot, not live inventories or independently completed transactions.
+We retained **98** source-linked records: **48** model-eligible, individually priced references and **50** price-history, factory/new-price, archive, ambiguous, or otherwise excluded contextual references. The explicitly non-airworthy $49,000 Phoenix salvage Virus is deliberately removed from the dataset and every chart; it is not a comparison for a flying aircraft. **31** of the excluded observations are curated fragments from an underlying **43-ad** Aero-Offers Sinus history collection; many lack reliable manufacturing year or are repeat ads. The background research library now has **49** links, including the October 18 follow-up. These counts are for the October 16 snapshot, not live inventories or independently completed transactions.
 
 The output deliberately consists of a modeled *typical ask*, a separate hypothetical *negotiated midpoint*, and a **broad purchase-price interval**. It does **not** assert that the midpoint is an actual fair-value sale result. Known non-airworthy, salvage, parts-only or restoration-project airframes are completely outside this research and price database. Ordinary for-sale aircraft are not independently inspected; airworthiness must still be confirmed. A custom expert prebuy, serial verification, airworthiness/registration check, and seller logbook review are necessary before any purchase offer.
 
@@ -72,23 +74,21 @@ Some early 912UL/ULS serials had limits of 1,000/1,200/1,500 hours; later units 
 
 ### What the engine-age adjustment actually costs in the model
 
-The site deliberately uses a fraction of hypothetical overhaul/replacement expenditure to estimate what a buyer would subtract from a typical asking price. It uses baseline repair-cost hypotheses of **$24,500 (non-turbo 912)**, **$29,000 (912iS)** and **$30,000 (914)**, multiplies them by **0.49** and a non-linear TBO-used fraction, and **compares the selected engine's burden to a same-year benchmark engine with 500 hours**. It does *not* assume a buyer can buy a new engine or obtain an overhaul for only 49% of the hypothetical cost. Replacement vs overhaul actual quotations are model- and shop-dependent. The larger purchase valuation adjustment is a judgment, not direct market-derived regression. Treat it as adjustable sensitivity rather than a manufacturer quoted price.
+The site uses a partial capitalization assumption against a new-engine cost reference, compared with the same-year benchmark engine at 500 hours. The October 18 [Rotech USD catalog](https://prices.rotech.ca/repl) supplies **$20,625 (912 UL), $23,718 (ULS), $30,092 (iS), and $37,571 (914 UL)**. Accessory bundles differ; these are not installed overhaul or exchange quotations. No matched certified S3 quote was established, so **its $24,500 cost assumption remains unquoted**.
+
+The model multiplies that reference by **0.49 × used fraction^1.27**. Both the capitalization share and wear exponent remain provisional assumptions. Sparse used-engine ads do not identify them. The engine's residual value does not become zero merely because a stated service limit is reached. Unknown service dimensions keep the neutral reference rather than silently becoming new-engine evidence. See the [component review and exact scope](research/README.md#engine-cost-scale).
 
 ## 4. Parachutes and other near-term costs
 
 A rescue system has at least two time dimensions: **fabric/canopy/system inspection or repack** and **rocket/pyrotechnic expiry**. They may not share a date. The app asks for parachute model presence, last repack year, a configurable interval and rocket expiry year. Typical Galaxy GRS/BRS service intervals can be around **six years**, but the correct document from the maker, installation serial and jurisdiction must control. Confirm access to approved packing shops and freight restrictions. Sources: [Galaxy GRS repack guidance](https://www.galaxysky.cz/parachute-rescue-system-repack-and-revision-s128-en) and [BRS rebuild service](https://brsaerospace.com/rebuild/).
 
-The current **resale penalties are editorial priors**, not repack-shop quotations:
+The **resale allowances are editorial priors**, not repack-shop quotations. They now interpolate continuously through these milestones, replacing the previous abrupt buckets:
 
-| Known remaining repack horizon | Modeled value reduction vs a recently serviced system |
-|---|---:|
-| Overdue/now due | roughly $3,200 |
-| Within 2 years | roughly $2,000 |
-| Within 4 years | roughly $1,100 |
-| Within 6 years | roughly $250 |
-| Beyond 6 years | $0 |
-| Rocket due/expired | an additional ~$1,800 |
-| Rocket within 2 years | an additional ~$700 |
+| Years until repack | 0 / overdue | 2 | 4 | 6 | 8 or more |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Generic cost-pressure deduction | $3,200 | $2,000 | $1,100 | $250 | $0 |
+
+Rocket pressure separately interpolates through $1,800 at due/overdue, $700 at two years and zero at four years. Undocumented repack remains $1,850. The existing $250 reference credit is applied after this allowance. BRS's published service prices inform the approximate scale, but housing, service scope, region, tax, shipping and installation differ; no BRS quotation is relabeled as a GRS quote. See [sources and transfer limits](research/README.md#parachute-service-curve).
 
 These are illustrative *resale* impacts; actual invoices and downtime can be higher or lower. Other field-based pressure used in the purchase model: prop due ~$3,400, five-year Rotax rubber overdue ~$2,500, gearbox work overdue ~$3,000, and smaller deductions for unknown or near-due service status. Missing documentation also widens the estimated interval. An absent rescue system has a separate roughly **−$6,200** resale-feature assumption; it is *not* double charged as an overdue repack.
 
@@ -135,19 +135,19 @@ The same 41-aircraft holdout had 14.58% median / 17.71% mean absolute asking-pri
 
 The revised audit uses the actual production JavaScript in Node and the **same `recordScenario` mapping as the UI**. For each of 41 eligible records with airframe time, `sourceId` excludes its whole `aircraftId` group, including conservatively grouped suspected duplicates; negotiation is zero. Runtime comp selection also deduplicates groups. Unknowns remain visible and use the model's explicit fallback/reserve assumptions. No coefficient was fitted to these held-out rows.
 
-Overall: **14.48% median absolute asking-price error**, **17.75% mean absolute error**, **−10.42% mean signed error** (underprediction on average), and **34/41 asks (82.9%)** inside the heuristic bands.
+Overall: **14.56% median absolute asking-price error**, **17.79% mean absolute error**, **−10.46% mean signed error**, and **34/41 asks (82.9%)** inside the heuristic bands. Against the unchanged baseline (14.48% / 17.75%), this is slightly worse, not an accuracy improvement. The cost-source and continuity changes were declared before the audit; no external aircraft-derived age/hour/equipment coefficient passed the transfer gate.
 
 | Variant | Aircraft | Median absolute error | Mean signed error | In band |
 |---|---:|---:|---:|---:|
-| sinus_classic | 8 | 21.36% | -16.28% | 6/8 |
-| sinus_flex | 6 | 24.67% | +2.23% | 5/6 |
-| sinus_max | 1 | 9.59% | -9.59% | 1/1 |
+| sinus_classic | 8 | 21.36% | -16.41% | 6/8 |
+| sinus_flex | 6 | 24.79% | +2.18% | 5/6 |
+| sinus_max | 1 | 9.66% | -9.66% | 1/1 |
 | virus_explorer | 5 | 9.22% | -0.98% | 5/5 |
 | virus_long | 3 | 10.10% | -12.48% | 2/3 |
-| virus_sw | 17 | 13.90% | -14.74% | 14/17 |
+| virus_sw | 17 | 13.90% | -14.76% | 14/17 |
 | virus_sw121 | 1 | 7.91% | -7.91% | 1/1 |
 
-Largest residuals: S21 +46.38%, S12 +45.62%, V16 -42.05%, S05 -40.40%, V43 -38.17%, V03 -34.69%. Refurbishment, category differences and missing specifications remain material weaknesses. Full results: [CSV](tests/backtest-results.csv), [summary](tests/backtest-summary.json).
+Largest residuals: S21 +46.38%, S12 +45.62%, V16 -42.05%, S05 -41.39%, V43 -38.17%, V03 -34.69%. Refurbishment, category differences and missing specifications remain material weaknesses. Full results: [CSV](tests/backtest-results.csv), [summary](tests/backtest-summary.json), [candidate attribution](research/candidate-results.json).
 
 The earlier **38-row / 9.92% / 31-in-band** result used different preset imputation and listing-only exclusion. It is retained here as a historical result, **not an apples-to-apples improvement claim**. Manual priors, shared source indexes, unidentified repeats and absence of completed-sale data prevent independent accuracy claims. One-record variant subsets have almost no validation power; even broad band coverage does not establish calibrated probabilities. Unknown history/service reserves explain part of the signed bias and should be reconsidered only with better documentary evidence, not adjusted merely to make this corpus score look better.
 

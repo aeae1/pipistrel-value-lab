@@ -1,0 +1,138 @@
+{
+  "observed": "2026-10-18",
+  "records": [
+    {
+      "id": "rotech-2026",
+      "kind": "new_engine_catalog",
+      "url": "https://prices.rotech.ca/repl",
+      "currency": "USD",
+      "prices": {
+        "ul80": 20625,
+        "uls100": 23718,
+        "is100": 30092,
+        "turbo": 37571
+      },
+      "scope": "912 UL/ULS/914 clutch Type 2; ULS HD starter; 912 iS airbox, ringmount and pumps. No installed labor, no matched S3 quote, no inferred upgrade premium."
+    },
+    {
+      "id": "brs-us",
+      "kind": "manufacturer_service",
+      "url": "https://brsaerospace.com/rebuild/",
+      "currency": "USD",
+      "prices": {
+        "1350_softpack_rebuild": 1706.34,
+        "1350_softpack_with_rocket": 3603.25,
+        "1350_vls_rebuild": 2411.41,
+        "1350_vls_with_rocket": 3741.84,
+        "1350hs_canister_rebuild": 2832.71,
+        "1350hs_canister_with_rocket": 4924.08,
+        "1350hs_softpack_rebuild": 2756.81,
+        "1350hs_softpack_with_rocket": 4769.51
+      },
+      "scope": "Exact BRS model/housing matters; these are listed rebuild packages, not installed GRS quotes."
+    },
+    {
+      "id": "brs-eu",
+      "kind": "authorized_service",
+      "url": "https://brs-vertrieb.de/en/services-prices/",
+      "currency": "EUR",
+      "prices": {
+        "1350_softpack_repack_incl_vat": 989,
+        "1350hs_softpack_repack_incl_vat": 1020,
+        "1350hs_canister_repack_incl_vat": 1050,
+        "rocket_301_incl_vat": 1798,
+        "rocket_440_incl_vat": 2136,
+        "rocket_601_incl_vat": 2928
+      },
+      "scope": "Includes 19% VAT. Region, work scope and rocket type differ from US manufacturer list; do not average them."
+    },
+    {
+      "id": "grs-repack",
+      "kind": "manufacturer_process",
+      "url": "https://www.galaxysky.cz/parachute-rescue-system-repack-and-revision-s128-en",
+      "currency": null,
+      "prices": {},
+      "scope": "Manufacturer directs customers through country representatives; no current model-specific installed quote established."
+    },
+    {
+      "id": "dynon-hdx",
+      "kind": "manufacturer_equipment",
+      "url": "https://dynonavionics.com/skyview-hdx.php",
+      "currency": "USD",
+      "prices": {},
+      "scope": "Display hardware alone is not a complete installed panel; no resale coefficient fitted."
+    },
+    {
+      "id": "dynon-ap",
+      "kind": "manufacturer_equipment",
+      "url": "https://dynonavionics.com/autopilot-overview.php/1000",
+      "currency": "USD",
+      "prices": {},
+      "scope": "SkyView supports autopilot integration; panel and autopilot share hardware. No sum-of-new-components resale calibration."
+    },
+    {
+      "id": "rotax-used-384",
+      "kind": "used_engine_ask",
+      "url": "https://www.rotax-owner.com/en/classified-ads-rotax/engines-rotax-classified-ads/11072-912-uls-for-sale",
+      "currency": "USD",
+      "prices": {
+        "ask": 12000
+      },
+      "hours": 384,
+      "engine": "912 ULS",
+      "scope": "Seller reports expired 15-year calendar and one-year-old post; accessories, exact date and achieved sale unknown. Context only; no fit."
+    },
+    {
+      "id": "rotax-used-repaired",
+      "kind": "used_engine_ask",
+      "url": "https://www.rotax-owner.com/en/classified-ads-rotax/engines-rotax-classified-ads/10810-rotax-912uls",
+      "currency": "USD",
+      "prices": {
+        "ask": 12000
+      },
+      "hours": null,
+      "engine": "912 ULS",
+      "scope": "Valve repair after rebuild, unspecified hours, old ad. Excluded from hour fitting."
+    },
+    {
+      "id": "rotax-used-modified",
+      "kind": "used_engine_ask",
+      "url": "https://www.rotax-owner.com/en/classified-ads-rotax/engines-rotax-classified-ads/11435-2017-912uls-2-for-sale",
+      "currency": "USD",
+      "prices": {
+        "ask": 16000
+      },
+      "hours": null,
+      "engine": "912 ULS modified",
+      "scope": "2017 engine with 120 hp Zipper kit and accessories; not standard-engine evidence."
+    },
+    {
+      "id": "rotax-1650",
+      "kind": "unpriced_engine",
+      "url": "https://aeromarket24.com/advert/3082/ROTAX-912ULS-FOR-SALE-1650HOURS",
+      "currency": null,
+      "prices": {},
+      "hours": 1650,
+      "engine": "912 ULS",
+      "scope": "No verified asking price established; no fit."
+    },
+    {
+      "id": "rotax-6000-discovery",
+      "kind": "unverified_engine",
+      "url": "https://www.barnstormers.com/classified-2057025-ROTAX-912ULS-AVAILABLE.html?catid=18671",
+      "currency": null,
+      "prices": {},
+      "hours": null,
+      "engine": "912 ULS",
+      "scope": "Discovery snippet suggested 6000/1800h; original ad unavailable on verification. No price/hour pair admitted."
+    },
+    {
+      "id": "rotax-intervals",
+      "kind": "manufacturer_service_bulletin",
+      "url": "https://legacy.rotaxowner.com/si_tb_info/serviceb/sb-912-057-ul.pdf",
+      "currency": null,
+      "prices": {},
+      "scope": "Serial-specific TBO extensions are conditional; no blanket 2000-hour assumption for old engines."
+    }
+  ]
+}

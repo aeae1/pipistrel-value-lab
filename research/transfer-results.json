@@ -1,0 +1,435 @@
+{
+  "seed": 20261018,
+  "requested_bootstrap_samples": 2000,
+  "estimable_bootstrap_samples": 2000,
+  "reviewed_records": 29,
+  "diagnostic_records": 24,
+  "informative_records": 19,
+  "model_counts": {
+    "CTLS": 2,
+    "CTSW": 4,
+    "SportCruiser": 11,
+    "GX": 2
+  },
+  "singletons_not_informing_slopes": [
+    "FD01",
+    "FD05",
+    "FD09",
+    "RM03",
+    "TC01"
+  ],
+  "specifications": {
+    "age_hours_robust": {
+      "estimable": true,
+      "n": 19,
+      "parameters": 6,
+      "condition_number": 47.98,
+      "log_coefficients": {
+        "build_year": 0.063509,
+        "airframe_1000h": -0.04666
+      },
+      "percent_effects": {
+        "build_year": 6.557,
+        "airframe_1000h": -4.559
+      }
+    },
+    "age_hours_ordinary": {
+      "estimable": true,
+      "n": 19,
+      "parameters": 6,
+      "condition_number": 47.98,
+      "log_coefficients": {
+        "build_year": 0.066113,
+        "airframe_1000h": -0.04882
+      },
+      "percent_effects": {
+        "build_year": 6.835,
+        "airframe_1000h": -4.765
+      }
+    },
+    "with_known_panel": {
+      "estimable": true,
+      "n": 17,
+      "parameters": 7,
+      "condition_number": 55.65,
+      "log_coefficients": {
+        "build_year": 0.055868,
+        "airframe_1000h": -0.036306,
+        "modern_panel": 0.009341
+      },
+      "percent_effects": {
+        "build_year": 5.746,
+        "airframe_1000h": -3.565,
+        "modern_panel": 0.938
+      }
+    },
+    "with_known_panel_engine_hours": {
+      "estimable": false
+    },
+    "known_engine_hours_no_panel": {
+      "estimable": true,
+      "n": 12,
+      "parameters": 5,
+      "condition_number": 33.19,
+      "log_coefficients": {
+        "build_year": 0.061938,
+        "airframe_1000h": -0.036502,
+        "engine_1000h": -0.162332
+      },
+      "percent_effects": {
+        "build_year": 6.39,
+        "airframe_1000h": -3.584,
+        "engine_1000h": -14.984
+      }
+    },
+    "without_documentation_flags": {
+      "estimable": true,
+      "n": 12,
+      "parameters": 4,
+      "condition_number": 34.04,
+      "log_coefficients": {
+        "build_year": 0.042757,
+        "airframe_1000h": -0.025433
+      },
+      "percent_effects": {
+        "build_year": 4.368,
+        "airframe_1000h": -2.511
+      }
+    },
+    "without_last_ask_sold": {
+      "estimable": true,
+      "n": 18,
+      "parameters": 6,
+      "condition_number": 45.62,
+      "log_coefficients": {
+        "build_year": 0.063991,
+        "airframe_1000h": -0.046518
+      },
+      "percent_effects": {
+        "build_year": 6.608,
+        "airframe_1000h": -4.545
+      }
+    },
+    "without_same_broker_FD06_FD08": {
+      "estimable": true,
+      "n": 17,
+      "parameters": 6,
+      "condition_number": 43.6,
+      "log_coefficients": {
+        "build_year": 0.062091,
+        "airframe_1000h": -0.046048
+      },
+      "percent_effects": {
+        "build_year": 6.406,
+        "airframe_1000h": -4.5
+      }
+    }
+  },
+  "bootstrap": {
+    "build_year": {
+      "log_p05": 0.03317556666598539,
+      "log_p95": 0.09147979299021455,
+      "expected_sign_fraction": 0.9995
+    },
+    "airframe_1000h": {
+      "log_p05": -0.072236985226579,
+      "log_p95": -0.0029467036942197175,
+      "expected_sign_fraction": 0.9625
+    }
+  },
+  "leave_one_family_out": {
+    "Czech Sport Aircraft": {
+      "estimable": true,
+      "n": 8,
+      "parameters": 5,
+      "condition_number": 203.15,
+      "log_coefficients": {
+        "build_year": 0.116849,
+        "airframe_1000h": -0.167501
+      },
+      "percent_effects": {
+        "build_year": 12.395,
+        "airframe_1000h": -15.422
+      }
+    },
+    "Flight Design": {
+      "estimable": true,
+      "n": 13,
+      "parameters": 4,
+      "condition_number": 15.61,
+      "log_coefficients": {
+        "build_year": 0.05936,
+        "airframe_1000h": -0.044802
+      },
+      "percent_effects": {
+        "build_year": 6.116,
+        "airframe_1000h": -4.381
+      }
+    },
+    "Remos": {
+      "estimable": true,
+      "n": 17,
+      "parameters": 5,
+      "condition_number": 38.0,
+      "log_coefficients": {
+        "build_year": 0.065204,
+        "airframe_1000h": -0.042381
+      },
+      "percent_effects": {
+        "build_year": 6.738,
+        "airframe_1000h": -4.15
+      }
+    }
+  },
+  "gate": {
+    "min_30_airframes": false,
+    "min_3_informative_families": true,
+    "expected_sign_in_90_percent_resamples": true,
+    "no_leave_family_sign_reversal": true,
+    "engine_calendar_history_sufficient": false
+  },
+  "transfer_accepted": false,
+  "aircraft_holdout": {
+    "n": 19,
+    "median_absolute_percent_error": 10.483,
+    "rows": [
+      {
+        "id": "FD02",
+        "predicted_ask": 96631.31,
+        "actual_ask": 79000,
+        "abs_percent_error": 22.318
+      },
+      {
+        "id": "FD03",
+        "predicted_ask": 73424.73,
+        "actual_ask": 77900,
+        "abs_percent_error": 5.745
+      },
+      {
+        "id": "FD04",
+        "predicted_ask": 78571.12,
+        "actual_ask": 70000,
+        "abs_percent_error": 12.244
+      },
+      {
+        "id": "FD06",
+        "predicted_ask": 78850.27,
+        "actual_ask": 87000,
+        "abs_percent_error": 9.368
+      },
+      {
+        "id": "FD08",
+        "predicted_ask": 82207.09,
+        "actual_ask": 79500,
+        "abs_percent_error": 3.405
+      },
+      {
+        "id": "FD11",
+        "predicted_ask": 85841.75,
+        "actual_ask": 105000,
+        "abs_percent_error": 18.246
+      },
+      {
+        "id": "SC01",
+        "predicted_ask": 126788.09,
+        "actual_ask": 134900,
+        "abs_percent_error": 6.013
+      },
+      {
+        "id": "SC02",
+        "predicted_ask": 133976.52,
+        "actual_ask": 124900,
+        "abs_percent_error": 7.267
+      },
+      {
+        "id": "SC03",
+        "predicted_ask": 135482.4,
+        "actual_ask": 149000,
+        "abs_percent_error": 9.072
+      },
+      {
+        "id": "SC04",
+        "predicted_ask": 171121.11,
+        "actual_ask": 149000,
+        "abs_percent_error": 14.846
+      },
+      {
+        "id": "SC05",
+        "predicted_ask": 142913.59,
+        "actual_ask": 159500,
+        "abs_percent_error": 10.399
+      },
+      {
+        "id": "SC06",
+        "predicted_ask": 137877.22,
+        "actual_ask": 139900,
+        "abs_percent_error": 1.446
+      },
+      {
+        "id": "SC07",
+        "predicted_ask": 115951.39,
+        "actual_ask": 104950,
+        "abs_percent_error": 10.483
+      },
+      {
+        "id": "SC08",
+        "predicted_ask": 143909.86,
+        "actual_ask": 120000,
+        "abs_percent_error": 19.925
+      },
+      {
+        "id": "SC09",
+        "predicted_ask": 109653.52,
+        "actual_ask": 124900,
+        "abs_percent_error": 12.207
+      },
+      {
+        "id": "SC10",
+        "predicted_ask": 129027.54,
+        "actual_ask": 139900,
+        "abs_percent_error": 7.772
+      },
+      {
+        "id": "SC11",
+        "predicted_ask": 100668.15,
+        "actual_ask": 89500,
+        "abs_percent_error": 12.478
+      },
+      {
+        "id": "RM01",
+        "predicted_ask": 120006.1,
+        "actual_ask": 99900,
+        "abs_percent_error": 20.126
+      },
+      {
+        "id": "RM02",
+        "predicted_ask": 99894.92,
+        "actual_ask": 120000,
+        "abs_percent_error": 16.754
+      }
+    ]
+  },
+  "robust_residuals": [
+    {
+      "id": "FD02",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": -8.418
+    },
+    {
+      "id": "FD03",
+      "quality_weight": 0.8,
+      "final_weight": 0.8,
+      "residual_percent": 4.713
+    },
+    {
+      "id": "FD04",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": -8.076
+    },
+    {
+      "id": "FD06",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 7.448
+    },
+    {
+      "id": "FD08",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": -2.417
+    },
+    {
+      "id": "FD11",
+      "quality_weight": 0.8,
+      "final_weight": 0.8,
+      "residual_percent": 11.619
+    },
+    {
+      "id": "SC01",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 5.153
+    },
+    {
+      "id": "SC02",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": -5.804
+    },
+    {
+      "id": "SC03",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 5.578
+    },
+    {
+      "id": "SC04",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": -8.041
+    },
+    {
+      "id": "SC05",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 9.424
+    },
+    {
+      "id": "SC06",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 1.155
+    },
+    {
+      "id": "SC07",
+      "quality_weight": 0.7,
+      "final_weight": 0.7,
+      "residual_percent": -6.372
+    },
+    {
+      "id": "SC08",
+      "quality_weight": 1.0,
+      "final_weight": 0.94734,
+      "residual_percent": -13.931
+    },
+    {
+      "id": "SC09",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 10.231
+    },
+    {
+      "id": "SC10",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 6.324
+    },
+    {
+      "id": "SC11",
+      "quality_weight": 0.6,
+      "final_weight": 0.6,
+      "residual_percent": -5.348
+    },
+    {
+      "id": "RM01",
+      "quality_weight": 0.75,
+      "final_weight": 0.75,
+      "residual_percent": -9.548
+    },
+    {
+      "id": "RM02",
+      "quality_weight": 1.0,
+      "final_weight": 1.0,
+      "residual_percent": 7.816
+    }
+  ],
+  "limitations": [
+    "Convenience asking sample, not actual sales or longitudinal depreciation.",
+    "Stratified bootstrap resamples aircraft within exact model; small groups and shared brokers make intervals exploratory, not population confidence intervals.",
+    "Unknown aircraft identities may conceal duplicates; same-broker sensitivity is reported.",
+    "Most engine calendar history is absent. TTAF may proxy engine use, training and condition.",
+    "Hardware bundles are not equivalent to installed resale premiums. No empirical coefficients transferred."
+  ]
+}

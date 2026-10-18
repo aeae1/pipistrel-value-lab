@@ -1,0 +1,1978 @@
+{
+  "baseline_commit": "71c5459e617221642e432d836cd91ba64ea842d6",
+  "method": "Unchanged 41-aircraft asking holdout and UI mapping, identity exclusion, zero negotiation. Prior development corpus; not independent sales validation.",
+  "candidates": {
+    "baseline": {
+      "summary": {
+        "n": 41,
+        "median_absolute_percent_error": 14.48,
+        "mean_absolute_percent_error": 17.75,
+        "mean_signed_percent_error": -10.42,
+        "in_band": 34
+      },
+      "by_variant": {
+        "sinus_classic": {
+          "n": 8,
+          "median_absolute_percent_error": 21.36,
+          "mean_absolute_percent_error": 20.68,
+          "mean_signed_percent_error": -16.28,
+          "in_band": 6
+        },
+        "sinus_flex": {
+          "n": 6,
+          "median_absolute_percent_error": 24.67,
+          "mean_absolute_percent_error": 28.43,
+          "mean_signed_percent_error": 2.23,
+          "in_band": 5
+        },
+        "sinus_max": {
+          "n": 1,
+          "median_absolute_percent_error": 9.59,
+          "mean_absolute_percent_error": 9.59,
+          "mean_signed_percent_error": -9.59,
+          "in_band": 1
+        },
+        "virus_explorer": {
+          "n": 5,
+          "median_absolute_percent_error": 9.22,
+          "mean_absolute_percent_error": 11.78,
+          "mean_signed_percent_error": -0.98,
+          "in_band": 5
+        },
+        "virus_long": {
+          "n": 3,
+          "median_absolute_percent_error": 10.1,
+          "mean_absolute_percent_error": 19.21,
+          "mean_signed_percent_error": -12.48,
+          "in_band": 2
+        },
+        "virus_sw": {
+          "n": 17,
+          "median_absolute_percent_error": 13.9,
+          "mean_absolute_percent_error": 15.16,
+          "mean_signed_percent_error": -14.74,
+          "in_band": 14
+        },
+        "virus_sw121": {
+          "n": 1,
+          "median_absolute_percent_error": 7.91,
+          "mean_absolute_percent_error": 7.91,
+          "mean_signed_percent_error": -7.91,
+          "in_band": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "V01",
+          "variant": "virus_sw",
+          "listed_usd": 154900,
+          "estimated_ask_usd": 129672,
+          "signed_pct_error": -16.286636539703036,
+          "abs_pct_error": 16.286636539703036,
+          "inside_range": true
+        },
+        {
+          "id": "V02",
+          "variant": "virus_sw",
+          "listed_usd": 149000,
+          "estimated_ask_usd": 133781,
+          "signed_pct_error": -10.21409395973154,
+          "abs_pct_error": 10.21409395973154,
+          "inside_range": true
+        },
+        {
+          "id": "V03",
+          "variant": "virus_sw",
+          "listed_usd": 149900,
+          "estimated_ask_usd": 97906,
+          "signed_pct_error": -34.685790527018014,
+          "abs_pct_error": 34.685790527018014,
+          "inside_range": false
+        },
+        {
+          "id": "V04",
+          "variant": "virus_explorer",
+          "listed_usd": 187500,
+          "estimated_ask_usd": 192185,
+          "signed_pct_error": 2.4986666666666713,
+          "abs_pct_error": 2.4986666666666713,
+          "inside_range": true
+        },
+        {
+          "id": "V06",
+          "variant": "virus_sw121",
+          "listed_usd": 168200,
+          "estimated_ask_usd": 154899,
+          "signed_pct_error": -7.9078478002378105,
+          "abs_pct_error": 7.9078478002378105,
+          "inside_range": true
+        },
+        {
+          "id": "V07",
+          "variant": "virus_explorer",
+          "listed_usd": 236920,
+          "estimated_ask_usd": 203942,
+          "signed_pct_error": -13.919466486577747,
+          "abs_pct_error": 13.919466486577747,
+          "inside_range": true
+        },
+        {
+          "id": "V08",
+          "variant": "virus_explorer",
+          "listed_usd": 214599.99999999997,
+          "estimated_ask_usd": 195800,
+          "signed_pct_error": -8.760484622553577,
+          "abs_pct_error": 8.760484622553577,
+          "inside_range": true
+        },
+        {
+          "id": "V09",
+          "variant": "virus_long",
+          "listed_usd": 63799.99999999999,
+          "estimated_ask_usd": 70246,
+          "signed_pct_error": 10.103448275862092,
+          "abs_pct_error": 10.103448275862092,
+          "inside_range": true
+        },
+        {
+          "id": "V11",
+          "variant": "virus_sw",
+          "listed_usd": 145000,
+          "estimated_ask_usd": 121331,
+          "signed_pct_error": -16.323448275862074,
+          "abs_pct_error": 16.323448275862074,
+          "inside_range": true
+        },
+        {
+          "id": "V12",
+          "variant": "virus_sw",
+          "listed_usd": 133400,
+          "estimated_ask_usd": 114403,
+          "signed_pct_error": -14.240629685157424,
+          "abs_pct_error": 14.240629685157424,
+          "inside_range": true
+        },
+        {
+          "id": "V13",
+          "variant": "virus_sw",
+          "listed_usd": 150800,
+          "estimated_ask_usd": 117543,
+          "signed_pct_error": -22.05371352785146,
+          "abs_pct_error": 22.05371352785146,
+          "inside_range": true
+        },
+        {
+          "id": "V15",
+          "variant": "virus_sw",
+          "listed_usd": 127588.4,
+          "estimated_ask_usd": 128590,
+          "signed_pct_error": 0.7850243439058824,
+          "abs_pct_error": 0.7850243439058824,
+          "inside_range": true
+        },
+        {
+          "id": "V16",
+          "variant": "virus_long",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 53317,
+          "signed_pct_error": -42.04673913043479,
+          "abs_pct_error": 42.04673913043479,
+          "inside_range": false
+        },
+        {
+          "id": "V17",
+          "variant": "virus_sw",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 145513,
+          "signed_pct_error": -13.897633136094678,
+          "abs_pct_error": 13.897633136094678,
+          "inside_range": true
+        },
+        {
+          "id": "V18",
+          "variant": "virus_sw",
+          "listed_usd": 129000,
+          "estimated_ask_usd": 107227,
+          "signed_pct_error": -16.878294573643416,
+          "abs_pct_error": 16.878294573643416,
+          "inside_range": true
+        },
+        {
+          "id": "V19",
+          "variant": "virus_explorer",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 210422,
+          "signed_pct_error": 24.510059171597632,
+          "abs_pct_error": 24.510059171597632,
+          "inside_range": true
+        },
+        {
+          "id": "V21",
+          "variant": "virus_explorer",
+          "listed_usd": 217000,
+          "estimated_ask_usd": 196992,
+          "signed_pct_error": -9.220276497695856,
+          "abs_pct_error": 9.220276497695856,
+          "inside_range": true
+        },
+        {
+          "id": "V22",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 99976,
+          "signed_pct_error": -9.27767695099817,
+          "abs_pct_error": 9.27767695099817,
+          "inside_range": true
+        },
+        {
+          "id": "V23",
+          "variant": "virus_sw",
+          "listed_usd": 121799.99999999999,
+          "estimated_ask_usd": 125163,
+          "signed_pct_error": 2.761083743842385,
+          "abs_pct_error": 2.761083743842385,
+          "inside_range": true
+        },
+        {
+          "id": "V24",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 98533,
+          "signed_pct_error": -10.58711433756805,
+          "abs_pct_error": 10.58711433756805,
+          "inside_range": true
+        },
+        {
+          "id": "V25",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 77658,
+          "signed_pct_error": -29.529945553539005,
+          "abs_pct_error": 29.529945553539005,
+          "inside_range": false
+        },
+        {
+          "id": "V26",
+          "variant": "virus_sw",
+          "listed_usd": 114839.99999999999,
+          "estimated_ask_usd": 102276,
+          "signed_pct_error": -10.940438871473345,
+          "abs_pct_error": 10.940438871473345,
+          "inside_range": true
+        },
+        {
+          "id": "S01",
+          "variant": "sinus_max",
+          "listed_usd": 185000,
+          "estimated_ask_usd": 167264,
+          "signed_pct_error": -9.587027027027029,
+          "abs_pct_error": 9.587027027027029,
+          "inside_range": true
+        },
+        {
+          "id": "S05",
+          "variant": "sinus_classic",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 65684,
+          "signed_pct_error": -40.39564428312159,
+          "abs_pct_error": 40.39564428312159,
+          "inside_range": false
+        },
+        {
+          "id": "S06",
+          "variant": "sinus_classic",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 60520,
+          "signed_pct_error": -24.387806096951525,
+          "abs_pct_error": 24.387806096951525,
+          "inside_range": true
+        },
+        {
+          "id": "S07",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 79118,
+          "signed_pct_error": -21.60325009908839,
+          "abs_pct_error": 21.60325009908839,
+          "inside_range": true
+        },
+        {
+          "id": "S08",
+          "variant": "sinus_classic",
+          "listed_usd": 69600,
+          "estimated_ask_usd": 71178,
+          "signed_pct_error": 2.2672413793103363,
+          "abs_pct_error": 2.2672413793103363,
+          "inside_range": true
+        },
+        {
+          "id": "S09",
+          "variant": "sinus_classic",
+          "listed_usd": 84100,
+          "estimated_ask_usd": 62321,
+          "signed_pct_error": -25.89655172413793,
+          "abs_pct_error": 25.89655172413793,
+          "inside_range": false
+        },
+        {
+          "id": "S10",
+          "variant": "sinus_classic",
+          "listed_usd": 45240,
+          "estimated_ask_usd": 52178,
+          "signed_pct_error": 15.33598585322724,
+          "abs_pct_error": 15.33598585322724,
+          "inside_range": true
+        },
+        {
+          "id": "S12",
+          "variant": "sinus_flex",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 116551,
+          "signed_pct_error": 45.615942028985515,
+          "abs_pct_error": 45.615942028985515,
+          "inside_range": true
+        },
+        {
+          "id": "S15",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 86302,
+          "signed_pct_error": -14.484740388426475,
+          "abs_pct_error": 14.484740388426475,
+          "inside_range": true
+        },
+        {
+          "id": "S17",
+          "variant": "sinus_flex",
+          "listed_usd": 168000,
+          "estimated_ask_usd": 143713,
+          "signed_pct_error": -14.456547619047623,
+          "abs_pct_error": 14.456547619047623,
+          "inside_range": true
+        },
+        {
+          "id": "S18",
+          "variant": "sinus_flex",
+          "listed_usd": 179000,
+          "estimated_ask_usd": 142614,
+          "signed_pct_error": -20.32737430167598,
+          "abs_pct_error": 20.32737430167598,
+          "inside_range": true
+        },
+        {
+          "id": "S19",
+          "variant": "sinus_flex",
+          "listed_usd": 122500,
+          "estimated_ask_usd": 104367,
+          "signed_pct_error": -14.802448979591832,
+          "abs_pct_error": 14.802448979591832,
+          "inside_range": true
+        },
+        {
+          "id": "S20",
+          "variant": "sinus_flex",
+          "listed_usd": 199000,
+          "estimated_ask_usd": 141262,
+          "signed_pct_error": -29.014070351758793,
+          "abs_pct_error": 29.014070351758793,
+          "inside_range": false
+        },
+        {
+          "id": "S21",
+          "variant": "sinus_flex",
+          "listed_usd": 69900,
+          "estimated_ask_usd": 102320,
+          "signed_pct_error": 46.380543633762514,
+          "abs_pct_error": 46.380543633762514,
+          "inside_range": true
+        },
+        {
+          "id": "V35",
+          "variant": "virus_sw",
+          "listed_usd": 139200,
+          "estimated_ask_usd": 133321,
+          "signed_pct_error": -4.223419540229889,
+          "abs_pct_error": 4.223419540229889,
+          "inside_range": true
+        },
+        {
+          "id": "V37",
+          "variant": "virus_sw",
+          "listed_usd": 156600,
+          "estimated_ask_usd": 145908,
+          "signed_pct_error": -6.827586206896552,
+          "abs_pct_error": 6.827586206896552,
+          "inside_range": true
+        },
+        {
+          "id": "V42",
+          "variant": "virus_long",
+          "listed_usd": 69000,
+          "estimated_ask_usd": 65214,
+          "signed_pct_error": -5.486956521739128,
+          "abs_pct_error": 5.486956521739128,
+          "inside_range": true
+        },
+        {
+          "id": "V43",
+          "variant": "virus_sw",
+          "listed_usd": 159000,
+          "estimated_ask_usd": 98316,
+          "signed_pct_error": -38.16603773584906,
+          "abs_pct_error": 38.16603773584906,
+          "inside_range": false
+        },
+        {
+          "id": "S22",
+          "variant": "sinus_classic",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 72580,
+          "signed_pct_error": -21.108695652173914,
+          "abs_pct_error": 21.108695652173914,
+          "inside_range": true
+        }
+      ]
+    },
+    "engine_only": {
+      "summary": {
+        "n": 41,
+        "median_absolute_percent_error": 14.56,
+        "mean_absolute_percent_error": 17.76,
+        "mean_signed_percent_error": -10.43,
+        "in_band": 34
+      },
+      "by_variant": {
+        "sinus_classic": {
+          "n": 8,
+          "median_absolute_percent_error": 21.36,
+          "mean_absolute_percent_error": 20.68,
+          "mean_signed_percent_error": -16.28,
+          "in_band": 6
+        },
+        "sinus_flex": {
+          "n": 6,
+          "median_absolute_percent_error": 24.79,
+          "mean_absolute_percent_error": 28.49,
+          "mean_signed_percent_error": 2.18,
+          "in_band": 5
+        },
+        "sinus_max": {
+          "n": 1,
+          "median_absolute_percent_error": 9.66,
+          "mean_absolute_percent_error": 9.66,
+          "mean_signed_percent_error": -9.66,
+          "in_band": 1
+        },
+        "virus_explorer": {
+          "n": 5,
+          "median_absolute_percent_error": 9.22,
+          "mean_absolute_percent_error": 11.78,
+          "mean_signed_percent_error": -0.98,
+          "in_band": 5
+        },
+        "virus_long": {
+          "n": 3,
+          "median_absolute_percent_error": 10.1,
+          "mean_absolute_percent_error": 19.21,
+          "mean_signed_percent_error": -12.48,
+          "in_band": 2
+        },
+        "virus_sw": {
+          "n": 17,
+          "median_absolute_percent_error": 13.9,
+          "mean_absolute_percent_error": 15.16,
+          "mean_signed_percent_error": -14.74,
+          "in_band": 14
+        },
+        "virus_sw121": {
+          "n": 1,
+          "median_absolute_percent_error": 7.91,
+          "mean_absolute_percent_error": 7.91,
+          "mean_signed_percent_error": -7.91,
+          "in_band": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "V01",
+          "variant": "virus_sw",
+          "listed_usd": 154900,
+          "estimated_ask_usd": 129672,
+          "signed_pct_error": -16.286636539703036,
+          "abs_pct_error": 16.286636539703036,
+          "inside_range": true
+        },
+        {
+          "id": "V02",
+          "variant": "virus_sw",
+          "listed_usd": 149000,
+          "estimated_ask_usd": 133781,
+          "signed_pct_error": -10.21409395973154,
+          "abs_pct_error": 10.21409395973154,
+          "inside_range": true
+        },
+        {
+          "id": "V03",
+          "variant": "virus_sw",
+          "listed_usd": 149900,
+          "estimated_ask_usd": 97906,
+          "signed_pct_error": -34.685790527018014,
+          "abs_pct_error": 34.685790527018014,
+          "inside_range": false
+        },
+        {
+          "id": "V04",
+          "variant": "virus_explorer",
+          "listed_usd": 187500,
+          "estimated_ask_usd": 192185,
+          "signed_pct_error": 2.4986666666666713,
+          "abs_pct_error": 2.4986666666666713,
+          "inside_range": true
+        },
+        {
+          "id": "V06",
+          "variant": "virus_sw121",
+          "listed_usd": 168200,
+          "estimated_ask_usd": 154899,
+          "signed_pct_error": -7.9078478002378105,
+          "abs_pct_error": 7.9078478002378105,
+          "inside_range": true
+        },
+        {
+          "id": "V07",
+          "variant": "virus_explorer",
+          "listed_usd": 236920,
+          "estimated_ask_usd": 203942,
+          "signed_pct_error": -13.919466486577747,
+          "abs_pct_error": 13.919466486577747,
+          "inside_range": true
+        },
+        {
+          "id": "V08",
+          "variant": "virus_explorer",
+          "listed_usd": 214599.99999999997,
+          "estimated_ask_usd": 195800,
+          "signed_pct_error": -8.760484622553577,
+          "abs_pct_error": 8.760484622553577,
+          "inside_range": true
+        },
+        {
+          "id": "V09",
+          "variant": "virus_long",
+          "listed_usd": 63799.99999999999,
+          "estimated_ask_usd": 70246,
+          "signed_pct_error": 10.103448275862092,
+          "abs_pct_error": 10.103448275862092,
+          "inside_range": true
+        },
+        {
+          "id": "V11",
+          "variant": "virus_sw",
+          "listed_usd": 145000,
+          "estimated_ask_usd": 121331,
+          "signed_pct_error": -16.323448275862074,
+          "abs_pct_error": 16.323448275862074,
+          "inside_range": true
+        },
+        {
+          "id": "V12",
+          "variant": "virus_sw",
+          "listed_usd": 133400,
+          "estimated_ask_usd": 114403,
+          "signed_pct_error": -14.240629685157424,
+          "abs_pct_error": 14.240629685157424,
+          "inside_range": true
+        },
+        {
+          "id": "V13",
+          "variant": "virus_sw",
+          "listed_usd": 150800,
+          "estimated_ask_usd": 117543,
+          "signed_pct_error": -22.05371352785146,
+          "abs_pct_error": 22.05371352785146,
+          "inside_range": true
+        },
+        {
+          "id": "V15",
+          "variant": "virus_sw",
+          "listed_usd": 127588.4,
+          "estimated_ask_usd": 128590,
+          "signed_pct_error": 0.7850243439058824,
+          "abs_pct_error": 0.7850243439058824,
+          "inside_range": true
+        },
+        {
+          "id": "V16",
+          "variant": "virus_long",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 53317,
+          "signed_pct_error": -42.04673913043479,
+          "abs_pct_error": 42.04673913043479,
+          "inside_range": false
+        },
+        {
+          "id": "V17",
+          "variant": "virus_sw",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 145513,
+          "signed_pct_error": -13.897633136094678,
+          "abs_pct_error": 13.897633136094678,
+          "inside_range": true
+        },
+        {
+          "id": "V18",
+          "variant": "virus_sw",
+          "listed_usd": 129000,
+          "estimated_ask_usd": 107227,
+          "signed_pct_error": -16.878294573643416,
+          "abs_pct_error": 16.878294573643416,
+          "inside_range": true
+        },
+        {
+          "id": "V19",
+          "variant": "virus_explorer",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 210422,
+          "signed_pct_error": 24.510059171597632,
+          "abs_pct_error": 24.510059171597632,
+          "inside_range": true
+        },
+        {
+          "id": "V21",
+          "variant": "virus_explorer",
+          "listed_usd": 217000,
+          "estimated_ask_usd": 196992,
+          "signed_pct_error": -9.220276497695856,
+          "abs_pct_error": 9.220276497695856,
+          "inside_range": true
+        },
+        {
+          "id": "V22",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 99976,
+          "signed_pct_error": -9.27767695099817,
+          "abs_pct_error": 9.27767695099817,
+          "inside_range": true
+        },
+        {
+          "id": "V23",
+          "variant": "virus_sw",
+          "listed_usd": 121799.99999999999,
+          "estimated_ask_usd": 125174,
+          "signed_pct_error": 2.7701149425287452,
+          "abs_pct_error": 2.7701149425287452,
+          "inside_range": true
+        },
+        {
+          "id": "V24",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 98533,
+          "signed_pct_error": -10.58711433756805,
+          "abs_pct_error": 10.58711433756805,
+          "inside_range": true
+        },
+        {
+          "id": "V25",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 77658,
+          "signed_pct_error": -29.529945553539005,
+          "abs_pct_error": 29.529945553539005,
+          "inside_range": false
+        },
+        {
+          "id": "V26",
+          "variant": "virus_sw",
+          "listed_usd": 114839.99999999999,
+          "estimated_ask_usd": 102276,
+          "signed_pct_error": -10.940438871473345,
+          "abs_pct_error": 10.940438871473345,
+          "inside_range": true
+        },
+        {
+          "id": "S01",
+          "variant": "sinus_max",
+          "listed_usd": 185000,
+          "estimated_ask_usd": 167129,
+          "signed_pct_error": -9.660000000000002,
+          "abs_pct_error": 9.660000000000002,
+          "inside_range": true
+        },
+        {
+          "id": "S05",
+          "variant": "sinus_classic",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 65684,
+          "signed_pct_error": -40.39564428312159,
+          "abs_pct_error": 40.39564428312159,
+          "inside_range": false
+        },
+        {
+          "id": "S06",
+          "variant": "sinus_classic",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 60520,
+          "signed_pct_error": -24.387806096951525,
+          "abs_pct_error": 24.387806096951525,
+          "inside_range": true
+        },
+        {
+          "id": "S07",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 79118,
+          "signed_pct_error": -21.60325009908839,
+          "abs_pct_error": 21.60325009908839,
+          "inside_range": true
+        },
+        {
+          "id": "S08",
+          "variant": "sinus_classic",
+          "listed_usd": 69600,
+          "estimated_ask_usd": 71178,
+          "signed_pct_error": 2.2672413793103363,
+          "abs_pct_error": 2.2672413793103363,
+          "inside_range": true
+        },
+        {
+          "id": "S09",
+          "variant": "sinus_classic",
+          "listed_usd": 84100,
+          "estimated_ask_usd": 62321,
+          "signed_pct_error": -25.89655172413793,
+          "abs_pct_error": 25.89655172413793,
+          "inside_range": false
+        },
+        {
+          "id": "S10",
+          "variant": "sinus_classic",
+          "listed_usd": 45240,
+          "estimated_ask_usd": 52178,
+          "signed_pct_error": 15.33598585322724,
+          "abs_pct_error": 15.33598585322724,
+          "inside_range": true
+        },
+        {
+          "id": "S12",
+          "variant": "sinus_flex",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 116551,
+          "signed_pct_error": 45.615942028985515,
+          "abs_pct_error": 45.615942028985515,
+          "inside_range": true
+        },
+        {
+          "id": "S15",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 86302,
+          "signed_pct_error": -14.484740388426475,
+          "abs_pct_error": 14.484740388426475,
+          "inside_range": true
+        },
+        {
+          "id": "S17",
+          "variant": "sinus_flex",
+          "listed_usd": 168000,
+          "estimated_ask_usd": 143534,
+          "signed_pct_error": -14.563095238095237,
+          "abs_pct_error": 14.563095238095237,
+          "inside_range": true
+        },
+        {
+          "id": "S18",
+          "variant": "sinus_flex",
+          "listed_usd": 179000,
+          "estimated_ask_usd": 142435,
+          "signed_pct_error": -20.427374301675982,
+          "abs_pct_error": 20.427374301675982,
+          "inside_range": true
+        },
+        {
+          "id": "S19",
+          "variant": "sinus_flex",
+          "listed_usd": 122500,
+          "estimated_ask_usd": 104367,
+          "signed_pct_error": -14.802448979591832,
+          "abs_pct_error": 14.802448979591832,
+          "inside_range": true
+        },
+        {
+          "id": "S20",
+          "variant": "sinus_flex",
+          "listed_usd": 199000,
+          "estimated_ask_usd": 140997,
+          "signed_pct_error": -29.147236180904525,
+          "abs_pct_error": 29.147236180904525,
+          "inside_range": false
+        },
+        {
+          "id": "S21",
+          "variant": "sinus_flex",
+          "listed_usd": 69900,
+          "estimated_ask_usd": 102320,
+          "signed_pct_error": 46.380543633762514,
+          "abs_pct_error": 46.380543633762514,
+          "inside_range": true
+        },
+        {
+          "id": "V35",
+          "variant": "virus_sw",
+          "listed_usd": 139200,
+          "estimated_ask_usd": 133321,
+          "signed_pct_error": -4.223419540229889,
+          "abs_pct_error": 4.223419540229889,
+          "inside_range": true
+        },
+        {
+          "id": "V37",
+          "variant": "virus_sw",
+          "listed_usd": 156600,
+          "estimated_ask_usd": 145908,
+          "signed_pct_error": -6.827586206896552,
+          "abs_pct_error": 6.827586206896552,
+          "inside_range": true
+        },
+        {
+          "id": "V42",
+          "variant": "virus_long",
+          "listed_usd": 69000,
+          "estimated_ask_usd": 65214,
+          "signed_pct_error": -5.486956521739128,
+          "abs_pct_error": 5.486956521739128,
+          "inside_range": true
+        },
+        {
+          "id": "V43",
+          "variant": "virus_sw",
+          "listed_usd": 159000,
+          "estimated_ask_usd": 98316,
+          "signed_pct_error": -38.16603773584906,
+          "abs_pct_error": 38.16603773584906,
+          "inside_range": false
+        },
+        {
+          "id": "S22",
+          "variant": "sinus_classic",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 72580,
+          "signed_pct_error": -21.108695652173914,
+          "abs_pct_error": 21.108695652173914,
+          "inside_range": true
+        }
+      ]
+    },
+    "service_only": {
+      "summary": {
+        "n": 41,
+        "median_absolute_percent_error": 14.48,
+        "mean_absolute_percent_error": 17.78,
+        "mean_signed_percent_error": -10.45,
+        "in_band": 34
+      },
+      "by_variant": {
+        "sinus_classic": {
+          "n": 8,
+          "median_absolute_percent_error": 21.36,
+          "mean_absolute_percent_error": 20.81,
+          "mean_signed_percent_error": -16.41,
+          "in_band": 6
+        },
+        "sinus_flex": {
+          "n": 6,
+          "median_absolute_percent_error": 24.67,
+          "mean_absolute_percent_error": 28.43,
+          "mean_signed_percent_error": 2.23,
+          "in_band": 5
+        },
+        "sinus_max": {
+          "n": 1,
+          "median_absolute_percent_error": 9.59,
+          "mean_absolute_percent_error": 9.59,
+          "mean_signed_percent_error": -9.59,
+          "in_band": 1
+        },
+        "virus_explorer": {
+          "n": 5,
+          "median_absolute_percent_error": 9.22,
+          "mean_absolute_percent_error": 11.78,
+          "mean_signed_percent_error": -0.98,
+          "in_band": 5
+        },
+        "virus_long": {
+          "n": 3,
+          "median_absolute_percent_error": 10.1,
+          "mean_absolute_percent_error": 19.21,
+          "mean_signed_percent_error": -12.48,
+          "in_band": 2
+        },
+        "virus_sw": {
+          "n": 17,
+          "median_absolute_percent_error": 13.9,
+          "mean_absolute_percent_error": 15.18,
+          "mean_signed_percent_error": -14.76,
+          "in_band": 14
+        },
+        "virus_sw121": {
+          "n": 1,
+          "median_absolute_percent_error": 7.91,
+          "mean_absolute_percent_error": 7.91,
+          "mean_signed_percent_error": -7.91,
+          "in_band": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "V01",
+          "variant": "virus_sw",
+          "listed_usd": 154900,
+          "estimated_ask_usd": 129672,
+          "signed_pct_error": -16.286636539703036,
+          "abs_pct_error": 16.286636539703036,
+          "inside_range": true
+        },
+        {
+          "id": "V02",
+          "variant": "virus_sw",
+          "listed_usd": 149000,
+          "estimated_ask_usd": 133781,
+          "signed_pct_error": -10.21409395973154,
+          "abs_pct_error": 10.21409395973154,
+          "inside_range": true
+        },
+        {
+          "id": "V03",
+          "variant": "virus_sw",
+          "listed_usd": 149900,
+          "estimated_ask_usd": 97906,
+          "signed_pct_error": -34.685790527018014,
+          "abs_pct_error": 34.685790527018014,
+          "inside_range": false
+        },
+        {
+          "id": "V04",
+          "variant": "virus_explorer",
+          "listed_usd": 187500,
+          "estimated_ask_usd": 192185,
+          "signed_pct_error": 2.4986666666666713,
+          "abs_pct_error": 2.4986666666666713,
+          "inside_range": true
+        },
+        {
+          "id": "V06",
+          "variant": "virus_sw121",
+          "listed_usd": 168200,
+          "estimated_ask_usd": 154899,
+          "signed_pct_error": -7.9078478002378105,
+          "abs_pct_error": 7.9078478002378105,
+          "inside_range": true
+        },
+        {
+          "id": "V07",
+          "variant": "virus_explorer",
+          "listed_usd": 236920,
+          "estimated_ask_usd": 203942,
+          "signed_pct_error": -13.919466486577747,
+          "abs_pct_error": 13.919466486577747,
+          "inside_range": true
+        },
+        {
+          "id": "V08",
+          "variant": "virus_explorer",
+          "listed_usd": 214599.99999999997,
+          "estimated_ask_usd": 195800,
+          "signed_pct_error": -8.760484622553577,
+          "abs_pct_error": 8.760484622553577,
+          "inside_range": true
+        },
+        {
+          "id": "V09",
+          "variant": "virus_long",
+          "listed_usd": 63799.99999999999,
+          "estimated_ask_usd": 70246,
+          "signed_pct_error": 10.103448275862092,
+          "abs_pct_error": 10.103448275862092,
+          "inside_range": true
+        },
+        {
+          "id": "V11",
+          "variant": "virus_sw",
+          "listed_usd": 145000,
+          "estimated_ask_usd": 120881,
+          "signed_pct_error": -16.63379310344828,
+          "abs_pct_error": 16.63379310344828,
+          "inside_range": true
+        },
+        {
+          "id": "V12",
+          "variant": "virus_sw",
+          "listed_usd": 133400,
+          "estimated_ask_usd": 114403,
+          "signed_pct_error": -14.240629685157424,
+          "abs_pct_error": 14.240629685157424,
+          "inside_range": true
+        },
+        {
+          "id": "V13",
+          "variant": "virus_sw",
+          "listed_usd": 150800,
+          "estimated_ask_usd": 117543,
+          "signed_pct_error": -22.05371352785146,
+          "abs_pct_error": 22.05371352785146,
+          "inside_range": true
+        },
+        {
+          "id": "V15",
+          "variant": "virus_sw",
+          "listed_usd": 127588.4,
+          "estimated_ask_usd": 128590,
+          "signed_pct_error": 0.7850243439058824,
+          "abs_pct_error": 0.7850243439058824,
+          "inside_range": true
+        },
+        {
+          "id": "V16",
+          "variant": "virus_long",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 53317,
+          "signed_pct_error": -42.04673913043479,
+          "abs_pct_error": 42.04673913043479,
+          "inside_range": false
+        },
+        {
+          "id": "V17",
+          "variant": "virus_sw",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 145513,
+          "signed_pct_error": -13.897633136094678,
+          "abs_pct_error": 13.897633136094678,
+          "inside_range": true
+        },
+        {
+          "id": "V18",
+          "variant": "virus_sw",
+          "listed_usd": 129000,
+          "estimated_ask_usd": 107227,
+          "signed_pct_error": -16.878294573643416,
+          "abs_pct_error": 16.878294573643416,
+          "inside_range": true
+        },
+        {
+          "id": "V19",
+          "variant": "virus_explorer",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 210422,
+          "signed_pct_error": 24.510059171597632,
+          "abs_pct_error": 24.510059171597632,
+          "inside_range": true
+        },
+        {
+          "id": "V21",
+          "variant": "virus_explorer",
+          "listed_usd": 217000,
+          "estimated_ask_usd": 196992,
+          "signed_pct_error": -9.220276497695856,
+          "abs_pct_error": 9.220276497695856,
+          "inside_range": true
+        },
+        {
+          "id": "V22",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 99976,
+          "signed_pct_error": -9.27767695099817,
+          "abs_pct_error": 9.27767695099817,
+          "inside_range": true
+        },
+        {
+          "id": "V23",
+          "variant": "virus_sw",
+          "listed_usd": 121799.99999999999,
+          "estimated_ask_usd": 125163,
+          "signed_pct_error": 2.761083743842385,
+          "abs_pct_error": 2.761083743842385,
+          "inside_range": true
+        },
+        {
+          "id": "V24",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 98533,
+          "signed_pct_error": -10.58711433756805,
+          "abs_pct_error": 10.58711433756805,
+          "inside_range": true
+        },
+        {
+          "id": "V25",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 77658,
+          "signed_pct_error": -29.529945553539005,
+          "abs_pct_error": 29.529945553539005,
+          "inside_range": false
+        },
+        {
+          "id": "V26",
+          "variant": "virus_sw",
+          "listed_usd": 114839.99999999999,
+          "estimated_ask_usd": 102276,
+          "signed_pct_error": -10.940438871473345,
+          "abs_pct_error": 10.940438871473345,
+          "inside_range": true
+        },
+        {
+          "id": "S01",
+          "variant": "sinus_max",
+          "listed_usd": 185000,
+          "estimated_ask_usd": 167264,
+          "signed_pct_error": -9.587027027027029,
+          "abs_pct_error": 9.587027027027029,
+          "inside_range": true
+        },
+        {
+          "id": "S05",
+          "variant": "sinus_classic",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 64584,
+          "signed_pct_error": -41.39382940108892,
+          "abs_pct_error": 41.39382940108892,
+          "inside_range": false
+        },
+        {
+          "id": "S06",
+          "variant": "sinus_classic",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 60520,
+          "signed_pct_error": -24.387806096951525,
+          "abs_pct_error": 24.387806096951525,
+          "inside_range": true
+        },
+        {
+          "id": "S07",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 79118,
+          "signed_pct_error": -21.60325009908839,
+          "abs_pct_error": 21.60325009908839,
+          "inside_range": true
+        },
+        {
+          "id": "S08",
+          "variant": "sinus_classic",
+          "listed_usd": 69600,
+          "estimated_ask_usd": 71178,
+          "signed_pct_error": 2.2672413793103363,
+          "abs_pct_error": 2.2672413793103363,
+          "inside_range": true
+        },
+        {
+          "id": "S09",
+          "variant": "sinus_classic",
+          "listed_usd": 84100,
+          "estimated_ask_usd": 62321,
+          "signed_pct_error": -25.89655172413793,
+          "abs_pct_error": 25.89655172413793,
+          "inside_range": false
+        },
+        {
+          "id": "S10",
+          "variant": "sinus_classic",
+          "listed_usd": 45240,
+          "estimated_ask_usd": 52178,
+          "signed_pct_error": 15.33598585322724,
+          "abs_pct_error": 15.33598585322724,
+          "inside_range": true
+        },
+        {
+          "id": "S12",
+          "variant": "sinus_flex",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 116551,
+          "signed_pct_error": 45.615942028985515,
+          "abs_pct_error": 45.615942028985515,
+          "inside_range": true
+        },
+        {
+          "id": "S15",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 86302,
+          "signed_pct_error": -14.484740388426475,
+          "abs_pct_error": 14.484740388426475,
+          "inside_range": true
+        },
+        {
+          "id": "S17",
+          "variant": "sinus_flex",
+          "listed_usd": 168000,
+          "estimated_ask_usd": 143713,
+          "signed_pct_error": -14.456547619047623,
+          "abs_pct_error": 14.456547619047623,
+          "inside_range": true
+        },
+        {
+          "id": "S18",
+          "variant": "sinus_flex",
+          "listed_usd": 179000,
+          "estimated_ask_usd": 142614,
+          "signed_pct_error": -20.32737430167598,
+          "abs_pct_error": 20.32737430167598,
+          "inside_range": true
+        },
+        {
+          "id": "S19",
+          "variant": "sinus_flex",
+          "listed_usd": 122500,
+          "estimated_ask_usd": 104367,
+          "signed_pct_error": -14.802448979591832,
+          "abs_pct_error": 14.802448979591832,
+          "inside_range": true
+        },
+        {
+          "id": "S20",
+          "variant": "sinus_flex",
+          "listed_usd": 199000,
+          "estimated_ask_usd": 141262,
+          "signed_pct_error": -29.014070351758793,
+          "abs_pct_error": 29.014070351758793,
+          "inside_range": false
+        },
+        {
+          "id": "S21",
+          "variant": "sinus_flex",
+          "listed_usd": 69900,
+          "estimated_ask_usd": 102320,
+          "signed_pct_error": 46.380543633762514,
+          "abs_pct_error": 46.380543633762514,
+          "inside_range": true
+        },
+        {
+          "id": "V35",
+          "variant": "virus_sw",
+          "listed_usd": 139200,
+          "estimated_ask_usd": 133321,
+          "signed_pct_error": -4.223419540229889,
+          "abs_pct_error": 4.223419540229889,
+          "inside_range": true
+        },
+        {
+          "id": "V37",
+          "variant": "virus_sw",
+          "listed_usd": 156600,
+          "estimated_ask_usd": 145908,
+          "signed_pct_error": -6.827586206896552,
+          "abs_pct_error": 6.827586206896552,
+          "inside_range": true
+        },
+        {
+          "id": "V42",
+          "variant": "virus_long",
+          "listed_usd": 69000,
+          "estimated_ask_usd": 65214,
+          "signed_pct_error": -5.486956521739128,
+          "abs_pct_error": 5.486956521739128,
+          "inside_range": true
+        },
+        {
+          "id": "V43",
+          "variant": "virus_sw",
+          "listed_usd": 159000,
+          "estimated_ask_usd": 98316,
+          "signed_pct_error": -38.16603773584906,
+          "abs_pct_error": 38.16603773584906,
+          "inside_range": false
+        },
+        {
+          "id": "S22",
+          "variant": "sinus_classic",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 72580,
+          "signed_pct_error": -21.108695652173914,
+          "abs_pct_error": 21.108695652173914,
+          "inside_range": true
+        }
+      ]
+    },
+    "combined": {
+      "summary": {
+        "n": 41,
+        "median_absolute_percent_error": 14.56,
+        "mean_absolute_percent_error": 17.79,
+        "mean_signed_percent_error": -10.46,
+        "in_band": 34
+      },
+      "by_variant": {
+        "sinus_classic": {
+          "n": 8,
+          "median_absolute_percent_error": 21.36,
+          "mean_absolute_percent_error": 20.81,
+          "mean_signed_percent_error": -16.41,
+          "in_band": 6
+        },
+        "sinus_flex": {
+          "n": 6,
+          "median_absolute_percent_error": 24.79,
+          "mean_absolute_percent_error": 28.49,
+          "mean_signed_percent_error": 2.18,
+          "in_band": 5
+        },
+        "sinus_max": {
+          "n": 1,
+          "median_absolute_percent_error": 9.66,
+          "mean_absolute_percent_error": 9.66,
+          "mean_signed_percent_error": -9.66,
+          "in_band": 1
+        },
+        "virus_explorer": {
+          "n": 5,
+          "median_absolute_percent_error": 9.22,
+          "mean_absolute_percent_error": 11.78,
+          "mean_signed_percent_error": -0.98,
+          "in_band": 5
+        },
+        "virus_long": {
+          "n": 3,
+          "median_absolute_percent_error": 10.1,
+          "mean_absolute_percent_error": 19.21,
+          "mean_signed_percent_error": -12.48,
+          "in_band": 2
+        },
+        "virus_sw": {
+          "n": 17,
+          "median_absolute_percent_error": 13.9,
+          "mean_absolute_percent_error": 15.18,
+          "mean_signed_percent_error": -14.76,
+          "in_band": 14
+        },
+        "virus_sw121": {
+          "n": 1,
+          "median_absolute_percent_error": 7.91,
+          "mean_absolute_percent_error": 7.91,
+          "mean_signed_percent_error": -7.91,
+          "in_band": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "V01",
+          "variant": "virus_sw",
+          "listed_usd": 154900,
+          "estimated_ask_usd": 129672,
+          "signed_pct_error": -16.286636539703036,
+          "abs_pct_error": 16.286636539703036,
+          "inside_range": true
+        },
+        {
+          "id": "V02",
+          "variant": "virus_sw",
+          "listed_usd": 149000,
+          "estimated_ask_usd": 133781,
+          "signed_pct_error": -10.21409395973154,
+          "abs_pct_error": 10.21409395973154,
+          "inside_range": true
+        },
+        {
+          "id": "V03",
+          "variant": "virus_sw",
+          "listed_usd": 149900,
+          "estimated_ask_usd": 97906,
+          "signed_pct_error": -34.685790527018014,
+          "abs_pct_error": 34.685790527018014,
+          "inside_range": false
+        },
+        {
+          "id": "V04",
+          "variant": "virus_explorer",
+          "listed_usd": 187500,
+          "estimated_ask_usd": 192185,
+          "signed_pct_error": 2.4986666666666713,
+          "abs_pct_error": 2.4986666666666713,
+          "inside_range": true
+        },
+        {
+          "id": "V06",
+          "variant": "virus_sw121",
+          "listed_usd": 168200,
+          "estimated_ask_usd": 154899,
+          "signed_pct_error": -7.9078478002378105,
+          "abs_pct_error": 7.9078478002378105,
+          "inside_range": true
+        },
+        {
+          "id": "V07",
+          "variant": "virus_explorer",
+          "listed_usd": 236920,
+          "estimated_ask_usd": 203942,
+          "signed_pct_error": -13.919466486577747,
+          "abs_pct_error": 13.919466486577747,
+          "inside_range": true
+        },
+        {
+          "id": "V08",
+          "variant": "virus_explorer",
+          "listed_usd": 214599.99999999997,
+          "estimated_ask_usd": 195800,
+          "signed_pct_error": -8.760484622553577,
+          "abs_pct_error": 8.760484622553577,
+          "inside_range": true
+        },
+        {
+          "id": "V09",
+          "variant": "virus_long",
+          "listed_usd": 63799.99999999999,
+          "estimated_ask_usd": 70246,
+          "signed_pct_error": 10.103448275862092,
+          "abs_pct_error": 10.103448275862092,
+          "inside_range": true
+        },
+        {
+          "id": "V11",
+          "variant": "virus_sw",
+          "listed_usd": 145000,
+          "estimated_ask_usd": 120881,
+          "signed_pct_error": -16.63379310344828,
+          "abs_pct_error": 16.63379310344828,
+          "inside_range": true
+        },
+        {
+          "id": "V12",
+          "variant": "virus_sw",
+          "listed_usd": 133400,
+          "estimated_ask_usd": 114403,
+          "signed_pct_error": -14.240629685157424,
+          "abs_pct_error": 14.240629685157424,
+          "inside_range": true
+        },
+        {
+          "id": "V13",
+          "variant": "virus_sw",
+          "listed_usd": 150800,
+          "estimated_ask_usd": 117543,
+          "signed_pct_error": -22.05371352785146,
+          "abs_pct_error": 22.05371352785146,
+          "inside_range": true
+        },
+        {
+          "id": "V15",
+          "variant": "virus_sw",
+          "listed_usd": 127588.4,
+          "estimated_ask_usd": 128590,
+          "signed_pct_error": 0.7850243439058824,
+          "abs_pct_error": 0.7850243439058824,
+          "inside_range": true
+        },
+        {
+          "id": "V16",
+          "variant": "virus_long",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 53317,
+          "signed_pct_error": -42.04673913043479,
+          "abs_pct_error": 42.04673913043479,
+          "inside_range": false
+        },
+        {
+          "id": "V17",
+          "variant": "virus_sw",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 145513,
+          "signed_pct_error": -13.897633136094678,
+          "abs_pct_error": 13.897633136094678,
+          "inside_range": true
+        },
+        {
+          "id": "V18",
+          "variant": "virus_sw",
+          "listed_usd": 129000,
+          "estimated_ask_usd": 107227,
+          "signed_pct_error": -16.878294573643416,
+          "abs_pct_error": 16.878294573643416,
+          "inside_range": true
+        },
+        {
+          "id": "V19",
+          "variant": "virus_explorer",
+          "listed_usd": 169000,
+          "estimated_ask_usd": 210422,
+          "signed_pct_error": 24.510059171597632,
+          "abs_pct_error": 24.510059171597632,
+          "inside_range": true
+        },
+        {
+          "id": "V21",
+          "variant": "virus_explorer",
+          "listed_usd": 217000,
+          "estimated_ask_usd": 196992,
+          "signed_pct_error": -9.220276497695856,
+          "abs_pct_error": 9.220276497695856,
+          "inside_range": true
+        },
+        {
+          "id": "V22",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 99976,
+          "signed_pct_error": -9.27767695099817,
+          "abs_pct_error": 9.27767695099817,
+          "inside_range": true
+        },
+        {
+          "id": "V23",
+          "variant": "virus_sw",
+          "listed_usd": 121799.99999999999,
+          "estimated_ask_usd": 125174,
+          "signed_pct_error": 2.7701149425287452,
+          "abs_pct_error": 2.7701149425287452,
+          "inside_range": true
+        },
+        {
+          "id": "V24",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 98533,
+          "signed_pct_error": -10.58711433756805,
+          "abs_pct_error": 10.58711433756805,
+          "inside_range": true
+        },
+        {
+          "id": "V25",
+          "variant": "virus_sw",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 77658,
+          "signed_pct_error": -29.529945553539005,
+          "abs_pct_error": 29.529945553539005,
+          "inside_range": false
+        },
+        {
+          "id": "V26",
+          "variant": "virus_sw",
+          "listed_usd": 114839.99999999999,
+          "estimated_ask_usd": 102276,
+          "signed_pct_error": -10.940438871473345,
+          "abs_pct_error": 10.940438871473345,
+          "inside_range": true
+        },
+        {
+          "id": "S01",
+          "variant": "sinus_max",
+          "listed_usd": 185000,
+          "estimated_ask_usd": 167129,
+          "signed_pct_error": -9.660000000000002,
+          "abs_pct_error": 9.660000000000002,
+          "inside_range": true
+        },
+        {
+          "id": "S05",
+          "variant": "sinus_classic",
+          "listed_usd": 110199.99999999999,
+          "estimated_ask_usd": 64584,
+          "signed_pct_error": -41.39382940108892,
+          "abs_pct_error": 41.39382940108892,
+          "inside_range": false
+        },
+        {
+          "id": "S06",
+          "variant": "sinus_classic",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 60520,
+          "signed_pct_error": -24.387806096951525,
+          "abs_pct_error": 24.387806096951525,
+          "inside_range": true
+        },
+        {
+          "id": "S07",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 79118,
+          "signed_pct_error": -21.60325009908839,
+          "abs_pct_error": 21.60325009908839,
+          "inside_range": true
+        },
+        {
+          "id": "S08",
+          "variant": "sinus_classic",
+          "listed_usd": 69600,
+          "estimated_ask_usd": 71178,
+          "signed_pct_error": 2.2672413793103363,
+          "abs_pct_error": 2.2672413793103363,
+          "inside_range": true
+        },
+        {
+          "id": "S09",
+          "variant": "sinus_classic",
+          "listed_usd": 84100,
+          "estimated_ask_usd": 62321,
+          "signed_pct_error": -25.89655172413793,
+          "abs_pct_error": 25.89655172413793,
+          "inside_range": false
+        },
+        {
+          "id": "S10",
+          "variant": "sinus_classic",
+          "listed_usd": 45240,
+          "estimated_ask_usd": 52178,
+          "signed_pct_error": 15.33598585322724,
+          "abs_pct_error": 15.33598585322724,
+          "inside_range": true
+        },
+        {
+          "id": "S12",
+          "variant": "sinus_flex",
+          "listed_usd": 80040,
+          "estimated_ask_usd": 116551,
+          "signed_pct_error": 45.615942028985515,
+          "abs_pct_error": 45.615942028985515,
+          "inside_range": true
+        },
+        {
+          "id": "S15",
+          "variant": "sinus_classic",
+          "listed_usd": 100920,
+          "estimated_ask_usd": 86302,
+          "signed_pct_error": -14.484740388426475,
+          "abs_pct_error": 14.484740388426475,
+          "inside_range": true
+        },
+        {
+          "id": "S17",
+          "variant": "sinus_flex",
+          "listed_usd": 168000,
+          "estimated_ask_usd": 143534,
+          "signed_pct_error": -14.563095238095237,
+          "abs_pct_error": 14.563095238095237,
+          "inside_range": true
+        },
+        {
+          "id": "S18",
+          "variant": "sinus_flex",
+          "listed_usd": 179000,
+          "estimated_ask_usd": 142435,
+          "signed_pct_error": -20.427374301675982,
+          "abs_pct_error": 20.427374301675982,
+          "inside_range": true
+        },
+        {
+          "id": "S19",
+          "variant": "sinus_flex",
+          "listed_usd": 122500,
+          "estimated_ask_usd": 104367,
+          "signed_pct_error": -14.802448979591832,
+          "abs_pct_error": 14.802448979591832,
+          "inside_range": true
+        },
+        {
+          "id": "S20",
+          "variant": "sinus_flex",
+          "listed_usd": 199000,
+          "estimated_ask_usd": 140997,
+          "signed_pct_error": -29.147236180904525,
+          "abs_pct_error": 29.147236180904525,
+          "inside_range": false
+        },
+        {
+          "id": "S21",
+          "variant": "sinus_flex",
+          "listed_usd": 69900,
+          "estimated_ask_usd": 102320,
+          "signed_pct_error": 46.380543633762514,
+          "abs_pct_error": 46.380543633762514,
+          "inside_range": true
+        },
+        {
+          "id": "V35",
+          "variant": "virus_sw",
+          "listed_usd": 139200,
+          "estimated_ask_usd": 133321,
+          "signed_pct_error": -4.223419540229889,
+          "abs_pct_error": 4.223419540229889,
+          "inside_range": true
+        },
+        {
+          "id": "V37",
+          "variant": "virus_sw",
+          "listed_usd": 156600,
+          "estimated_ask_usd": 145908,
+          "signed_pct_error": -6.827586206896552,
+          "abs_pct_error": 6.827586206896552,
+          "inside_range": true
+        },
+        {
+          "id": "V42",
+          "variant": "virus_long",
+          "listed_usd": 69000,
+          "estimated_ask_usd": 65214,
+          "signed_pct_error": -5.486956521739128,
+          "abs_pct_error": 5.486956521739128,
+          "inside_range": true
+        },
+        {
+          "id": "V43",
+          "variant": "virus_sw",
+          "listed_usd": 159000,
+          "estimated_ask_usd": 98316,
+          "signed_pct_error": -38.16603773584906,
+          "abs_pct_error": 38.16603773584906,
+          "inside_range": false
+        },
+        {
+          "id": "S22",
+          "variant": "sinus_classic",
+          "listed_usd": 92000,
+          "estimated_ask_usd": 72580,
+          "signed_pct_error": -21.108695652173914,
+          "abs_pct_error": 21.108695652173914,
+          "inside_range": true
+        }
+      ]
+    }
+  },
+  "changes": [
+    {
+      "id": "V01",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V02",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V03",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V04",
+      "variant": "virus_explorer",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V06",
+      "variant": "virus_sw121",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V07",
+      "variant": "virus_explorer",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V08",
+      "variant": "virus_explorer",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V09",
+      "variant": "virus_long",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V11",
+      "variant": "virus_sw",
+      "asking_change_usd": -450,
+      "error_change_points": 0.31
+    },
+    {
+      "id": "V12",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V13",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V15",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V16",
+      "variant": "virus_long",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V17",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V18",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V19",
+      "variant": "virus_explorer",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V21",
+      "variant": "virus_explorer",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V22",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V23",
+      "variant": "virus_sw",
+      "asking_change_usd": 11,
+      "error_change_points": 0.01
+    },
+    {
+      "id": "V24",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V25",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V26",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S01",
+      "variant": "sinus_max",
+      "asking_change_usd": -135,
+      "error_change_points": 0.07
+    },
+    {
+      "id": "S05",
+      "variant": "sinus_classic",
+      "asking_change_usd": -1100,
+      "error_change_points": 1
+    },
+    {
+      "id": "S06",
+      "variant": "sinus_classic",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S07",
+      "variant": "sinus_classic",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S08",
+      "variant": "sinus_classic",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S09",
+      "variant": "sinus_classic",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S10",
+      "variant": "sinus_classic",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S12",
+      "variant": "sinus_flex",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S15",
+      "variant": "sinus_classic",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S17",
+      "variant": "sinus_flex",
+      "asking_change_usd": -179,
+      "error_change_points": 0.11
+    },
+    {
+      "id": "S18",
+      "variant": "sinus_flex",
+      "asking_change_usd": -179,
+      "error_change_points": 0.1
+    },
+    {
+      "id": "S19",
+      "variant": "sinus_flex",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S20",
+      "variant": "sinus_flex",
+      "asking_change_usd": -265,
+      "error_change_points": 0.13
+    },
+    {
+      "id": "S21",
+      "variant": "sinus_flex",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V35",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V37",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V42",
+      "variant": "virus_long",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "V43",
+      "variant": "virus_sw",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    },
+    {
+      "id": "S22",
+      "variant": "sinus_classic",
+      "asking_change_usd": 0,
+      "error_change_points": 0
+    }
+  ]
+}

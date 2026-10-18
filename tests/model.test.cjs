@@ -74,7 +74,7 @@ check('price formation reconciles to the displayed midpoint for every record',()
 check('year, airframe, engine and negotiation sweeps have consistent direction',()=>{
  const failure=run(`(()=>{
   const cases=[['default',defaults],...Object.keys(vs).map(variant=>[variant,{...defaults,variant,...vs[variant].typ}]),...OBS.filter(isEligible).map(o=>[o.id,recordScenario(o,defaults)])];
-  for(const [id,c] of cases)for(const [axis,min,max,step,direction] of [['hours',0,4000,25,-1],['year',2000,2026,1,1],['engineHours',0,3000,100,-1],['negotiation',0,20,1,-1]]){
+  for(const [id,c] of cases)for(const [axis,min,max,step,direction] of [['hours',0,4000,25,-1],['year',2000,2026,1,1],['engineHours',0,3000,100,-1],['serviceYear',1970,2026,1,1],['repackYear',1980,2026,1,1],['rocketYear',2025,2040,1,1],['negotiation',0,20,1,-1]]){
    let previous=null;
    for(let value=min;value<=max;value+=step){const r=calculate({...c,[axis]:value});
     if(![r.low,r.midpoint,r.high].every(Number.isFinite)||r.low>r.midpoint||r.midpoint>r.high)return {id,axis,value,error:'invalid bounds'};
@@ -111,5 +111,39 @@ check('equipment steps ascend by actual price and retain every choice identity',
   return null;
  })()`);
  assert.equal(failure,null,JSON.stringify(failure));
+});
+check('engine cost references match the reviewed source and preserve partial residual value',()=>{
+ const evidence=require('../research/component-evidence.json').records.find(r=>r.id==='rotech-2026');
+ for(const [engine,cost] of Object.entries(evidence.prices)){
+  assert.equal(run(`engineCostReference('${engine}').usd`),cost);
+  assert.equal(run(`engineCostReference('${engine}').sourced`),true);
+  const loss=run(`engineDepreciation({...defaults,engine:'${engine}',engineHours:2000,engineTbo:2000,serviceYear:2026,engineCalendar:15})`);
+  assert.ok(loss>0&&loss<cost,'TBO does not erase all residual engine value');
+  assert.equal(loss,run(`engineDepreciation({...defaults,engine:'${engine}',engineHours:5000,engineTbo:2000,serviceYear:2026,engineCalendar:15})`),'overdue exposure is capped');
+ }
+ assert.equal(run('engineCostReference("s3").sourced'),false);
+ assert.equal(run('engineCostReference("s3").usd'),24500);
+});
+check('parachute milestones are continuous and do not charge an absent system',()=>{
+ for(const [remaining,loss] of [[0,3200],[2,2000],[4,1100],[6,250],[8,0]]){
+  const expr=`rescueLoss({...defaults,rescue:'grs',repackEvidence:'date',repackInterval:6,rocketYear:0,repackYear:2020+${remaining}})`;
+  assert.equal(run(expr),loss);
+  const jump=run(`Math.abs(rescueLoss({...defaults,repackEvidence:'date',repackInterval:6,rocketYear:0,repackYear:2020+${remaining}-.00001})-rescueLoss({...defaults,repackEvidence:'date',repackInterval:6,rocketYear:0,repackYear:2020+${remaining}+.00001}))`);
+  assert.ok(jump<.02,`repack boundary ${remaining}: $${jump}`);
+ }
+ for(const remaining of [0,2,4]){
+  const jump=run(`Math.abs(rescueLoss({...defaults,rocketYear:YEAR+${remaining}-.00001})-rescueLoss({...defaults,rocketYear:YEAR+${remaining}+.00001}))`);
+  assert.ok(jump<.02,`rocket boundary ${remaining}: $${jump}`);
+ }
+ for(const rescue of ['none','unknown'])assert.equal(run(`rescueLoss({...defaults,rescue:'${rescue}',repackEvidence:'due',rocketYear:2020})`),0);
+ assert.equal(run('rescueLoss({...defaults,repackEvidence:"unknown",rocketYear:0})'),1850);
+ assert.equal(run('rescueLoss({...defaults,repackEvidence:"due",rocketYear:2020})'),5000);
+});
+check('calendar graphs retain dates and respect explicit deadline overrides',()=>{
+ assert.equal(run('axisValueLabel("serviceYear",2018)'),'2018');
+ assert.equal(run('axisDomain({...defaults,serviceYear:1980},"serviceYear")[0]'),1980);
+ assert.equal(run('axisDomain({...defaults,repackYear:null},"repackYear")[0]'),2010);
+ assert.equal(run('new Set(curveSamples({...defaults,engineDue:"2029-06"},"serviceYear").map(p=>p.mid)).size'),1);
+ assert.equal(run('new Set(curveSamples({...defaults,repackEvidence:"deadline",repackDue:"2029-06"},"repackYear").map(p=>p.mid)).size'),1);
 });
 console.log(`${checks} model regression groups passed.`);

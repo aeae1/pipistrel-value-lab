@@ -223,5 +223,25 @@
     "title": "Manufacturer-hosted EASA TCDS issue 11",
     "url": "https://www.pipistrel-aircraft.com/wp-content/uploads/2023/04/TCDS-EASA.A.573-issue-11.pdf",
     "detail": "Historical 2022 type sheet: SW121 and SW121A engine/landing-gear basis. Consult EASA for current revision."
+  },
+  {
+    "title": "Rotech — 2026 Rotax engine USD catalog",
+    "url": "https://prices.rotech.ca/repl",
+    "detail": "Reviewed October 18: UL 20625, ULS 23718, iS 30092, 914 UL 37571 USD. Different accessory bundles; new-engine cost references, not installed overhaul prices or resale premiums. No matched 912 S3 quote."
+  },
+  {
+    "title": "Dynon — SkyView HDX hardware scope",
+    "url": "https://dynonavionics.com/skyview-hdx.php",
+    "detail": "Display hardware is part of an avionics installation, not a complete installed panel or an isolated used-aircraft resale premium."
+  },
+  {
+    "title": "Dynon — SkyView autopilot integration",
+    "url": "https://dynonavionics.com/autopilot-overview.php/1000",
+    "detail": "Integrated panel/autopilot architecture shares hardware. Equipment bundles cannot establish independent resale add-ons simply by adding new prices."
+  },
+  {
+    "title": "Broader-airframe evidence review — 18 October 2026",
+    "url": "https://github.com/aeae1/pipistrel-value-lab/blob/main/research/README.md",
+    "detail": "29 external aircraft reviewed, 19 informative within-model comparisons; robust fits, 2000 resamples, family and documentation sensitivity. No empirical age/hour/equipment coefficient transferred. External aircraft never enter the target comparable pool."
   }
 ]

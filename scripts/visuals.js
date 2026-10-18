@@ -2,8 +2,10 @@
 'use strict';
 const VISUAL_AXES={
  hours:{name:'Airframe hours',short:'TTAF',unit:'h',min:0,max:4000,step:1,delta:100,note:'Airframe time only; engine hours and service dates stay fixed. The assumed airframe discount is capped, so the high-hour curve can flatten.'},
- year:{name:'Model year',short:'Year',min:2000,max:2026,step:1,delta:1,note:'Build-year comparison at the research date, not a forecast of future depreciation. Engine service dates stay fixed.'},
+ year:{name:'Model year',short:'Year',calendar:true,min:2000,max:2026,step:1,delta:1,note:'Build-year comparison at the research date, not a forecast of future depreciation. Engine service dates stay fixed.'},
  engineHours:{name:'Engine hours',short:'Engine hours',unit:'h',min:0,max:3000,step:1,delta:100,note:'Hours since new or overhaul only. A calendar limit can make part of this curve flat.'},
+ serviceYear:{name:'Engine service year',short:'Engine service',calendar:true,min:2000,max:2026,step:1,delta:1,note:'First operation or last overhaul year, with engine hours fixed. A stated deadline overrides this year; an exhausted hour limit can also make the curve flat.'},
+ repackYear:{name:'Parachute repack year',short:'Repack year',calendar:true,min:2010,max:2026,step:1,delta:1,note:'Repack year with the selected interval fixed. The allowance changes continuously between service milestones; it is not a service quotation. Select documented repack year to use this input.'},
  avionics:{name:'Avionics',short:'Avionics',choices:[['analog','Analog'],['legacyGlass','Legacy glass'],['hdx','Dynon HDX'],['g3x','Garmin G3X'],['g1000','G1000*']],note:'Steps compare complete aircraft estimates with each panel choice. G1000 is hypothetical; compatibility and approval are unverified.'},
  autopilot:{name:'Autopilot',short:'Autopilot',choices:[['none','None'],['basic','Basic'],['installed','Axes unknown'],['twoaxis','Two-axis']],note:'Installed with unknown axes is an uncertainty assumption, not a separate hardware tier.'},
  prop:{name:'Propeller',short:'Propeller',choices:[['fixed','Fixed'],['ground','Ground adj.'],['inflight','In-flight adj.'],['constant','Constant speed']],note:'Propeller types are discrete scenarios. Maintenance status stays fixed; installation approval needs separate verification.'},
@@ -16,12 +18,13 @@ const curveCache=new Map();
 function axisValueLabel(axis,value){
  const a=VISUAL_AXES[axis];
  if(value===null||value===undefined||value===''||value==='unknown')return 'Unknown';
- return a.choices?(a.choices.find(x=>x[0]===value)?.[1]||String(value)):axis==='year'?String(value):hoursFmt(value)+(a.unit==='%'?'%':' h');
+ return a.choices?(a.choices.find(x=>x[0]===value)?.[1]||String(value)):a.calendar?String(value):hoursFmt(value)+(a.unit==='%'?'%':' h');
 }
 function axisDomain(c,axis){
  const a=VISUAL_AXES[axis];
  if(a.choices)return [0,a.choices.length-1];
- return [a.min,finite(c[axis])>a.max?Math.ceil(c[axis]/500)*500:a.max];
+ const value=finite(c[axis],null),scale=a.calendar?1:500;
+ return [a.calendar&&value!==null?Math.min(a.min,Math.floor(value)):a.min,value!==null&&value>a.max?Math.ceil(value/scale)*scale:a.max];
 }
 function axisPosition(axis,value,points=null){const a=VISUAL_AXES[axis];return a.choices?(points?points.findIndex(p=>p.value===value):a.choices.findIndex(x=>x[0]===value)):finite(value,null)}
 function curveSamples(c,axis,domain=axisDomain(c,axis)){
@@ -30,7 +33,7 @@ function curveSamples(c,axis,domain=axisDomain(c,axis)){
  for(const key of ['askingPrice','askingCurrency','budget','shippingLow','shippingHigh','registrationCosts','duty','tax','vatRebate','eligibility'])delete copy[key];
  const signature=JSON.stringify([axis,domain,copy]);
  if(curveCache.has(signature))return curveCache.get(signature);
- const n=axis==='year'?domain[1]-domain[0]:48;
+ const n=a.calendar?domain[1]-domain[0]:48;
  const values=a.choices?a.choices.map(x=>x[0]):Array.from({length:n+1},(_,i)=>domain[0]+(domain[1]-domain[0])*i/n);
  const evaluate=(value,i=value)=>{const r=calculate({...c,[axis]:value});return{x:a.choices?i:value,value,mid:r.midpoint,low:r.low,high:r.high}};
  const anchors=values.map(evaluate),points=[];
@@ -42,7 +45,7 @@ function curveSamples(c,axis,domain=axisDomain(c,axis)){
   if(error>20&&depth<8){refine(left,middle,depth+1);refine(middle,right,depth+1)}else points.push(right);
  };
  points.push(anchors[0]);
- for(let i=1;i<anchors.length;i++){if(a.choices||axis==='year')points.push(anchors[i]);else refine(anchors[i-1],anchors[i])}
+ for(let i=1;i<anchors.length;i++){if(a.choices||a.calendar)points.push(anchors[i]);else refine(anchors[i-1],anchors[i])}
  // Equipment is categorical: display actual scenario prices low to high,
  // without changing the estimates to manufacture a rising staircase.
  if(a.choices){points.sort((a,b)=>a.mid-b.mid);points.forEach((point,i)=>{point.x=i})}
@@ -75,7 +78,7 @@ function initializePlot(svg,prefix,mini=false){
 function drawCurve(svg,prefix,c,r,axis,mini=false,pin=null){
  initializePlot(svg,prefix,mini);
  const a=VISUAL_AXES[axis],domain=axisDomain(c,axis);
- if(pin&&!a.choices)domain[1]=Math.max(domain[1],axisDomain(pin,axis)[1]);
+ if(pin&&!a.choices){const pinnedDomain=axisDomain(pin,axis);domain[0]=Math.min(domain[0],pinnedDomain[0]);domain[1]=Math.max(domain[1],pinnedDomain[1]);}
  const points=curveWithCurrent(curveSamples(c,axis,domain),c,r,axis);
  let pinned=pin?curveWithCurrent(curveSamples(pin,axis,domain),pin,calculate(pin),axis):[];
  // A pin uses the current category order so like-for-like labels stay aligned.
@@ -93,7 +96,7 @@ function drawCurve(svg,prefix,c,r,axis,mini=false,pin=null){
  svg.querySelector('desc').textContent=`${a.note} Current setting: ${axisValueLabel(axis,c[axis])}; purchase midpoint ${money(r.midpoint)}. Other inputs stay fixed.`;
  const grid=Array.from({length:mini?2:4},(_,i)=>yMin+(yMax-yMin)*i/(mini?1:3));
  svg.querySelector('.plot-grid').innerHTML=grid.map(v=>`<line x1="${left}" x2="${right}" y1="${y(v)}" y2="${y(v)}"/><text x="${left-9}" y="${y(v)+4}" text-anchor="end">${compactMoney(v)}</text>`).join('');
- const ticks=a.choices?points.map(p=>[p.x,mini&&axis==='avionics'?({analog:'Analog',legacyGlass:'Legacy',hdx:'HDX',g3x:'G3X',g1000:'G1000*'})[p.value]:axisValueLabel(axis,p.value)]):Array.from({length:mini?3:5},(_,i)=>{const v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);return[v,axis==='year'?Math.round(v):fmt(v)+(a.unit==='%'?'%':'')]});
+ const ticks=a.choices?points.map(p=>[p.x,mini&&axis==='avionics'?({analog:'Analog',legacyGlass:'Legacy',hdx:'HDX',g3x:'G3X',g1000:'G1000*'})[p.value]:axisValueLabel(axis,p.value)]):Array.from({length:mini?3:5},(_,i)=>{const v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);return[v,a.calendar?Math.round(v):fmt(v)+(a.unit==='%'?'%':'')]});
  svg.querySelector('.plot-ticks').innerHTML=ticks.map(([v,label])=>`<text x="${x(v)}" y="${bottom+22}" text-anchor="${v===domain[0]?'start':v===domain[1]?'end':'middle'}">${esc(label)}</text>`).join('');
  svg.querySelector('.plot-line').setAttribute('d',svgCurvePath(points,x,y,'mid',!!a.choices));
  const band=svg.querySelector('.plot-band');
@@ -136,7 +139,8 @@ function paintVisuals(c,r){
  $('curveCurrent').textContent=axisValueLabel(axis,c[axis]);
  $('curvePrice').textContent=money(r.midpoint);
  $('curveRange').textContent=money(r.low)+' – '+money(r.high)+' illustrative range';
- $('curveNote').textContent=(a.choices?'Choices run from lower to higher modeled value. ':'')+a.note+' All other inputs stay fixed. Curves show model sensitivity, not measured market depreciation.';
+ const inactive=axis==='repackYear'&&(c.repackEvidence!=='date'||['none','unknown'].includes(c.rescue))?'This input is inactive for the current rescue/repack selection. ':axis==='serviceYear'&&c.engineDue?'The stated engine deadline overrides the service year. ':'';
+ $('curveNote').textContent=inactive+(a.choices?'Choices run from lower to higher modeled value. ':'')+a.note+' All other inputs stay fixed. Curves show model sensitivity, not measured market depreciation.';
  $('curveSliderWrap').classList.toggle('hidden',!!a.choices);
  $('curveChoices').classList.toggle('hidden',!a.choices);
  $('curveSliderLabel').textContent=a.name;
@@ -150,14 +154,14 @@ function paintVisuals(c,r){
  }
  let changeLabel,change;
  if(a.choices){changeLabel='vs. '+axisValueLabel(axis,points[0].value);change=r.midpoint-points[0].mid;if(c[axis]==='unknown')change=null;}
- else{const v=finite(c[axis],null),d=v!==null&&v+a.delta<=domain[1]?a.delta:-a.delta;changeLabel=`${d>0?'+':''}${d}${axis==='year'?' year':a.unit==='%'?' point':' hours'}`;change=v===null?null:calculate({...c,[axis]:v+d}).midpoint-r.midpoint;}
+ else{const v=finite(c[axis],null),d=v!==null&&v+a.delta<=domain[1]?a.delta:-a.delta;changeLabel=`${d>0?'+':''}${d}${a.calendar?' year':a.unit==='%'?' point':' hours'}`;change=v===null?null:calculate({...c,[axis]:v+d}).midpoint-r.midpoint;}
  $('curveChangeLabel').textContent=changeLabel;$('curveChange').textContent=change===null?'Unknown':signedMoney(change);
  $('curvePinLegend').classList.toggle('hidden',!visualPin);
  $('curveBandLegend').classList.toggle('hidden',!visualShowRange);
  $('clearCurvePin').classList.toggle('hidden',!visualPin);
  $('curvePinDelta').textContent=visualPin?signedMoney(r.midpoint-calculate(visualPin).midpoint)+' vs. pinned scenario':'Pin a scenario to compare changes';
  $('pinCurve').textContent=visualPin?'Update pin':'Pin comparison';
- for(const key of ['year','hours','engineHours','avionics']){drawCurve($('miniCurve-'+key),'mini-'+key,c,r,key,true);$('miniValue-'+key).textContent=axisValueLabel(key,c[key])+' · '+money(r.midpoint);}
+ for(const key of ['year','hours','engineHours','serviceYear','repackYear','avionics']){drawCurve($('miniCurve-'+key),'mini-'+key,c,r,key,true);$('miniValue-'+key).textContent=axisValueLabel(key,c[key])+' · '+money(r.midpoint);}
  renderBridge(c,r);
 }
 function setVisualValue(value){
@@ -178,7 +182,7 @@ function initVisuals(){
  $('pinCurve').addEventListener('click',()=>{visualPin={...getConfig()};renderVisuals(getConfig(),lastReport)});
  $('clearCurvePin').addEventListener('click',()=>{visualPin=null;renderVisuals(getConfig(),lastReport)});
  document.addEventListener('input',e=>{const axis=e.target.id==='hoursSlider'?'hours':e.target.id;if(VISUAL_AXES[axis]){visualAxis=axis;renderVisuals(getConfig(),lastReport)}});
- for(const axis of ['year','hours','engineHours','avionics']){
+ for(const axis of ['year','hours','engineHours','serviceYear','repackYear','avionics']){
   const field=$(axis).closest('.field'),host=document.createElement('div');host.className='inline-curve';
   host.innerHTML=`<div class="inline-curve-label"><span>${VISUAL_AXES[axis].name} → purchase price</span><b id="miniValue-${axis}"></b></div><svg id="miniCurve-${axis}" class="mini-curve" role="img"></svg>`;field.appendChild(host);
  }

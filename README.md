@@ -20,7 +20,7 @@ Settings are saved locally in your browser where storage is available. Use **Cop
 
 ## What you can explore
 
-- **Live price curves and equipment steps:** explore model year, airframe and engine hours, avionics, autopilot, propeller, engine type, condition, and negotiation. A moving marker follows your setting; pin a scenario to compare it with later changes.
+- **Live price curves and equipment steps:** explore model year, airframe and engine hours, engine service year, parachute repack year, avionics, autopilot, propeller, engine type, condition, and negotiation. A moving marker follows your setting; pin a scenario to compare it with later changes.
 - **Visual price explanations:** see the adjustments that form the purchase midpoint and the mix of acquisition costs. Small graphs sit beside key inputs, and a pinned price-and-range bar stays visible while you scroll.
 - **Aircraft and equipment:** seven variant groups, multiple Rotax engine configurations, avionics, autopilot, propeller, parachute, wingtip sets, and other options.
 - **Maintenance and history:** engine hour and calendar limits, parachute repack and rocket deadlines, propeller overhaul, hose replacement, gearbox service, damage history, and logbook quality.
@@ -40,11 +40,13 @@ The model distinguishes fuel-injected Virus SW100 912iS aircraft from certified 
 
 ## Data and methodology
 
-**Research snapshot: 16 October 2026.** The database contains **98 source-linked price observations**, including **48 individually priced, model-eligible asking records**, **31 historical Sinus archive entries**, and **3 factory/new pricing references**, plus other held-out, duplicate, or uncertain records. There are **45 supporting research references**. Historical archive entries are excluded from statistical price weighting; parts-only, salvage, and known non-airworthy projects are omitted from the database.
+**Research snapshot: 16 October 2026.** The database contains **98 source-linked price observations**, including **48 individually priced, model-eligible asking records**, **31 historical Sinus archive entries**, and **3 factory/new pricing references**, plus other held-out, duplicate, or uncertain records. There are **49 supporting research references**, including the October 18 curve review. Historical archive entries are excluded from statistical price weighting; parts-only, salvage, and known non-airworthy projects are omitted from the database.
 
 Estimates blend an explicit reference-year asking-price baseline with adjusted same-variant comparables, accounting for age, source quality, market, equipment, maintenance, and condition. Comparable weights stay fixed against each variant’s reference year and 500 hours while the year/hour adjustments change, preventing slider-driven jumps in evidence weight. Engine hours are valued separately. Equipment steps and their dropdowns run from lower to higher modeled price. Thin or widely scattered comparables produce wider ranges. These ranges are heuristic judgment bands, not statistical confidence intervals. Loading a listing excludes that aircraft and its grouped duplicates from its own comparables.
 
-A retrospective **41-aircraft holdout check**, using known airframe hours and zero negotiation, found a **14.48% median absolute difference from advertised asking prices**; **34 of 41 asks (82.9%)** fell inside the displayed bands. This checks consistency with the collected asking-price data, not accuracy against completed sales. See the [audit summary](tests/backtest-summary.json) and [row-level results](tests/backtest-results.csv) for full results and variant bias.
+A retrospective **41-aircraft holdout check**, using known airframe hours and zero negotiation, found a **14.56% median absolute difference from advertised asking prices**; **34 of 41 asks (82.9%)** fell inside the displayed bands. This checks consistency with the collected asking-price data, not accuracy against completed sales. See the [audit summary](tests/backtest-summary.json) and [row-level results](tests/backtest-results.csv) for full results and variant bias.
+
+The [October 18 broader-airframe review](research/README.md) documents 29 external aircraft records, robust fits and 2,000 resamples. Insufficient service-history separation prevented transferring age/hour/equipment coefficients. Published engine catalog prices now anchor the engine cost scale, and parachute allowances change continuously between service milestones. Asking-price audit performance is essentially unchanged (slightly worse); the update makes no accuracy-gain claim.
 
 Read [RESEARCH.md](RESEARCH.md) for original sources, model assumptions, source corrections, and limitations.
 
@@ -75,6 +77,7 @@ The website is published through GitHub Pages from `main` / the repository root.
 | [`data/sources.json`](data/sources.json) | Supporting manufacturer, maintenance, regulatory, and acquisition references |
 | [`scripts/build.py`](scripts/build.py) | Generates the deployable `index.html` |
 | [`scripts/validate_data.py`](scripts/validate_data.py) | Data schema, identifiers, and source checks |
+| [`research/`](research/) | Separate external evidence, reproducible sensitivity analysis, and transfer decisions |
 | [`tests/`](tests/) | Model regressions, asking-price audit, and desktop/mobile browser checks |
 | [Validation workflow](.github/workflows/validate.yml) | Automated checks on pushes and pull requests |
 

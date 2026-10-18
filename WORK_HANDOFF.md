@@ -1,5 +1,13 @@
 # Work-mode takeover brief — Pipistrel Value Lab
 
+## 18 October 2026 broader-evidence review — latest
+
+The external study is in `research/`: 29 reviewed aircraft records, 24 diagnostic candidates, 19 observations in repeated exact-model groups. Robust/ordinary fits, 2,000 fixed-seed resamples, family exclusions and documentation/engine-history sensitivities reject empirical transfer because of small sample and missing calendar history. No external aircraft enters production comparables. No target observations, age/hour slopes, baseline asks or equipment premiums changed.
+
+Production uses Rotech USD new-engine catalog cost references (UL 20625, ULS 23718, iS 30092, 914 37571), retaining an explicitly unquoted S3 24500 prior. The .49 capitalization share and 1.27 exponent remain assumptions. Repack and rocket cost pressure now interpolate through the old milestone values, preserving due/unknown/absent behavior. The UI adds service-year and repack-year curves, an engine cost-reference note, and an evidence table. Existing banner, price bar and category ordering remain.
+
+Current target audit: **14.56% median / 17.79% mean absolute asking error**, **−10.46% signed mean**, **34/41 in band**. This is slightly worse than 14.48% / 17.75%; the update is a provenance/continuity correction, not an accuracy gain. `research/audit_candidates.cjs` reproduces the baseline and both changes independently using git history at `71c5459`. The target listing snapshot stays October 16; evidence review date is October 18. There are now 49 linked references. Read the research report before altering any transfer rule or interpreting external coefficients as causal depreciation. Validation: 21 model regression groups, data/source validation, candidate attribution and the production holdout pass; desktop 1440px and mobile 390px browser checks pass without page errors.
+
 ## 18 October 2026 curve review and website banner
 
 The selected Alpine Light banner (three-blade propeller with motion blur; all three landing wheels) is now the website header as well as the README banner. `scripts/build.py` embeds `docs/readme-banner.png` into the generated HTML, preserving single-file offline use. Desktop uses a shallow crop; mobile shows the full composition. Price pinning remains unchanged.
