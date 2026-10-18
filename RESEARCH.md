@@ -72,7 +72,7 @@ Some early 912UL/ULS serials had limits of 1,000/1,200/1,500 hours; later units 
 
 ### What the engine-age adjustment actually costs in the model
 
-The site deliberately uses a fraction of hypothetical overhaul/replacement expenditure to estimate what a buyer would subtract from a typical asking price. It uses baseline repair-cost hypotheses of **$24,500 (non-turbo 912)**, **$29,000 (912iS)** and **$30,000 (914)**, multiplies them by **0.49** and a non-linear TBO-used fraction, and **compares the selected engine's burden to a same-year benchmark engine**. It does *not* assume a buyer can buy a new engine or obtain an overhaul for only 49% of the hypothetical cost. Replacement vs overhaul actual quotations are model- and shop-dependent. The larger purchase valuation adjustment is a judgment, not direct market-derived regression. Treat it as adjustable sensitivity rather than a manufacturer quoted price.
+The site deliberately uses a fraction of hypothetical overhaul/replacement expenditure to estimate what a buyer would subtract from a typical asking price. It uses baseline repair-cost hypotheses of **$24,500 (non-turbo 912)**, **$29,000 (912iS)** and **$30,000 (914)**, multiplies them by **0.49** and a non-linear TBO-used fraction, and **compares the selected engine's burden to a same-year benchmark engine with 500 hours**. It does *not* assume a buyer can buy a new engine or obtain an overhaul for only 49% of the hypothetical cost. Replacement vs overhaul actual quotations are model- and shop-dependent. The larger purchase valuation adjustment is a judgment, not direct market-derived regression. Treat it as adjustable sensitivity rather than a manufacturer quoted price.
 
 ## 4. Parachutes and other near-term costs
 
@@ -116,30 +116,38 @@ The exact algorithm is readable in [scripts/app.js](scripts/app.js), particularl
 1. Start from a *disclosed* reference-year/price for each variant. These seven prior anchors are **modeling assumptions**, *not factory price sheets*.
 2. Shift the prior by about **2.9% per build year**, within a cap; adjust airframe time by approximately **$11–20/hour**, with bounded influence.
 3. For each usable same-family advertisement, normalize variant/reference year and any **known** time and equipment differences. Preserve unknown equipment as unknown; never infer “no parachute” from silence.
-4. Discount a comp for poor identification, stale date, extremely divergent year/hours, suspicious price, known duplicate risk, and a different sales/registration market. A foreign-market comp typically carries **55% of same-market base weight**, not the same credibility as a U.S. LSA in a U.S. deal.
+4. Discount a comp for poor identification, stale date, year/hours distant from the **fixed variant reference year and 500-hour anchor**, suspicious price, known duplicate risk, and a different sales/registration market. Year and hour price adjustments still follow the selected aircraft, but the weights do not reshuffle as either slider moves. A foreign-market comp typically carries **55% of same-market base weight**, not the same credibility as a U.S. LSA in a U.S. deal.
 5. Prefer **exact-variant** comps whenever three or more exist. Compute a robust trimmed weighted median/mean instead of taking the arithmetic mean of advertisements. Blend this comparable reference with the prior according to effective matched sample size; strong matched comps contribute at most **82%**.
 6. Apply condition, known repair history, uncertain logbooks and engine/repack/prop/gearbox status. A negotiated concession percentage (default **4%**) is an explicit **assumption**, not a reported sold-versus-ask discount.
 7. Display a **wide heuristic interval** (generally ±17–47% around the modeled midpoint). Particularly heterogeneous Sinus Flex has a minimum ±35% band; Explorer a minimum ±30%. **This is not a measured statistical confidence interval** and does not guarantee a sale will fall inside it.
 
 The model separates **price** confidence (scarcity of exact comparable advertisements) from **legal/useability uncertainty** (whether the registration and engine/parachute hardware are acceptable for the buyer's planned U.S. operations). A low foreign advertised ask does not make a foreign ultralight eligible for FAA aircraft registration.
 
+### Curve consistency review — 18 October 2026
+
+The earlier dynamic weighting could produce price jumps and counterintuitive reversals as year or TTAF changed. The model now anchors evidence weights to each variant's fixed reference year and 500 hours. The reference engine also stays at 500 hours, so extra airframe time cannot create an unrelated engine credit. Unknown engine hours use this neutral reference, not zero hours. Negotiation uses the same $10,000 lower bound as the asking benchmark and cannot make a purchase midpoint exceed its ask.
+
+Regression sweeps cover 56 configurations (defaults, all seven variants, and every eligible listing preset): newer model years do not lower the midpoint, and more airframe hours, engine hours or negotiation do not raise it. Numeric plots adaptively sample maintenance knees and include the exact selected value. Equipment comparisons sort by the actual modeled midpoint; pinned comparisons retain matching category positions. These are consistency checks, not evidence that the assumed coefficients are market-calibrated.
+
+The same 41-aircraft holdout had 14.58% median / 17.71% mean absolute asking-price error before these fixes and 14.48% / 17.75% afterward; range coverage remains 34/41. This is essentially unchanged predictive performance, not an accuracy breakthrough. No age, equipment or engine-cost coefficient was retuned to improve the score.
+
 ### Evidence holdout audit (not a sales-price test)
 
 The revised audit uses the actual production JavaScript in Node and the **same `recordScenario` mapping as the UI**. For each of 41 eligible records with airframe time, `sourceId` excludes its whole `aircraftId` group, including conservatively grouped suspected duplicates; negotiation is zero. Runtime comp selection also deduplicates groups. Unknowns remain visible and use the model's explicit fallback/reserve assumptions. No coefficient was fitted to these held-out rows.
 
-Overall: **14.58% median absolute asking-price error**, **17.71% mean absolute error**, **−10.02% mean signed error** (underprediction on average), and **34/41 asks (82.9%)** inside the heuristic bands.
+Overall: **14.48% median absolute asking-price error**, **17.75% mean absolute error**, **−10.42% mean signed error** (underprediction on average), and **34/41 asks (82.9%)** inside the heuristic bands.
 
 | Variant | Aircraft | Median absolute error | Mean signed error | In band |
 |---|---:|---:|---:|---:|
-| sinus_classic | 8 | 21.90% | -15.67% | 6/8 |
-| sinus_flex | 6 | 23.44% | +3.20% | 5/6 |
-| sinus_max | 1 | 9.85% | -9.85% | 1/1 |
-| virus_explorer | 5 | 9.24% | -1.08% | 5/5 |
-| virus_long | 3 | 10.52% | -12.08% | 2/3 |
-| virus_sw | 17 | 13.16% | -14.44% | 14/17 |
-| virus_sw121 | 1 | 7.90% | -7.90% | 1/1 |
+| sinus_classic | 8 | 21.36% | -16.28% | 6/8 |
+| sinus_flex | 6 | 24.67% | +2.23% | 5/6 |
+| sinus_max | 1 | 9.59% | -9.59% | 1/1 |
+| virus_explorer | 5 | 9.22% | -0.98% | 5/5 |
+| virus_long | 3 | 10.10% | -12.48% | 2/3 |
+| virus_sw | 17 | 13.90% | -14.74% | 14/17 |
+| virus_sw121 | 1 | 7.91% | -7.91% | 1/1 |
 
-Largest residuals: S12 +45.75%, S21 +45.61%, S05 −41.64%, V16 −41.22%, V43 −38.00%, V03 −33.74%. Refurbishment, category differences and missing specifications remain material weaknesses. Full results: [CSV](tests/backtest-results.csv), [summary](tests/backtest-summary.json).
+Largest residuals: S21 +46.38%, S12 +45.62%, V16 -42.05%, S05 -40.40%, V43 -38.17%, V03 -34.69%. Refurbishment, category differences and missing specifications remain material weaknesses. Full results: [CSV](tests/backtest-results.csv), [summary](tests/backtest-summary.json).
 
 The earlier **38-row / 9.92% / 31-in-band** result used different preset imputation and listing-only exclusion. It is retained here as a historical result, **not an apples-to-apples improvement claim**. Manual priors, shared source indexes, unidentified repeats and absence of completed-sale data prevent independent accuracy claims. One-record variant subsets have almost no validation power; even broad band coverage does not establish calibrated probabilities. Unknown history/service reserves explain part of the signed bias and should be reconsidered only with better documentary evidence, not adjusted merely to make this corpus score look better.
 

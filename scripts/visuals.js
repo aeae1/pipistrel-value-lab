@@ -1,13 +1,13 @@
 /* Visual explanations use the production calculate() function. No second price model. */
 'use strict';
 const VISUAL_AXES={
- hours:{name:'Airframe hours',short:'TTAF',unit:'h',min:0,max:4000,step:1,delta:100,note:'Airframe time only; engine hours and service dates stay fixed.'},
+ hours:{name:'Airframe hours',short:'TTAF',unit:'h',min:0,max:4000,step:1,delta:100,note:'Airframe time only; engine hours and service dates stay fixed. The assumed airframe discount is capped, so the high-hour curve can flatten.'},
  year:{name:'Model year',short:'Year',min:2000,max:2026,step:1,delta:1,note:'Build-year comparison at the research date, not a forecast of future depreciation. Engine service dates stay fixed.'},
  engineHours:{name:'Engine hours',short:'Engine hours',unit:'h',min:0,max:3000,step:1,delta:100,note:'Hours since new or overhaul only. A calendar limit can make part of this curve flat.'},
  avionics:{name:'Avionics',short:'Avionics',choices:[['analog','Analog'],['legacyGlass','Legacy glass'],['hdx','Dynon HDX'],['g3x','Garmin G3X'],['g1000','G1000*']],note:'Steps compare complete aircraft estimates with each panel choice. G1000 is hypothetical; compatibility and approval are unverified.'},
  autopilot:{name:'Autopilot',short:'Autopilot',choices:[['none','None'],['basic','Basic'],['installed','Axes unknown'],['twoaxis','Two-axis']],note:'Installed with unknown axes is an uncertainty assumption, not a separate hardware tier.'},
  prop:{name:'Propeller',short:'Propeller',choices:[['fixed','Fixed'],['ground','Ground adj.'],['inflight','In-flight adj.'],['constant','Constant speed']],note:'Propeller types are discrete scenarios. Maintenance status stays fixed; installation approval needs separate verification.'},
- engine:{name:'Engine type',short:'Engine type',choices:[['ul80','912 UL'],['uls100','912 ULS'],['is100','912 iS'],['s3','912 S3'],['turbo','914 Turbo']],note:'Engine-type comparison keeps the selected hours and limits fixed. This does not establish an approved installation or TBO.'},
+ engine:{name:'Engine type',short:'Engine type',choices:[['ul80','912 UL'],['uls100','912 ULS'],['s3','912 S3'],['turbo','914 Turbo'],['is100','912 iS']],note:'Engine-type comparison keeps the selected hours and limits fixed. This does not establish an approved installation or TBO.'},
  condition:{name:'Condition',short:'Condition',choices:[['fair','Fair'],['good','Good'],['excellent','Excellent']],note:'Condition changes only; damage history, documentation and equipment stay fixed.'},
  negotiation:{name:'Negotiation',short:'Negotiation',unit:'%',min:0,max:20,step:.5,delta:1,note:'An assumed discount from asking price, not an observed transaction-price relationship.'}
 };
@@ -23,7 +23,7 @@ function axisDomain(c,axis){
  if(a.choices)return [0,a.choices.length-1];
  return [a.min,finite(c[axis])>a.max?Math.ceil(c[axis]/500)*500:a.max];
 }
-function axisPosition(axis,value){const a=VISUAL_AXES[axis];return a.choices?a.choices.findIndex(x=>x[0]===value):finite(value,null)}
+function axisPosition(axis,value,points=null){const a=VISUAL_AXES[axis];return a.choices?(points?points.findIndex(p=>p.value===value):a.choices.findIndex(x=>x[0]===value)):finite(value,null)}
 function curveSamples(c,axis,domain=axisDomain(c,axis)){
  const a=VISUAL_AXES[axis],copy={...c};delete copy[axis];
  // Acquisition and quote-only controls do not affect the price model.
@@ -32,7 +32,20 @@ function curveSamples(c,axis,domain=axisDomain(c,axis)){
  if(curveCache.has(signature))return curveCache.get(signature);
  const n=axis==='year'?domain[1]-domain[0]:48;
  const values=a.choices?a.choices.map(x=>x[0]):Array.from({length:n+1},(_,i)=>domain[0]+(domain[1]-domain[0])*i/n);
- const points=values.map((value,i)=>{const r=calculate({...c,[axis]:value});return{x:a.choices?i:value,value,mid:r.midpoint,low:r.low,high:r.high}});
+ const evaluate=(value,i=value)=>{const r=calculate({...c,[axis]:value});return{x:a.choices?i:value,value,mid:r.midpoint,low:r.low,high:r.high}};
+ const anchors=values.map(evaluate),points=[];
+ // Resolve maintenance knees and price floors to within $20 of the model.
+ // This is piecewise-linear sampling, never a decorative smoothing spline.
+ const refine=(left,right,depth=0)=>{
+  const middle=evaluate((left.x+right.x)/2);
+  const error=Math.max(...['mid','low','high'].map(key=>Math.abs(middle[key]-(left[key]+right[key])/2)));
+  if(error>20&&depth<8){refine(left,middle,depth+1);refine(middle,right,depth+1)}else points.push(right);
+ };
+ points.push(anchors[0]);
+ for(let i=1;i<anchors.length;i++){if(a.choices||axis==='year')points.push(anchors[i]);else refine(anchors[i-1],anchors[i])}
+ // Equipment is categorical: display actual scenario prices low to high,
+ // without changing the estimates to manufacture a rising staircase.
+ if(a.choices){points.sort((a,b)=>a.mid-b.mid);points.forEach((point,i)=>{point.x=i})}
  if(curveCache.size>24)curveCache.clear();
  curveCache.set(signature,points);return points;
 }
@@ -44,8 +57,14 @@ function priceBridge(c,r){
 }
 function signedMoney(value){return (value<0?'−':'+')+money(Math.abs(value))}
 function compactMoney(value){return '$'+(value/1000).toLocaleString('en-US',{maximumFractionDigits:1})+'k'}
-function svgCurvePath(points,x,y,key='mid',stepped=false){
- return points.map((p,i)=>i===0?`M${x(p.x)},${y(p[key])}`:stepped?`H${x(p.x)}V${y(p[key])}`:`L${x(p.x)},${y(p[key])}`).join(' ');
+function svgCurvePath(points,x,y,key='mid',stepped=false,reverse=false){
+ return points.map((p,i)=>i===0?`M${x(p.x)},${y(p[key])}`:stepped?reverse?`V${y(p[key])}H${x(p.x)}`:`H${x(p.x)}V${y(p[key])}`:`L${x(p.x)},${y(p[key])}`).join(' ');
+}
+function curveWithCurrent(points,c,r,axis){
+ const value=axisPosition(axis,c[axis]);
+ if(VISUAL_AXES[axis].choices||value===null||value<points[0].x||value>points.at(-1).x||points.some(p=>p.x===value))return points;
+ // The selected point belongs to the plotted line, including fractional hours.
+ return [...points,{x:value,value,mid:r.midpoint,low:r.low,high:r.high}].sort((a,b)=>a.x-b.x);
 }
 function initializePlot(svg,prefix,mini=false){
  if(svg.dataset.ready)return;
@@ -57,7 +76,10 @@ function drawCurve(svg,prefix,c,r,axis,mini=false,pin=null){
  initializePlot(svg,prefix,mini);
  const a=VISUAL_AXES[axis],domain=axisDomain(c,axis);
  if(pin&&!a.choices)domain[1]=Math.max(domain[1],axisDomain(pin,axis)[1]);
- const points=curveSamples(c,axis,domain),pinned=pin?curveSamples(pin,axis,domain):[];
+ const points=curveWithCurrent(curveSamples(c,axis,domain),c,r,axis);
+ let pinned=pin?curveWithCurrent(curveSamples(pin,axis,domain),pin,calculate(pin),axis):[];
+ // A pin uses the current category order so like-for-like labels stay aligned.
+ if(pinned.length&&a.choices)pinned=points.map(p=>({...pinned.find(q=>q.value===p.value),x:p.x}));
  const narrow=!mini&&svg.clientWidth<500;
  const w=mini?420:narrow?540:760,h=mini?126:306,left=mini?46:64,right=w-22,top=mini?12:24,bottom=h-(mini?25:44);
  svg.classList.toggle('narrow-plot',narrow);
@@ -71,14 +93,14 @@ function drawCurve(svg,prefix,c,r,axis,mini=false,pin=null){
  svg.querySelector('desc').textContent=`${a.note} Current setting: ${axisValueLabel(axis,c[axis])}; purchase midpoint ${money(r.midpoint)}. Other inputs stay fixed.`;
  const grid=Array.from({length:mini?2:4},(_,i)=>yMin+(yMax-yMin)*i/(mini?1:3));
  svg.querySelector('.plot-grid').innerHTML=grid.map(v=>`<line x1="${left}" x2="${right}" y1="${y(v)}" y2="${y(v)}"/><text x="${left-9}" y="${y(v)+4}" text-anchor="end">${compactMoney(v)}</text>`).join('');
- const ticks=a.choices?a.choices.map((q,i)=>[i,mini&&axis==='avionics'?['Analog','Legacy','HDX','G3X','G1000*'][i]:q[1]]):Array.from({length:mini?3:5},(_,i)=>{const v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);return[v,axis==='year'?Math.round(v):fmt(v)+(a.unit==='%'?'%':'')]});
+ const ticks=a.choices?points.map(p=>[p.x,mini&&axis==='avionics'?({analog:'Analog',legacyGlass:'Legacy',hdx:'HDX',g3x:'G3X',g1000:'G1000*'})[p.value]:axisValueLabel(axis,p.value)]):Array.from({length:mini?3:5},(_,i)=>{const v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);return[v,axis==='year'?Math.round(v):fmt(v)+(a.unit==='%'?'%':'')]});
  svg.querySelector('.plot-ticks').innerHTML=ticks.map(([v,label])=>`<text x="${x(v)}" y="${bottom+22}" text-anchor="${v===domain[0]?'start':v===domain[1]?'end':'middle'}">${esc(label)}</text>`).join('');
  svg.querySelector('.plot-line').setAttribute('d',svgCurvePath(points,x,y,'mid',!!a.choices));
  const band=svg.querySelector('.plot-band');
- band.setAttribute('d',svgCurvePath(points,x,y,'high',!!a.choices)+' '+svgCurvePath([...points].reverse(),x,y,'low',!!a.choices).replace(/^M/,'L')+' Z');
+ band.setAttribute('d',svgCurvePath(points,x,y,'high',!!a.choices)+' '+svgCurvePath([...points].reverse(),x,y,'low',!!a.choices,true).replace(/^M/,'L')+' Z');
  band.style.display=showBand?'':'none';
  svg.querySelector('.plot-pin').setAttribute('d',pinned.length?svgCurvePath(pinned,x,y,'mid',!!a.choices):'');
- const value=axisPosition(axis,c[axis]),marker=svg.querySelector('.plot-point'),known=value!==null&&value>=domain[0]&&value<=domain[1];
+ const value=axisPosition(axis,c[axis],points),marker=svg.querySelector('.plot-point'),known=value!==null&&value>=domain[0]&&value<=domain[1];
  // A new axis has a different coordinate system; do not animate across unrelated scales.
  marker.style.transition=svg.dataset.axis!==axis||a.choices?'none':'';svg.dataset.axis=axis;
  marker.style.display=known?'':'none';marker.removeAttribute('hidden');
@@ -102,12 +124,19 @@ function renderVisuals(c,r){
  visualFrame=requestAnimationFrame(()=>{visualFrame=null;paintVisuals(visualConfig,visualReport)});
 }
 function paintVisuals(c,r){
+ // Keep each form dropdown in the same low-to-high order as its chart.
+ // Moving existing options preserves their labels, unknowns and selected value.
+ for(const [key,meta] of Object.entries(VISUAL_AXES))if(meta.choices){
+  const select=$(key),value=select.value,options=[...select.options],order=curveSamples(c,key).map(p=>p.value);
+  const sorted=[...options.filter(o=>!order.includes(o.value)),...order.map(v=>options.find(o=>o.value===v))];
+  if(sorted.some((option,i)=>option!==options[i])){sorted.forEach(option=>select.appendChild(option));select.value=value;}
+ }
  const axis=visualAxis,a=VISUAL_AXES[axis],{points,domain}=drawCurve($('valueCurve'),'valueCurve',c,r,axis,false,visualPin);
  $('curveAxis').value=axis;
  $('curveCurrent').textContent=axisValueLabel(axis,c[axis]);
  $('curvePrice').textContent=money(r.midpoint);
  $('curveRange').textContent=money(r.low)+' – '+money(r.high)+' illustrative range';
- $('curveNote').textContent=a.note+' All other inputs stay fixed. Curves show model sensitivity, not measured market depreciation.';
+ $('curveNote').textContent=(a.choices?'Choices run from lower to higher modeled value. ':'')+a.note+' All other inputs stay fixed. Curves show model sensitivity, not measured market depreciation.';
  $('curveSliderWrap').classList.toggle('hidden',!!a.choices);
  $('curveChoices').classList.toggle('hidden',!a.choices);
  $('curveSliderLabel').textContent=a.name;
@@ -115,11 +144,12 @@ function paintVisuals(c,r){
  $('curveMin').textContent=axisValueLabel(axis,domain[0]);$('curveMax').textContent=axisValueLabel(axis,domain[1]);
  $('curveUnknown').classList.toggle('hidden',c[axis]!==null&&c[axis]!=='unknown');
  if(a.choices){
-  if(visualChoiceAxis!==axis){$('curveChoices').innerHTML=a.choices.map(([value,label])=>`<button type="button" data-curve-choice="${value}"><span>${esc(label)}</span><b></b></button>`).join('');visualChoiceAxis=axis;}
-  $('curveChoices').querySelectorAll('button').forEach((button,i)=>{button.setAttribute('aria-pressed',String(c[axis]===a.choices[i][0]));button.querySelector('b').textContent=money(points[i].mid)});
+  const choiceOrder=axis+':'+points.map(p=>p.value).join(',');
+  if(visualChoiceAxis!==choiceOrder){$('curveChoices').innerHTML=points.map(p=>`<button type="button" data-curve-choice="${p.value}"><span>${esc(axisValueLabel(axis,p.value))}</span><b></b></button>`).join('');visualChoiceAxis=choiceOrder;}
+  $('curveChoices').querySelectorAll('button').forEach((button,i)=>{button.setAttribute('aria-pressed',String(c[axis]===points[i].value));button.querySelector('b').textContent=money(points[i].mid)});
  }
  let changeLabel,change;
- if(a.choices){const i=Math.max(0,a.choices.findIndex(x=>x[0]===c[axis]));changeLabel='vs. '+a.choices[0][1];change=r.midpoint-points[0].mid;if(c[axis]==='unknown')change=null;}
+ if(a.choices){changeLabel='vs. '+axisValueLabel(axis,points[0].value);change=r.midpoint-points[0].mid;if(c[axis]==='unknown')change=null;}
  else{const v=finite(c[axis],null),d=v!==null&&v+a.delta<=domain[1]?a.delta:-a.delta;changeLabel=`${d>0?'+':''}${d}${axis==='year'?' year':a.unit==='%'?' point':' hours'}`;change=v===null?null:calculate({...c,[axis]:v+d}).midpoint-r.midpoint;}
  $('curveChangeLabel').textContent=changeLabel;$('curveChange').textContent=change===null?'Unknown':signedMoney(change);
  $('curvePinLegend').classList.toggle('hidden',!visualPin);

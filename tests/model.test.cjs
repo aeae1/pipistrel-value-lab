@@ -71,4 +71,45 @@ check('curves preserve other inputs, react to changed evidence and keep unknowns
 check('price formation reconciles to the displayed midpoint for every record',()=>{
  assert.equal(run(`OBS.every(o=>{const c=recordScenario(o,defaults),r=calculate(c),rows=priceBridge(c,r);return Math.abs(rows.slice(0,-1).reduce((s,row)=>s+row.value,0)-r.midpoint)<.000001&&rows.at(-1).end===r.midpoint})`),true);
 });
+check('year, airframe, engine and negotiation sweeps have consistent direction',()=>{
+ const failure=run(`(()=>{
+  const cases=[['default',defaults],...Object.keys(vs).map(variant=>[variant,{...defaults,variant,...vs[variant].typ}]),...OBS.filter(isEligible).map(o=>[o.id,recordScenario(o,defaults)])];
+  for(const [id,c] of cases)for(const [axis,min,max,step,direction] of [['hours',0,4000,25,-1],['year',2000,2026,1,1],['engineHours',0,3000,100,-1],['negotiation',0,20,1,-1]]){
+   let previous=null;
+   for(let value=min;value<=max;value+=step){const r=calculate({...c,[axis]:value});
+    if(![r.low,r.midpoint,r.high].every(Number.isFinite)||r.low>r.midpoint||r.midpoint>r.high)return {id,axis,value,error:'invalid bounds'};
+    if(previous!==null&&(r.midpoint-previous)*direction<0)return {id,axis,value,previous,midpoint:r.midpoint};
+    previous=r.midpoint;
+   }
+  }
+  return null;
+ })()`);
+ assert.equal(failure,null,JSON.stringify(failure));
+});
+check('negotiation cannot raise a low-value scenario above its asking benchmark',()=>{
+ const results=run(`(()=>{const c={...defaults,variant:'virus_long',year:2000,hours:30000,engine:'ul80',engineHours:30000,serviceYear:1980,engineTbo:1000,engineCalendar:10,avionics:'analog',autopilot:'none',prop:'fixed',rescue:'none',condition:'fair',damage:'repaired',hangared:'missing',propStatus:'overdue',hoseStatus:'due',gearboxStatus:'overdue'};return [0,10,20].map(negotiation=>calculate({...c,negotiation}))})()`);
+ assert.ok(results[0].ask<12000,'fixture must reach the low-price bound');
+ assert.equal(results[0].midpoint,results[0].ask);
+ for(const r of results)assert.ok(r.midpoint<=r.ask);
+});
+check('plotted current values are exact and engine-hour knees are resolved',()=>{
+ assert.equal(run(`(()=>{const c={...defaults,hours:145.8},r=calculate(c),p=curveWithCurrent(curveSamples(c,'hours'),c,r,'hours').find(p=>p.x===145.8);return p.mid===r.midpoint&&p.low===r.low&&p.high===r.high})()`),true);
+ const error=run(`(()=>{let worst=0;for(const id of ['V15','S05']){const c=recordScenario(OBS.find(o=>o.id===id),defaults),points=curveSamples(c,'engineHours');for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];for(const f of [.25,.5,.75]){const r=calculate({...c,engineHours:a.x+(b.x-a.x)*f});for(const [key,field] of [['mid','midpoint'],['low','low'],['high','high']])worst=Math.max(worst,Math.abs(r[field]-(a[key]+(b[key]-a[key])*f)))}}}return worst})()`);
+ assert.ok(error<=25,`plot interpolation error: $${error}`);
+});
+check('equipment steps ascend by actual price and retain every choice identity',()=>{
+ const failure=run(`(()=>{
+  const cases=[defaults,...OBS.filter(isEligible).map(o=>recordScenario(o,defaults))];
+  for(const c of cases)for(const [axis,a] of Object.entries(VISUAL_AXES))if(a.choices){
+   const points=curveSamples(c,axis);
+   if(new Set(points.map(p=>p.value)).size!==a.choices.length)return {axis,error:'missing choice'};
+   for(let i=0;i<points.length;i++){
+    const p=points[i],expected=calculate({...c,[axis]:p.value}).midpoint;
+    if(p.mid!==expected||p.x!==i||(i&&p.mid<points[i-1].mid))return {axis,value:p.value,error:'ordering or price mismatch'};
+   }
+  }
+  return null;
+ })()`);
+ assert.equal(failure,null,JSON.stringify(failure));
+});
 console.log(`${checks} model regression groups passed.`);

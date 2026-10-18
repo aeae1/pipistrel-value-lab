@@ -1,5 +1,13 @@
 # Work-mode takeover brief — Pipistrel Value Lab
 
+## 18 October 2026 curve review and website banner
+
+The selected Alpine Light banner (three-blade propeller with motion blur; all three landing wheels) is now the website header as well as the README banner. `scripts/build.py` embeds `docs/readme-banner.png` into the generated HTML, preserving single-file offline use. Desktop uses a shallow crop; mobile shows the full composition. Price pinning remains unchanged.
+
+The model now fixes comparable weights to each variant's reference year and 500 hours, and separates the engine benchmark from airframe TT. This removes counterintuitive year/TTAF reversals. Asking and purchase floors are both $10,000. Curve sampling resolves maintenance knees and places the current marker exactly on the plotted curve. Equipment categories and corresponding dropdowns are sorted by actual modeled price, with pinned curves aligned to the same categories.
+
+Current 41-aircraft holdout: **14.48% median / 17.75% mean absolute asking-price error**, **−10.42% mean signed error**, **34/41 in band**. Dataset and research snapshot are unchanged. These fixes improve consistency; they do not establish sales-price accuracy. Validation passes: all 18 model regression groups, data checks, build reproduction, the 41-aircraft backtest, and desktop/mobile browser smoke tests. Header fit was also checked at 320, 768, 1024 and 1440 pixels. Older dated sections below retain historical metrics. See the current RESEARCH.md and generated audit files for authoritative results.
+
 ## 17 October 2026 visual interface update
 
 GitHub Pages is enabled and the public tool is at https://aeae1.github.io/pipistrel-value-lab/. The README now leads with that website; the repository About section has a description, Pages link, and aviation topics. README preview images remain removed.

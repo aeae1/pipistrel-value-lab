@@ -22,6 +22,11 @@ def exercise(browser, width, height, screenshot):
     page.on('pageerror',lambda e: errors.append(str(e)))
     page.goto(URL,wait_until='load')
     page.locator('#priceCenter').wait_for()
+    # The artwork is bundled in the offline page and never relies on the network.
+    art=page.locator('.hero-art')
+    assert art.evaluate('(img)=>img.complete&&img.naturalWidth>0&&img.src.startsWith("data:image/png;base64,")')
+    assert art.bounding_box()['width']<=width
+    assert abs(art.bounding_box()['width']/art.bounding_box()['height']-(3 if width<=790 else 4))<.02
     initial=as_money(page.locator('#priceCenter').inner_text())
     # Capture the standard FI Virus configuration before modifying inputs for tests.
     page.screenshot(path=str(Path(os.environ.get('PVL_SCREENSHOT_DIR',tempfile.gettempdir()))/screenshot),full_page=(width>500))
@@ -63,6 +68,17 @@ def exercise(browser, width, height, screenshot):
     page.locator('button[data-curve-choice="turbo"]').click()
     expect(page.locator('#engine')).to_have_value('turbo')
     assert page.locator('#engineTbo').input_value()==tbo
+    # Every categorical chart and its form select share ascending actual prices.
+    for axis in ['engine','avionics','autopilot','prop','condition']:
+        page.locator('#curveAxis').select_option(axis)
+        page.wait_for_function('(axis)=>document.querySelector("#valueCurve").dataset.axis===axis',arg=axis)
+        prices=[as_money(value) for value in page.locator('#curveChoices button b').all_text_contents()]
+        assert prices==sorted(prices),(axis,prices)
+        choices=page.locator('#curveChoices button').evaluate_all('(buttons)=>buttons.map(b=>b.dataset.curveChoice)')
+        options=page.locator('#'+axis+' option').evaluate_all('(opts)=>opts.map(o=>o.value).filter(v=>v!=="unknown")')
+        assert choices==options,(axis,choices,options)
+        selected=page.locator('#'+axis).input_value()
+        expect(page.locator('#curveChoices button[aria-pressed="true"]')).to_have_attribute('data-curve-choice',selected)
     page.locator('#curveAxis').select_option('year')
     expect(page.locator('#curveSlider')).to_have_attribute('max','2026')
     page.locator('#curveAxis').select_option('negotiation')

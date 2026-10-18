@@ -7,6 +7,7 @@ const OBS=PAYLOAD.observations;
 const RESEARCH=PAYLOAD.sources;
 const ASOF='2026-10-16';
 const YEAR=2026;
+const REFERENCE_HOURS=500;
 const $=id=>document.getElementById(id);
 const clamp=(v,l,h)=>Math.min(h,Math.max(l,v));
 const finite=(v,fallback=0)=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(+v)? +v : fallback;
@@ -127,11 +128,11 @@ function baselineGear(v){
 function pricingConfig(input){
  const c={...input};
  for(const key of ['engine','avionics','autopilot','prop'])if(!Object.hasOwn(PREMIUM[key],c[key]))c[key]=vs[c.variant].typ[key];
- c.hours=finite(c.hours,500);
+ c.hours=finite(c.hours,REFERENCE_HOURS);
  return c;
 }
 function refAsking(v,year){const p=vs[v];return p.ask*Math.pow(1.029,clamp(year-p.refYear,-22,17))}
-function airframeTimeEffect(v,h){const rate=v.includes('explorer')?20:v==='sinus_max'?20:v==='virus_sw121'?17:v==='virus_sw'?16:11;return clamp((500-h)*rate,-38000,22000)}
+function airframeTimeEffect(v,h){const rate=v.includes('explorer')?20:v==='sinus_max'?20:v==='virus_sw121'?17:v==='virus_sw'?16:11;return clamp((REFERENCE_HOURS-h)*rate,-38000,22000)}
 function issueCost(c){
  let out=0;
  if(c.condition==='excellent')out+=0.055;
@@ -154,13 +155,14 @@ function quotePrior(c){
  return Math.max(15000,bench+gearPremium(c)-baselineGear(v));
 }
 function maintenanceDelta(c){
- // Assume the price of a typical same-year aircraft already incorporates an
- // original engine with approximately airframe TT and a 2000h/15yr reference.
+ // A same-year reference has a 500-hour original engine and 2000h/15yr limits.
+ // Keep its hours fixed: changing airframe TT must not manufacture a separate
+ // engine credit when the configured engine and its service history stay fixed.
  // This comparison is NOT a claim that every engine is eligible for 2000 h.
- const normal=engineDepreciation(c,{hours:c.hours,serviceYear:c.year,tbo:2000,calendar:15});
+ const normal=engineDepreciation(c,{hours:REFERENCE_HOURS,serviceYear:c.year,tbo:2000,calendar:15});
  // Missing dimensions use the SAME reference as the baseline, so blanks are
  // neutral rather than zero-hour/new engines. Known limits/due months still bind.
- const actual=engineDepreciation({...c,engineHours:c.engineHours??c.hours,serviceYear:c.serviceYear??c.year,engineTbo:c.engineTbo??2000,engineCalendar:c.engineCalendar??15});
+ const actual=engineDepreciation({...c,engineHours:c.engineHours??REFERENCE_HOURS,serviceYear:c.serviceYear??c.year,engineTbo:c.engineTbo??2000,engineCalendar:c.engineCalendar??15});
  const parachute=c.rescue==='none'||c.rescue==='unknown'?0:250-rescueLoss(c);
  return Math.round(normal-actual+parachute-statusLoss(c));
 }
@@ -198,8 +200,11 @@ function compWeight(o,c){
  if(match===0)return 0;
  const age=clamp(YEAR-finite(o.date?.slice(0,4),YEAR),0,12);
  const timeFac=.4+.6*Math.exp(-age/5);
- const hoursFac=o.hours==null?.72:(.7+.3*Math.exp(-Math.abs(c.hours-o.hours)/1100));
- const yearFac=.62+.38*Math.exp(-Math.abs(c.year-o.year)/8);
+ // Calibrate the evidence pool against the variant's fixed reference. Year and
+ // hours still adjust each comparable's price, but must not also reshuffle its
+ // weight or change the weighted-median identity as the user moves a slider.
+ const hoursFac=o.hours==null?.72:(.7+.3*Math.exp(-Math.abs(REFERENCE_HOURS-o.hours)/1100));
+ const yearFac=.62+.38*Math.exp(-Math.abs(target.refYear-o.year)/8);
  // Heavily discount foreign comps for a U.S. acquisition: EU microlights are not US S-LSAs.
  const regionFac=(o.region===c.origin?1:.55);
  const issueFac=o.flag==='classification'?.44:o.flag==='price-conflict'?.77:o.flag==='possible-duplicate'?.45:o.flag==='rapid-markdown'?.6:o.flag==='high'?.24:.95;
@@ -234,7 +239,8 @@ function calculate(input){
  const conditionMultiplier=(1+issueCost(c));
  const ask=Math.max(10000,Math.round(matchedAsk*conditionMultiplier+riskAdj));
  const negotiable=1-c.negotiation/100;
- const midpoint=Math.max(12000,Math.round(ask*negotiable));
+ // A purchase-price floor must never exceed the asking benchmark.
+ const midpoint=Math.max(10000,Math.round(ask*negotiable));
  const n=exact.length;
  let width=clamp(.135+.20/Math.sqrt(1+eqWeight),.16,.40);
  if(result)width=Math.max(width,Math.min(.40,result.spread));
