@@ -3,8 +3,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
-function createEngine({source, observations} = {}) {
-  const html = fs.readFileSync(path.join(root, 'template.html'), 'utf8');
+function createEngine({source, observations, template, visuals} = {}) {
+  const html = template ?? fs.readFileSync(path.join(root, 'template.html'), 'utf8');
   const defaults = {};
   const attr = (s, name) => s.match(new RegExp('\\b' + name + '="([^"]*)"'))?.[1];
   for (const m of html.matchAll(/<input\b([^>]*\bdata-persist[^>]*)>/g)) {
@@ -24,7 +24,7 @@ function createEngine({source, observations} = {}) {
     defaults
   });
   const code = source || fs.readFileSync(path.join(root,'scripts/app.js'),'utf8');
-  vm.runInContext(fs.readFileSync(path.join(root,'scripts/visuals.js'),'utf8')+'\n'+code.replace(/\binit\(\);\s*$/, ''), context);
+  vm.runInContext((visuals ?? fs.readFileSync(path.join(root,'scripts/visuals.js'),'utf8'))+'\n'+code.replace(/\binit\(\);\s*$/, ''), context);
   return {run: expression => vm.runInContext(expression, context), defaults};
 }
 module.exports = {createEngine};

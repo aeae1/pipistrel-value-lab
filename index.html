@@ -103,7 +103,7 @@
 <div class="field"><label for="registrationCosts">PPI / paperwork / reassembly reserve (USD)</label><input type="number" id="registrationCosts" min="0" max="30000" step="250" value="2500" data-persist></div>
 <div class="field"><label for="duty">Additional customs duty / surcharges (%)</label><input type="number" id="duty" min="0" max="50" step="0.5" value="0" data-persist><small>0 is a placeholder, not a binding 2026 customs determination.</small></div>
 <div class="field"><label for="tax">Texas sales / use tax rate (%)</label><input type="number" id="tax" min="0" max="9" step="0.25" value="8.25" data-persist><small>6.25% state + up to 2% local; exemption only when valid.</small></div>
-<div class="field"><label for="vatRebate">Foreign advertised VAT recoverable (%)</label><input type="number" id="vatRebate" min="0" max="25" step="1" value="0" data-persist><small>Default zero unless the seller/export broker confirms a tax refund.</small></div>
+<div class="field"><label for="vatRebate">Confirmed foreign tax refund (% of gross price)</label><input type="number" id="vatRebate" min="0" max="25" step="0.01" value="0" data-persist><small>Use the refund divided by the advertised gross price, not the tax rate. For example, a $10,000 refund on $100,000 is 10%. Default zero until confirmed.</small></div>
 </div><div id="importWarning" class="warning" style="margin-top:19px">Even if shipped successfully, a foreign microlight may <strong>not</strong> qualify for an FAA airworthiness certificate. Verify the exact serial, category, US eligibility and accepted standards <em>before</em> deposit.</div></section>
 </div><aside class="right-stack" aria-live="polite"><section class="estimate-card" id="estimateCard"><div class="estimate-top"><span class="overline">INDICATED PURCHASE PRICE</span><span class="pill warn" id="confidencePill">MODELED / THIN MARKET</span></div><div class="estimate-number mono" id="priceCenter">—</div><div class="estimate-label">Illustrative negotiated midpoint, USD · rounded to the nearest $1</div><div class="price-delta" id="priceDelta" aria-live="polite">Adjust a control to see the dollar change.</div><div class="range-line"><span id="priceLow">—</span><span id="priceHigh">—</span></div><div class="range-track"><div class="range-fill" id="rangeFill" style="width:70%"></div></div><div class="small" style="color:#bbd2d0">Illustrative purchase range, not a guaranteed transaction or appraisal.</div><div class="dark-divider"></div><div class="dark-row"><span>Comparable asking benchmark</span><b class="mono" id="askMid">—</b></div><div class="dark-row"><span>Nearby individually priced comps</span><b id="evidenceCount">—</b></div><div class="dark-row"><span>Adjustment for engine &amp; scheduled items</span><b id="maintenanceAdjust">—</b></div><div class="dark-row"><span>Time / options / condition included</span><b>Yes</b></div><div class="confidence-box"><b id="confidenceTitle">Transparency first</b><p id="confidenceReason">Confidence depends on matched model count, age, and source documentation.</p></div></section>
 <section class="panel" style="padding:21px"><header style="margin-bottom:14px"><div><h2 style="font-size:19px;margin:0 0 5px">Acquired in Texas</h2><p style="margin:0" class="note">Tax, rough transport, prebuy and import assumptions.</p></div></header><p id="eligibilityStatus" class="warning"></p><div class="cost-grid" id="costBreakdown"></div><div class="divider" style="margin:15px 0"></div><div class="budget-result"><div><div class="small muted">Vs. your acquisition budget</div><div class="strong" id="budgetLabel">—</div></div><strong class="mono" id="budgetDelta">—</strong></div><p class="footnote" style="margin-top:12px">Actual sales tax depends on transaction jurisdiction and eligibility for exemptions; shipping depends on route, disassembly and insurance. No eligibility or title guarantee.</p></section>
@@ -141,9 +141,9 @@
 7. Assume a negotiable discount; display a wide uncertainty interval.
 8. Separately estimate freight, duty, Texas tax and inspection.
 
-No completed transaction prices were verified.</div><p style="margin-top:15px">No information in an advertisement is silently assumed to mean equipment is absent. Non-airworthy aircraft, parts-only listings and repair projects are excluded from the dataset entirely. Factory-new prices and duplicate ads are excluded from used-aircraft valuation weighting. When fewer than three close references exist, the estimate is driven more heavily by explicit, editable pricing assumptions.</p></section>
+No completed transaction prices were verified.</div><p style="margin-top:15px">No information in an advertisement is silently assumed to mean equipment is absent. Non-airworthy aircraft, parts-only listings and repair projects are excluded from the dataset entirely. Factory-new prices and duplicate ads are excluded from used-aircraft valuation weighting. Comparable influence follows the summed evidence quality, with an 82% ceiling for exact-variant evidence and a 15% ceiling for family-only context. No usable evidence means the baseline alone.</p></section>
 <section class="panel"><h2>Disclosed valuation priors</h2><p>All baseline prices are <strong>2026 asking-price modeling anchors</strong> for an average-condition aircraft of the reference year and reference equipment shown, <em>not observed OEM MSRPs</em>.</p><table class="options-table"><thead><tr><th>Variant</th><th>Anchor year</th><th>Anchor ask</th></tr></thead><tbody id="priorRows"></tbody></table><p class="note" style="margin-top:13px">Year adjustment: approximately 2.8–3.0% multiplicative for adjacent build years, capped across distant decades. Airframe hours: roughly $11–$20 per hour depending on variant, with a capped adjustment. Comparable weights use a fixed reference so moving year or hours does not reshuffle the evidence. Engine hours are adjusted separately against a fixed 500-hour reference. This is a <strong>modeling prior</strong>, not a measured depreciation curve for Virus/Sinus. The October 18 broader-airframe review did not establish a reliable replacement coefficient.</p></section>
-<section class="panel" style="grid-column:1/-1"><h2>What supports the curves?</h2><p>Reviewed 18 October 2026. Other aircraft help challenge the assumptions; only Virus/Sinus records enter your comparable prices. Of 29 other-aircraft records reviewed, 19 supported within-model comparisons. Missing engine history and limited variation prevented a reliable transfer of age, hours or equipment coefficients.</p><div class="table-wrap"><table><thead><tr><th>Part of the estimate</th><th>Evidence used</th><th>What remains assumed</th></tr></thead><tbody><tr><td>Age &amp; airframe hours</td><td>Separate Flight Design, SportCruiser and Remos checks</td><td>Existing 2.9% build-year and $11–$20/hour priors retained</td></tr><tr><td>Engine service exposure</td><td>Model-specific Rotech USD new-engine price references</td><td>49% value-at-risk share and 1.27 wear exponent; S3 cost still unquoted</td></tr><tr><td>Parachute service</td><td>BRS service-price scale; repack and rocket kept separate</td><td>Generic continuous allowance; not a GRS or installed-service quotation</td></tr><tr><td>Avionics &amp; upgrades</td><td>Manufacturer package scope and seller configurations</td><td>Used-aircraft premiums; new hardware cost does not establish resale value</td></tr></tbody></table></div><p>The unchanged 41-aircraft asking-price audit is <strong>14.56% median / 17.79% mean absolute error</strong>, with 34/41 asks inside the illustrative bands. The earlier values were 14.48% / 17.75%: effectively unchanged, slightly worse, with no claimed accuracy gain.</p><a href="https://github.com/aeae1/pipistrel-value-lab/blob/main/research/README.md" target="_blank" rel="noopener noreferrer">Read the evidence review, sensitivity checks and limitations ↗</a></section>
+<section class="panel" style="grid-column:1/-1"><h2>What supports the curves?</h2><p>Reviewed 18 October 2026. Other aircraft help challenge the assumptions; only Virus/Sinus records enter your comparable prices. Of 29 other-aircraft records reviewed, 19 supported within-model comparisons. Missing engine history and limited variation prevented a reliable transfer of age, hours or equipment coefficients.</p><div class="table-wrap"><table><thead><tr><th>Part of the estimate</th><th>Evidence used</th><th>What remains assumed</th></tr></thead><tbody><tr><td>Age &amp; airframe hours</td><td>Separate Flight Design, SportCruiser and Remos checks</td><td>Existing 2.9% build-year and $11–$20/hour priors retained</td></tr><tr><td>Engine service exposure</td><td>Model-specific Rotech USD new-engine price references</td><td>49% value-at-risk share and 1.27 wear exponent; S3 cost still unquoted</td></tr><tr><td>Parachute service</td><td>BRS service-price scale; repack and rocket kept separate</td><td>Generic continuous allowance; not a GRS or installed-service quotation</td></tr><tr><td>Avionics &amp; upgrades</td><td>Manufacturer package scope and seller configurations</td><td>Used-aircraft premiums; new hardware cost does not establish resale value</td></tr></tbody></table></div><p>The current 41-aircraft asking-price audit is <strong>14.56% median / 17.71% mean absolute error</strong>, with 34/41 asks inside the illustrative bands. The October 19 housekeeping pass corrected sparse-evidence weights, comparable normalization and chart sampling. Median error and coverage are unchanged; this does not establish sales-price accuracy.</p><p><a href="https://github.com/aeae1/pipistrel-value-lab/blob/main/MODEL.md" target="_blank" rel="noopener noreferrer">How the curves and weighting work · no neural network ↗</a></p><a href="https://github.com/aeae1/pipistrel-value-lab/blob/main/research/README.md" target="_blank" rel="noopener noreferrer">Read the evidence review, sensitivity checks and limitations ↗</a></section>
 <section class="panel"><h2>Option resale-prior guide</h2><p class="panel-intro">These are <strong>our provisional resale adjustments, NOT Pipistrel factory list prices</strong>. A selected model already includes its reference equipment, so a premium is computed only relative to its baseline; values are not independently proven market add-ons.</p><div class="table-wrap" style="margin-top:13px"><table class="options-table" id="optionCatalog"><thead><tr><th>Feature / configuration</th><th>Model prior</th></tr></thead><tbody id="optionCatalogRows"></tbody></table></div></section>
 <section class="panel"><h2>Technical variables that matter</h2><ul class="bulletlist"><li><strong>Engine family and serial</strong>: 912UL/ULS/912S3 are carbureted; 912iS is injected. The 912ULS TBO may be 1,000/1,200/1,500/2,000 hours depending on serial and modifications; the 912iS typical schedule is 2,000 hours / 15 years. Never grant a 2,000-hour extension on a seller claim alone.</li><li><strong>Calendar vs hour time remaining</strong>: value reflects both. An engine with 1,500 flight hours left but a calendar deadline already passed is not “75% remaining.”</li><li><strong>Parachute</strong>: Galaxy GRS and BRS are different systems. Galaxy specifies six-year repacks; confirm the exact BRS/GRS schedule. Rocket and canopy service life are separate.</li><li><strong>Autopilot</strong>: installed and commissioned servos are not the same as a display that's merely autopilot-ready.</li><li><strong>Certified vs microlight</strong>: SW121 / Explorer have a different value and regulatory proposition from Virus SW100 ultralights. A certified 912 S3 is <em>not fuel-injected</em>.</li><li><strong>Storage &amp; repairs</strong>: decades-old composite airplanes need thorough inspection even with very few logged flight hours.</li></ul></section>
 <section class="panel"><h2>2026 certified-family compliance</h2><p>For SW121 and Explorer, check <a href="https://ad.easa.europa.eu/ad/2026-0070-E" target="_blank" rel="noopener noreferrer">EASA AD 2026-0070-E</a> (airbrake bellcrank) and <a href="https://ad.easa.europa.eu/blob/EASA_AD_2026_0137_R1.pdf/AD_2026-0137R1_2" target="_blank" rel="noopener noreferrer">2026-0137R1</a> (door locks). Required work depends on the actual serial, parts and compliance history. The database has not verified any individual aircraft’s compliance. These references are not a complete AD search.</p></section><section class="panel"><h2>International acquisition: what this is not</h2><p>A foreign Euro-ultralight does <strong>not</strong> automatically become a registerable U.S. light-sport aircraft. Approval basis, exact production records, serial numbers, declarations of compliance, instruments, possible experimental certificate eligibility and FAA inspection matter, particularly after MOSAIC rule changes.</p><p>The import figure is intentionally a <strong>planning guesstimate</strong>, with default Europe→Texas physical logistics about $14k–$30k; add PPI and administrative fees separately. Actual quotes will depend on crate/container, disassembly, insurance, customs broker, assembly, rigging and airworthiness inspection. Excluding or refunding EU VAT must be contractually confirmed. Confirm the applicable HTS classification and any additional duties with a customs broker; the editable zero-duty default is only an assumption.</p><p>Texas aircraft sales/use tax: 6.25% state + potentially up to 2% local tax, subject to specific exemptions and credits. Get formal confirmation on the exact transaction.</p></section>
@@ -189,17 +189,24 @@ function curveSamples(c,axis,domain=axisDomain(c,axis)){
  if(curveCache.has(signature))return curveCache.get(signature);
  const n=a.calendar?domain[1]-domain[0]:48;
  const values=a.choices?a.choices.map(x=>x[0]):Array.from({length:n+1},(_,i)=>domain[0]+(domain[1]-domain[0])*i/n);
- const evaluate=(value,i=value)=>{const r=calculate({...c,[axis]:value});return{x:a.choices?i:value,value,mid:r.midpoint,low:r.low,high:r.high}};
+ const evaluated=new Map();
+ const evaluate=(value,i=value)=>{
+  if(evaluated.has(value))return evaluated.get(value);
+  const r=calculate({...c,[axis]:value}),point={x:a.choices?i:value,value,mid:r.midpoint,low:r.low,high:r.high};
+  evaluated.set(value,point);return point;
+ };
  const anchors=values.map(evaluate),points=[];
- // Resolve maintenance knees and price floors to within $20 of the model.
+ // Check quarter-points as well as midpoints: offsetting bends can hide at the midpoint.
+ // Refine calendar curves too; fractional horizons can put a knee between whole years.
+ // $20 is a sampling tolerance, not a statement about valuation accuracy.
  // This is piecewise-linear sampling, never a decorative smoothing spline.
  const refine=(left,right,depth=0)=>{
-  const middle=evaluate((left.x+right.x)/2);
-  const error=Math.max(...['mid','low','high'].map(key=>Math.abs(middle[key]-(left[key]+right[key])/2)));
+  const samples=[.25,.5,.75].map(f=>[f,evaluate(left.x+(right.x-left.x)*f)]),middle=samples[1][1];
+  const error=Math.max(...samples.flatMap(([f,p])=>['mid','low','high'].map(key=>Math.abs(p[key]-(left[key]+(right[key]-left[key])*f)))));
   if(error>20&&depth<8){refine(left,middle,depth+1);refine(middle,right,depth+1)}else points.push(right);
  };
  points.push(anchors[0]);
- for(let i=1;i<anchors.length;i++){if(a.choices||a.calendar)points.push(anchors[i]);else refine(anchors[i-1],anchors[i])}
+ for(let i=1;i<anchors.length;i++){if(a.choices)points.push(anchors[i]);else refine(anchors[i-1],anchors[i])}
  // Equipment is categorical: display actual scenario prices low to high,
  // without changing the estimates to manufacture a rising staircase.
  if(a.choices){points.sort((a,b)=>a.mid-b.mid);points.forEach((point,i)=>{point.x=i})}
@@ -250,7 +257,7 @@ function drawCurve(svg,prefix,c,r,axis,mini=false,pin=null){
  svg.querySelector('desc').textContent=`${a.note} Current setting: ${axisValueLabel(axis,c[axis])}; purchase midpoint ${money(r.midpoint)}. Other inputs stay fixed.`;
  const grid=Array.from({length:mini?2:4},(_,i)=>yMin+(yMax-yMin)*i/(mini?1:3));
  svg.querySelector('.plot-grid').innerHTML=grid.map(v=>`<line x1="${left}" x2="${right}" y1="${y(v)}" y2="${y(v)}"/><text x="${left-9}" y="${y(v)+4}" text-anchor="end">${compactMoney(v)}</text>`).join('');
- const ticks=a.choices?points.map(p=>[p.x,mini&&axis==='avionics'?({analog:'Analog',legacyGlass:'Legacy',hdx:'HDX',g3x:'G3X',g1000:'G1000*'})[p.value]:axisValueLabel(axis,p.value)]):Array.from({length:mini?3:5},(_,i)=>{const v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);return[v,a.calendar?Math.round(v):fmt(v)+(a.unit==='%'?'%':'')]});
+ const ticks=a.choices?points.map(p=>[p.x,mini&&axis==='avionics'?({analog:'Analog',legacyGlass:'Legacy',hdx:'HDX',g3x:'G3X',g1000:'G1000*'})[p.value]:axisValueLabel(axis,p.value)]):Array.from({length:mini?3:5},(_,i)=>{let v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);if(a.calendar)v=Math.round(v);return[v,a.calendar?v:fmt(v)+(a.unit==='%'?'%':'')]});
  svg.querySelector('.plot-ticks').innerHTML=ticks.map(([v,label])=>`<text x="${x(v)}" y="${bottom+22}" text-anchor="${v===domain[0]?'start':v===domain[1]?'end':'middle'}">${esc(label)}</text>`).join('');
  svg.querySelector('.plot-line').setAttribute('d',svgCurvePath(points,x,y,'mid',!!a.choices));
  const band=svg.querySelector('.plot-band');
@@ -349,8 +356,11 @@ const PAYLOAD=JSON.parse(document.getElementById('app-data').textContent);
 const OBS=PAYLOAD.observations;
 const RESEARCH=PAYLOAD.sources;
 const ASOF='2026-10-16';
-const YEAR=2026;
+const YEAR=Number(ASOF.slice(0,4));
+const MONTH=Number(ASOF.slice(5,7));
 const REFERENCE_HOURS=500;
+const REPACK_REFERENCE_LOSS=250;
+const REPACK_DUE_LOSS=3200;
 const $=id=>document.getElementById(id);
 const clamp=(v,l,h)=>Math.min(h,Math.max(l,v));
 const finite=(v,fallback=0)=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(+v)? +v : fallback;
@@ -381,11 +391,9 @@ const EXTRA={adsb:1500,flarm:1350,dualGlass:3100,oxygen:1000,towKit:3300,wingTip
 const BASE_EXTRAS={virus_explorer:['dualGlass','adsb','towKit'],sinus_flex:['wingTips'],sinus_max:['wingTips']};
 const REGIONS={US:{shipping:[900,3000],paperwork:2500},Europe:{shipping:[14000,30000],paperwork:6000},Canada:{shipping:[3000,9000],paperwork:4200},Other:{shipping:[18000,40000],paperwork:7000}};
 const FIELDS=Array.from(document.querySelectorAll('[data-persist]'));
-const QUERY_KEY='pvl-scenario';
 const STORAGE_KEY='pipistrel-value-lab-v3';
 let lastReport=null;
 let lastDatabase=[];
-let scenarios=[];
 let loading=false;
 let initialized=false;
 let lastDisplayedMid=null;
@@ -398,8 +406,8 @@ function getConfig(){
  const numbers=['askingPrice','year','hours','engineHours','serviceYear','engineTbo','engineCalendar','repackYear','repackInterval','rocketYear','fxRate','negotiation','budget','shippingLow','shippingHigh','registrationCosts','duty','tax','vatRebate'];
  const optional=new Set(['hours','engineHours','serviceYear','engineTbo','engineCalendar','repackYear','repackInterval']);
  for(const key of numbers){c[key]=finite(c[key],optional.has(key)?null:0)}
- c.year=clamp(Math.round(c.year),2000,2026);if(c.hours!==null)c.hours=clamp(c.hours,0,30000);
- for(const [key,lo,hi] of [['engineHours',0,30000],['engineTbo',100,4000],['serviceYear',1970,2026],['engineCalendar',1,30],['repackYear',1980,2026],['repackInterval',1,20]])if(c[key]!==null)c[key]=clamp(c[key],lo,hi);
+ c.year=clamp(Math.round(c.year),2000,YEAR);if(c.hours!==null)c.hours=clamp(c.hours,0,30000);
+ for(const [key,lo,hi] of [['engineHours',0,30000],['engineTbo',100,4000],['serviceYear',1970,YEAR],['engineCalendar',1,30],['repackYear',1980,YEAR],['repackInterval',1,20],['rocketYear',0,2050],['budget',10000,1000000],['shippingLow',0,100000],['shippingHigh',0,100000],['registrationCosts',0,30000]])if(c[key]!==null)c[key]=clamp(c[key],lo,hi);
  c.negotiation=clamp(c.negotiation,0,20);c.fxRate=clamp(c.fxRate,.5,2.5);
  c.askingPrice=clamp(c.askingPrice,0,1000000);
  c.tax=clamp(c.tax,0,15);c.duty=clamp(c.duty,0,100);c.vatRebate=clamp(c.vatRebate,0,25);
@@ -459,7 +467,7 @@ function servicePressure(years,points){
 function rescueLoss(c){
  if(c.rescue==='none'||c.rescue==='unknown')return 0; // Absence/unknown is priced by rescuePremium, NOT charged twice.
  const due=parachuteYears(c);
- let loss=c.repackEvidence==='due'?3200:due===null?1850:servicePressure(due,[[0,3200],[2,2000],[4,1100],[6,250],[8,0]]);
+ let loss=c.repackEvidence==='due'?REPACK_DUE_LOSS:due===null?1850:servicePressure(due,[[0,REPACK_DUE_LOSS],[2,2000],[4,1100],[6,REPACK_REFERENCE_LOSS],[8,0]]);
  if(c.rocketYear>0)loss+=servicePressure(c.rocketYear-YEAR,[[0,1800],[2,700],[4,0]]);
  return loss;
 }
@@ -523,7 +531,7 @@ function maintenanceDelta(c){
  // Missing dimensions use the SAME reference as the baseline, so blanks are
  // neutral rather than zero-hour/new engines. Known limits/due months still bind.
  const actual=engineDepreciation({...c,engineHours:c.engineHours??REFERENCE_HOURS,serviceYear:c.serviceYear??c.year,engineTbo:c.engineTbo??2000,engineCalendar:c.engineCalendar??15});
- const parachute=c.rescue==='none'||c.rescue==='unknown'?0:250-rescueLoss(c);
+ const parachute=c.rescue==='none'||c.rescue==='unknown'?0:REPACK_REFERENCE_LOSS-rescueLoss(c);
  return Math.round(normal-actual+parachute-statusLoss(c));
 }
 function isEligible(o){return ['current','historical'].includes(o.status)&&o.airworthiness!=='nonairworthy'&&!o.skipModel&&o.year!=null&&o.price>2000}
@@ -543,14 +551,16 @@ function comparableAdjust(o,c){
  v+=modelAndYear;
  if(o.hours!=null)v+=airframeTimeEffect(c.variant,c.hours)-airframeTimeEffect(o.variant,o.hours);
  // Missing advertisement fields are UNKNOWN; never treat them as absent.
- for(const k of ['engine','avionics','prop']){
-  if(o[k]!==undefined&&o[k]!==null){v+=optionValue(k,c[k])-optionValue(k,o[k])}
+ for(const k of ['engine','avionics','prop','navigator']){
+  if(Object.hasOwn(PREMIUM[k],o[k])){v+=optionValue(k,c[k])-optionValue(k,o[k])}
  }
  if(o.autopilot!==undefined &&o.autopilot!==null){v+=optionValue('autopilot',c.autopilot)-optionValue('autopilot',o.autopilotType||(o.autopilot?'installed':'none'))}
  for(const key of Object.keys(EXTRA))if(typeof o[key]==='boolean')v+=((c[key]?1:0)-(o[key]?1:0))*EXTRA[key];
  if(o.parachute!==undefined&&o.parachute!==null){v+=rescuePremium(c)-(o.parachute?0:-6200)}
- if(o.rescueDue===true&&c.rescue!=='none'&&c.rescue!=='unknown')v+=2300;
- if(o.damage==='repaired'&&c.damage==='none')v+=Math.min(12500,usd(o,c.fxRate)*.07);
+ // Restore a seller-stated due repack to the neutral service reference first.
+ // Target service/absence is then valued once, independently of the source flag's spelling.
+ if(o.parachute===true&&(o.rescueDue===true||o.repackStatus==='due'))v+=REPACK_DUE_LOSS-REPACK_REFERENCE_LOSS;
+ if(o.damage==='repaired')v+=Math.min(12500,usd(o,c.fxRate)*.07);
  // Do not guess engine installation/overhaul year from aircraft manufacture year.
  // Engine service status is valued once in maintenanceDelta() after blending.
  return clamp(v,10000,500000);
@@ -579,8 +589,8 @@ function weightedMean(vals){let den=vals.reduce((s,x)=>s+x.w,0);return den?vals.
 function robustSummary(vals){
  if(!vals.length)return null;
  const median=weightedMedian(vals);
- const trimmed=vals.map(x=>({...x,value:clamp(x.value,median*.69,median*1.31)}));
- return{mid:weightedMean(trimmed)*.55+median*.45,median,n:vals.length,w:vals.reduce((s,x)=>s+x.w,0),spread:Math.sqrt(vals.reduce((s,x)=>s+x.w*Math.pow((x.value-median)/median,2),0)/vals.reduce((s,x)=>s+x.w,0))};
+ const winsorized=vals.map(x=>({...x,value:clamp(x.value,median*.69,median*1.31)}));
+ return{mid:weightedMean(winsorized)*.55+median*.45,median,n:vals.length,w:vals.reduce((s,x)=>s+x.w,0),spread:Math.sqrt(vals.reduce((s,x)=>s+x.w*Math.pow((x.value-median)/median,2),0)/vals.reduce((s,x)=>s+x.w,0))};
 }
 function calculate(input){
  const c=pricingConfig(input),source=OBS.find(o=>o.id===c.sourceId);
@@ -591,9 +601,11 @@ function calculate(input){
  const result=robustSummary(using);
  let prior=quotePrior(c);
  const eqWeight=exact.reduce((s,x)=>s+x.w,0);
- const refWeight=clamp(eqWeight/(eqWeight+1.0),.08,.82);
- // If only other variants matched, their model-change formula is highly speculative. Rely on the prior.
- const dataWeight=exact.length===0?.15:exact.length===1?.28:exact.length===2?.43:refWeight;
+ // Evidence strength, not a one-/two-record quota, sets the blend. One unit of
+ // prior weight remains; adding a very weak second ad cannot trigger a 15-point jump.
+ // Family-only adjustments remain speculative and are capped at 15% influence.
+ const evidenceWeight=exact.length?eqWeight:(result?.w??0);
+ const dataWeight=result?Math.min(exact.length ? .82 : .15,evidenceWeight/(evidenceWeight+1)):0;
  const matchedAsk=result?result.mid*dataWeight+prior*(1-dataWeight):prior;
  const riskAdj=maintenanceDelta(c);
  const conditionMultiplier=(1+issueCost(c));
@@ -761,7 +773,7 @@ const ENGINE_NAMES={ul80:'Rotax 912 UL · 80 hp, carb',uls100:'Rotax 912 ULS · 
 function dueMonths(yyyyMm){
  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(String(yyyyMm||'')))return null;
  const [y,m]=yyyyMm.split('-').map(Number);
- return (y-2026)*12+(m-10);
+ return (y-YEAR)*12+(m-MONTH);
 }
 function marketFields(o,c){
  const tbo=o.engineTboHours!=null&&o.engineHours!=null?o.engineTboHours-o.engineHours:null;
@@ -810,7 +822,7 @@ function filteredDatabase(){
 }
 function selectTableSort(key){
  if(tableSort.key===key)tableSort.direction=tableSort.direction==='asc'?'desc':'asc';
- else{tableSort.key=key;tableSort.direction=['date','year','usd','hours','engineHours','tboHours','tboCalendar','repack'].includes(key)?'asc':'asc';}
+ else{tableSort.key=key;tableSort.direction='asc';}
  $('dbSort').value='custom';renderDatabase();
 }
 function setQuickSort(value){
@@ -819,15 +831,16 @@ function setQuickSort(value){
  tableSort={key:m[1],direction:m[2]};renderDatabase();
 }
 function renderScatter(rows,c){
- // Scatter only uses known manufacturing years and specifically excludes unsuitable records.
- const good=rows.filter(o=>o.year!=null&&o.year>=2000&&o.year<=2026&&['current','historical'].includes(o.status)&&o.airworthiness!=='nonairworthy');
- let width=1000,height=245,L=58,R=22,T=20,B=38,maxPrice=300000;
- let x=y=>L+((y-2000)/26)*(width-L-R), y=p=>T+(1-clamp(p,0,maxPrice)/maxPrice)*(height-T-B);
- let el=`<svg class="plot" viewBox="0 0 ${width} ${height}" aria-label="Asking prices of selected Virus and Sinus observations by build year" role="img"><rect width="${width}" height="${height}" fill="#fbfdfc" rx="12"/>`;
- for(const a of [0,100000,200000,300000]){const py=y(a);el+=`<line x1="${L}" y1="${py}" x2="${width-R}" y2="${py}" stroke="#dce6e3"/><text x="${L-8}" y="${py+4}" font-size="11" text-anchor="end" fill="#6d8383">${a===0?'$0':'$'+a/1000+'k'}</text>`}
+ // This is a raw listing-context chart, not the independent valuation pool.
+ const good=rows.filter(o=>o.year!=null&&o.year>=2000&&o.year<=YEAR&&['current','historical'].includes(o.status)&&o.airworthiness!=='nonairworthy');
+ const width=1000,height=245,L=58,R=22,T=20,B=38;
+ const maxPrice=Math.max(300000,Math.ceil(Math.max(0,...good.map(o=>usd(o,c.fxRate)))/100000)*100000);
+ const x=y=>L+((y-2000)/(YEAR-2000))*(width-L-R), y=p=>T+(1-p/maxPrice)*(height-T-B);
+ let el=`<svg class="plot" viewBox="0 0 ${width} ${height}" data-price-max="${maxPrice}" aria-label="Advertised asking prices by build year; hollow points are excluded from valuation" role="img"><rect width="${width}" height="${height}" fill="#fbfdfc" rx="12"/>`;
+ for(let a=0;a<=maxPrice;a+=100000){const py=y(a);el+=`<line x1="${L}" y1="${py}" x2="${width-R}" y2="${py}" stroke="#dce6e3"/><text x="${L-8}" y="${py+4}" font-size="11" text-anchor="end" fill="#6d8383">${a===0?'$0':'$'+a/1000+'k'}</text>`}
  for(const a of [2000,2005,2010,2015,2020,2026]){let xx=x(a);el+=`<text x="${xx}" y="${height-12}" text-anchor="middle" font-size="11" fill="#6d8383">${a}</text>`}
- for(const o of good){const px=x(o.year),py=y(usd(o,c.fxRate)),col=o.family==='virus'?'#178b75':'#d08a49';el+=`<a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer"><circle cx="${px}" cy="${py}" r="${o.flag?4:5}" stroke="#fff" stroke-width="2" fill="${col}" opacity=".77"/><title>${esc((o.year||'?')+' '+vs[o.variant].name+' – '+money(usd(o,c.fxRate))+' – '+o.location)}</title></a>`}
- el+='</svg>';return el;
+ for(const o of good){const price=usd(o,c.fxRate),px=x(o.year),py=y(price),col=o.family==='virus'?'#178b75':'#d08a49',eligible=isEligible(o);el+=`<a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer"><circle data-record-id="${esc(o.id)}" data-price="${price}" cx="${px}" cy="${py}" r="${o.flag?4:5}" stroke="${eligible?'#fff':col}" stroke-width="2" fill="${eligible?col:'#fbfdfc'}" opacity=".77"/><title>${esc((o.year||'?')+' '+vs[o.variant].name+' – '+money(price)+' – '+o.location+(eligible?'':' – excluded from valuation'))}</title></a>`}
+ el+='</svg><p class="note">Raw advertised asks, including historical offers and repeats. Hollow points are excluded from valuation. This is market context, not a fitted depreciation curve; missing-year and archive records are not plotted.</p>';return el;
 }
 function renderDatabase(){
  const c=getConfig();let rows=filteredDatabase();lastDatabase=rows;
@@ -856,7 +869,7 @@ function renderDatabase(){
   const history=o.priceHistory?.length?`<b>Asking history (one aircraft)</b><p>${o.priceHistory.map(h=>esc(h.date)+' · '+money((h.currency||o.currency)==='EUR'?h.price*c.fxRate:h.price)).join('<br>')}</p>`:'';
   return `<tr>
    <td><div class="strong">${esc(vs[o.variant]?.name||o.variant)}</div><span class="subvalue">${esc(o.reg||o.id)} ${o.flag?'<span class="issue">⚠ '+esc(o.flag)+'</span>':''}</span></td>
-   <td class="num">${number(f.year)}</td>
+   <td class="num">${plain(f.year)}</td>
    <td class="num strong">${priceLabel}<span class="subvalue">${esc(priceSub)}</span></td>
    <td class="num">${number(f.hours)}</td>
    <td class="longcell">${plain(f.engine)}</td>

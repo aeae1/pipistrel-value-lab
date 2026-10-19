@@ -46,9 +46,11 @@ Estimates blend an explicit reference-year asking-price baseline with adjusted s
 
 A retrospective **41-aircraft holdout check**, using known airframe hours and zero negotiation, found a **14.56% median absolute difference from advertised asking prices**; **34 of 41 asks (82.9%)** fell inside the displayed bands. This checks consistency with the collected asking-price data, not accuracy against completed sales. See the [audit summary](tests/backtest-summary.json) and [row-level results](tests/backtest-results.csv) for full results and variant bias.
 
-The [October 18 broader-airframe review](research/README.md) documents 29 external aircraft records, robust fits and 2,000 resamples. Insufficient service-history separation prevented transferring age/hour/equipment coefficients. Published engine catalog prices now anchor the engine cost scale, and parachute allowances change continuously between service milestones. Asking-price audit performance is essentially unchanged (slightly worse); the update makes no accuracy-gain claim.
+The [October 18 broader-airframe review](research/README.md) documents 29 external aircraft records, robust fits and 2,000 resamples. Insufficient service-history separation prevented transferring age/hour/equipment coefficients. Published engine catalog prices now anchor the engine cost scale, and parachute allowances change continuously between service milestones. That review left asking-price audit performance essentially unchanged (slightly worse); it made no accuracy-gain claim.
 
-Read [RESEARCH.md](RESEARCH.md) for original sources, model assumptions, source corrections, and limitations.
+Read [MODEL.md](MODEL.md) for a plain-language explanation of the curves, evidence weights, robust fitting and remaining assumptions. This is an explicit formula-and-comparables model, not a neural network. [RESEARCH.md](RESEARCH.md) covers original sources, corrections and limitations.
+
+The October 19 housekeeping pass makes sparse-data influence follow evidence quality, handles overdue-repack flags consistently, refines graph sampling around bends, and removes market-chart price clipping. Cost inputs are bounded, and the tax-refund field now explicitly means a percentage of the gross price. No age/hour or equipment coefficient was refitted.
 
 ### Interpreting the results
 
@@ -77,6 +79,7 @@ The website is published through GitHub Pages from `main` / the repository root.
 | [`data/sources.json`](data/sources.json) | Supporting manufacturer, maintenance, regulatory, and acquisition references |
 | [`scripts/build.py`](scripts/build.py) | Generates the deployable `index.html` |
 | [`scripts/validate_data.py`](scripts/validate_data.py) | Data schema, identifiers, and source checks |
+| [`MODEL.md`](MODEL.md) | How the calculator, curves and weighting work |
 | [`research/`](research/) | Separate external evidence, reproducible sensitivity analysis, and transfer decisions |
 | [`tests/`](tests/) | Model regressions, asking-price audit, and desktop/mobile browser checks |
 | [Validation workflow](.github/workflows/validate.yml) | Automated checks on pushes and pull requests |

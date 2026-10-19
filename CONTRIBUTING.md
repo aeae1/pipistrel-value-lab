@@ -19,6 +19,7 @@ Snapshot starting point: **2026-10-16**. Listings are evidence, not sales. Updat
 ```json
 {
   "id": "EXAMPLE",
+  "aircraftId": "record:EXAMPLE",
   "family": "virus",
   "variant": "virus_sw",
   "year": 2019,
@@ -27,6 +28,13 @@ Snapshot starting point: **2026-10-16**. Listings are evidence, not sales. Updat
   "location": "Slovenia",
   "region": "Europe",
   "date": "2026-10-16",
+  "dateBasis": "Seller posting date",
+  "observedAt": "2026-10-16",
+  "priceType": "asking",
+  "access": "full-page",
+  "fieldEvidence": {
+    "engine": {"state": "seller-stated", "url": "https://example.com/actual-ad"}
+  },
   "url": "https://example.com/actual-ad",
   "reg": null,
   "hours": 540,
@@ -61,4 +69,4 @@ New records also require `aircraftId`, `priceType: "asking"`, `dateBasis`, `acce
 
 Never encode “repack due, exact date unknown” as a numeric month. Supply `repackStatus: "due"`; use `repackDue` only for an actual YYYY-MM deadline. Engine hours, propeller hours and airframe hours are different fields. `autopilotType` is optional: installed-but-unspecified is distinct from verified axes.
 
-The example above illustrates core fields only; add the required provenance before submitting a real record. `node tests/model.test.cjs` checks calculation invariants, `python3 tests/backtest.py` holds out entire identity groups through the production engine, and browser CI tests all sortable headings, presets, filters and export. Do not adjust priors solely to optimize this retrospective asking corpus.
+The example includes required provenance fields; replace every example fact with actual evidence before submitting a real record. `node tests/model.test.cjs` checks calculation invariants, `python3 tests/backtest.py` holds out entire identity groups through the production engine, and browser CI tests all sortable headings, presets, filters and export. Do not adjust priors solely to optimize this retrospective asking corpus.

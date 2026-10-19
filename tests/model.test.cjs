@@ -31,6 +31,31 @@ check('known identities deduplicate at runtime and held-out aircraft cannot comp
  assert.equal(run('calculate(recordScenario(OBS.find(o=>o.id==="V19"),defaults)).comparables.some(o=>o.id==="V19")'),false);
  assert.equal(run('aircraftKey(OBS.find(o=>o.id==="V14"))===aircraftKey(OBS.find(o=>o.id==="V40"))'),true);
 });
+check('sparse evidence influence follows quality without one-to-two-record jumps',()=>{
+ const base=run(`({...OBS.find(isEligible),id:'A',aircraftId:'A',variant:'virus_sw',family:'virus',year:2018,hours:500,date:'2026-10-01',region:'US',flag:null,price:200000,currency:'USD',quality:1})`);
+ const result=observations=>createEngine({observations}).run('calculate(defaults)');
+ const strong=result([base]),weak=result([{...base,quality:.03}]);
+ assert.ok(weak.dataWeight<.05&&strong.dataWeight>.4&&strong.dataWeight<=.82);
+ assert.ok(Math.abs(weak.ask-weak.prior)<Math.abs(strong.ask-strong.prior));
+ const added=result([base,{...base,id:'B',aircraftId:'B',quality:.03}]);
+ assert.ok(added.dataWeight>strong.dataWeight&&added.dataWeight-strong.dataWeight<.02,'a weak second record must not unlock a fixed 15% jump');
+ assert.equal(result([]).dataWeight,0,'no evidence cannot be advertised as comparable-derived');
+ const family=result([{...base,variant:'virus_long',quality:.1}]);
+ assert.ok(family.dataWeight>=0&&family.dataWeight<=.15);
+});
+check('known comparable equipment and due-service flags normalize consistently',()=>{
+ const delta=run(`(()=>{const c=pricingConfig(defaults),o={...OBS.find(isEligible),navigator:null,parachute:true,rescueDue:false,repackStatus:null,damage:null};const base=comparableAdjust(o,c);return {
+  oldDue:comparableAdjust({...o,rescueDue:true},c)-base,
+  newDue:comparableAdjust({...o,repackStatus:'due'},c)-base,
+  both:comparableAdjust({...o,rescueDue:true,repackStatus:'due'},c)-base,
+  absent:comparableAdjust({...o,repackStatus:'due'},{...c,rescue:'none'})-comparableAdjust(o,{...c,rescue:'none'}),
+  navigator:comparableAdjust({...o,navigator:'basic'},c)-base,
+  unknown:comparableAdjust({...o,navigator:'unknown'},c)-base,
+  damage:comparableAdjust({...o,damage:'repaired'},c)-comparableAdjust({...o,damage:'repaired'},{...c,damage:'repaired'})
+ }})()`);
+ for(const key of ['oldDue','newDue','both','absent'])assert.equal(delta[key],2950,key);
+ assert.equal(delta.navigator,-500);assert.equal(delta.unknown,0);assert.equal(delta.damage,0);
+});
 check('injection and parachute search does not fill omissions',()=>{
  assert.equal(run('matchesFilters(OBS.find(o=>o.id==="V35"),{engine:"is100",rescue:"yes"},defaults)'),false);
  assert.equal(run('matchesFilters(OBS.find(o=>o.id==="V17"),{engine:"is100"},defaults)'),false);
@@ -96,6 +121,37 @@ check('plotted current values are exact and engine-hour knees are resolved',()=>
  assert.equal(run(`(()=>{const c={...defaults,hours:145.8},r=calculate(c),p=curveWithCurrent(curveSamples(c,'hours'),c,r,'hours').find(p=>p.x===145.8);return p.mid===r.midpoint&&p.low===r.low&&p.high===r.high})()`),true);
  const error=run(`(()=>{let worst=0;for(const id of ['V15','S05']){const c=recordScenario(OBS.find(o=>o.id===id),defaults),points=curveSamples(c,'engineHours');for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];for(const f of [.25,.5,.75]){const r=calculate({...c,engineHours:a.x+(b.x-a.x)*f});for(const [key,field] of [['mid','midpoint'],['low','low'],['high','high']])worst=Math.max(worst,Math.abs(r[field]-(a[key]+(b[key]-a[key])*f)))}}}return worst})()`);
  assert.ok(error<=25,`plot interpolation error: $${error}`);
+});
+check('numeric plots resolve off-center bends and calendar knees',()=>{
+ const failures=run(`(()=>{const failures=[];
+  for(const [id,axis] of [['V37','hours'],['V21','year'],['V07','engineHours'],['V23','serviceYear']]){
+   const c=recordScenario(OBS.find(o=>o.id===id),defaults),points=curveSamples(c,axis);
+   for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];
+    for(const f of [1/3,2/3]){const r=calculate({...c,[axis]:a.x+(b.x-a.x)*f});
+     for(const [key,field] of [['mid','midpoint'],['low','low'],['high','high']]){
+      const error=Math.abs(r[field]-(a[key]+(b[key]-a[key])*f));if(error>25)failures.push({id,axis,error});
+     }
+    }
+   }
+  }return failures;
+ })()`);
+ assert.equal(failures.length,0,JSON.stringify(failures));
+});
+check('market context plots retain high asking prices at the selected FX rate',()=>{
+ const svg=run('renderScatter(OBS,{...defaults,fxRate:2.5})');
+ assert.ok(svg.includes('data-price-max="500000"'));
+ const marker=svg.match(/<circle data-record-id="V27"[^>]+>/)?.[0];
+ assert.ok(marker&&marker.includes('data-price="470000"'));
+ const cy=Number(marker.match(/\bcy="([^"]+)"/)[1]);
+ assert.ok(cy>20&&cy<207,'high ask must keep its real vertical position, not clip to the ceiling');
+ assert.ok(svg.includes('Hollow points are excluded from valuation'));
+});
+check('refund is a share of gross price and acquisition totals reconcile',()=>{
+ const a=run('acquisition({...defaults,origin:"Europe",vatRebate:10,tax:5,duty:2,shippingLow:2000,shippingHigh:1000,registrationCosts:500,budget:120000},{low:80000,midpoint:100000,high:120000})');
+ assert.equal(a.purchase[1],90000);assert.equal(a.shipLow,1000);assert.equal(a.shipHigh,2000);
+ assert.equal(a.deliveredMid,98300);assert.equal(a.budgetDiff,21700);
+ assert.ok(a.deliveredLow<=a.deliveredMid&&a.deliveredMid<=a.deliveredHigh);
+ assert.equal(run('acquisition({...defaults,origin:"US",vatRebate:25,duty:100},{low:80000,midpoint:100000,high:120000}).purchase[1]'),100000);
 });
 check('equipment steps ascend by actual price and retain every choice identity',()=>{
  const failure=run(`(()=>{

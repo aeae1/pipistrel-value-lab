@@ -20,6 +20,7 @@ def exercise(browser, width, height, screenshot):
     page=browser.new_page(viewport={'width':width,'height':height},device_scale_factor=1)
     errors=[]
     page.on('pageerror',lambda e: errors.append(str(e)))
+    page.on('console',lambda msg: errors.append(msg.text) if msg.type=='error' else None)
     page.goto(URL,wait_until='load')
     page.locator('#priceCenter').wait_for()
     # The artwork is bundled in the offline page and never relies on the network.
@@ -87,6 +88,7 @@ def exercise(browser, width, height, screenshot):
     saved_hours=page.locator('#engineHours').input_value()
     for axis,value in [('serviceYear','2024'),('repackYear','2025')]:
         page.locator('#curveAxis').select_option(axis)
+        page.wait_for_function('(axis)=>document.querySelector("#valueCurve").dataset.axis===axis',arg=axis)
         page.locator('#curveSlider').fill(value)
         expect(page.locator('#'+axis)).to_have_value(value)
         expect(point).to_have_attribute('data-value',value)
@@ -218,6 +220,15 @@ def exercise(browser, width, height, screenshot):
     page.locator('button[data-tab="research"]').click()
     assert 'Linked research library' in page.locator('#tab-research').inner_text()
     page.locator('button[data-tab="estimate"]').click()
+    # Numeric HTML min/max attributes alone do not constrain pasted or saved inputs.
+    page.evaluate('setConfig({shippingLow:-5000,shippingHigh:-1000,registrationCosts:-10000,budget:-1,rocketYear:-2020})')
+    bounded=page.evaluate('getConfig()')
+    assert [bounded[k] for k in ['shippingLow','shippingHigh','registrationCosts','rocketYear']]==[0,0,0,0]
+    assert bounded['budget']==10000
+    assert page.evaluate('(()=>{const c=getConfig(),a=acquisition(c,calculate(c));return a.deliveredLow>=a.purchase[0]})()')
+    page.evaluate('setConfig({shippingLow:1e9,shippingHigh:1e9,registrationCosts:1e9,budget:1e9,rocketYear:9999})')
+    bounded=page.evaluate('getConfig()')
+    assert [bounded[k] for k in ['shippingLow','shippingHigh','registrationCosts','budget','rocketYear']]==[100000,100000,30000,1000000,2050]
     assert not errors, ('Browser console exceptions: ',errors)
     result={'width':width,'initial':initial,'highHours':after_engine,'repackOverdue':after_repack,'errors':len(errors)}
     page.close()

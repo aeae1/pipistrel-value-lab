@@ -6,8 +6,11 @@ const PAYLOAD=JSON.parse(document.getElementById('app-data').textContent);
 const OBS=PAYLOAD.observations;
 const RESEARCH=PAYLOAD.sources;
 const ASOF='2026-10-16';
-const YEAR=2026;
+const YEAR=Number(ASOF.slice(0,4));
+const MONTH=Number(ASOF.slice(5,7));
 const REFERENCE_HOURS=500;
+const REPACK_REFERENCE_LOSS=250;
+const REPACK_DUE_LOSS=3200;
 const $=id=>document.getElementById(id);
 const clamp=(v,l,h)=>Math.min(h,Math.max(l,v));
 const finite=(v,fallback=0)=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(+v)? +v : fallback;
@@ -38,11 +41,9 @@ const EXTRA={adsb:1500,flarm:1350,dualGlass:3100,oxygen:1000,towKit:3300,wingTip
 const BASE_EXTRAS={virus_explorer:['dualGlass','adsb','towKit'],sinus_flex:['wingTips'],sinus_max:['wingTips']};
 const REGIONS={US:{shipping:[900,3000],paperwork:2500},Europe:{shipping:[14000,30000],paperwork:6000},Canada:{shipping:[3000,9000],paperwork:4200},Other:{shipping:[18000,40000],paperwork:7000}};
 const FIELDS=Array.from(document.querySelectorAll('[data-persist]'));
-const QUERY_KEY='pvl-scenario';
 const STORAGE_KEY='pipistrel-value-lab-v3';
 let lastReport=null;
 let lastDatabase=[];
-let scenarios=[];
 let loading=false;
 let initialized=false;
 let lastDisplayedMid=null;
@@ -55,8 +56,8 @@ function getConfig(){
  const numbers=['askingPrice','year','hours','engineHours','serviceYear','engineTbo','engineCalendar','repackYear','repackInterval','rocketYear','fxRate','negotiation','budget','shippingLow','shippingHigh','registrationCosts','duty','tax','vatRebate'];
  const optional=new Set(['hours','engineHours','serviceYear','engineTbo','engineCalendar','repackYear','repackInterval']);
  for(const key of numbers){c[key]=finite(c[key],optional.has(key)?null:0)}
- c.year=clamp(Math.round(c.year),2000,2026);if(c.hours!==null)c.hours=clamp(c.hours,0,30000);
- for(const [key,lo,hi] of [['engineHours',0,30000],['engineTbo',100,4000],['serviceYear',1970,2026],['engineCalendar',1,30],['repackYear',1980,2026],['repackInterval',1,20]])if(c[key]!==null)c[key]=clamp(c[key],lo,hi);
+ c.year=clamp(Math.round(c.year),2000,YEAR);if(c.hours!==null)c.hours=clamp(c.hours,0,30000);
+ for(const [key,lo,hi] of [['engineHours',0,30000],['engineTbo',100,4000],['serviceYear',1970,YEAR],['engineCalendar',1,30],['repackYear',1980,YEAR],['repackInterval',1,20],['rocketYear',0,2050],['budget',10000,1000000],['shippingLow',0,100000],['shippingHigh',0,100000],['registrationCosts',0,30000]])if(c[key]!==null)c[key]=clamp(c[key],lo,hi);
  c.negotiation=clamp(c.negotiation,0,20);c.fxRate=clamp(c.fxRate,.5,2.5);
  c.askingPrice=clamp(c.askingPrice,0,1000000);
  c.tax=clamp(c.tax,0,15);c.duty=clamp(c.duty,0,100);c.vatRebate=clamp(c.vatRebate,0,25);
@@ -116,7 +117,7 @@ function servicePressure(years,points){
 function rescueLoss(c){
  if(c.rescue==='none'||c.rescue==='unknown')return 0; // Absence/unknown is priced by rescuePremium, NOT charged twice.
  const due=parachuteYears(c);
- let loss=c.repackEvidence==='due'?3200:due===null?1850:servicePressure(due,[[0,3200],[2,2000],[4,1100],[6,250],[8,0]]);
+ let loss=c.repackEvidence==='due'?REPACK_DUE_LOSS:due===null?1850:servicePressure(due,[[0,REPACK_DUE_LOSS],[2,2000],[4,1100],[6,REPACK_REFERENCE_LOSS],[8,0]]);
  if(c.rocketYear>0)loss+=servicePressure(c.rocketYear-YEAR,[[0,1800],[2,700],[4,0]]);
  return loss;
 }
@@ -180,7 +181,7 @@ function maintenanceDelta(c){
  // Missing dimensions use the SAME reference as the baseline, so blanks are
  // neutral rather than zero-hour/new engines. Known limits/due months still bind.
  const actual=engineDepreciation({...c,engineHours:c.engineHours??REFERENCE_HOURS,serviceYear:c.serviceYear??c.year,engineTbo:c.engineTbo??2000,engineCalendar:c.engineCalendar??15});
- const parachute=c.rescue==='none'||c.rescue==='unknown'?0:250-rescueLoss(c);
+ const parachute=c.rescue==='none'||c.rescue==='unknown'?0:REPACK_REFERENCE_LOSS-rescueLoss(c);
  return Math.round(normal-actual+parachute-statusLoss(c));
 }
 function isEligible(o){return ['current','historical'].includes(o.status)&&o.airworthiness!=='nonairworthy'&&!o.skipModel&&o.year!=null&&o.price>2000}
@@ -200,14 +201,16 @@ function comparableAdjust(o,c){
  v+=modelAndYear;
  if(o.hours!=null)v+=airframeTimeEffect(c.variant,c.hours)-airframeTimeEffect(o.variant,o.hours);
  // Missing advertisement fields are UNKNOWN; never treat them as absent.
- for(const k of ['engine','avionics','prop']){
-  if(o[k]!==undefined&&o[k]!==null){v+=optionValue(k,c[k])-optionValue(k,o[k])}
+ for(const k of ['engine','avionics','prop','navigator']){
+  if(Object.hasOwn(PREMIUM[k],o[k])){v+=optionValue(k,c[k])-optionValue(k,o[k])}
  }
  if(o.autopilot!==undefined &&o.autopilot!==null){v+=optionValue('autopilot',c.autopilot)-optionValue('autopilot',o.autopilotType||(o.autopilot?'installed':'none'))}
  for(const key of Object.keys(EXTRA))if(typeof o[key]==='boolean')v+=((c[key]?1:0)-(o[key]?1:0))*EXTRA[key];
  if(o.parachute!==undefined&&o.parachute!==null){v+=rescuePremium(c)-(o.parachute?0:-6200)}
- if(o.rescueDue===true&&c.rescue!=='none'&&c.rescue!=='unknown')v+=2300;
- if(o.damage==='repaired'&&c.damage==='none')v+=Math.min(12500,usd(o,c.fxRate)*.07);
+ // Restore a seller-stated due repack to the neutral service reference first.
+ // Target service/absence is then valued once, independently of the source flag's spelling.
+ if(o.parachute===true&&(o.rescueDue===true||o.repackStatus==='due'))v+=REPACK_DUE_LOSS-REPACK_REFERENCE_LOSS;
+ if(o.damage==='repaired')v+=Math.min(12500,usd(o,c.fxRate)*.07);
  // Do not guess engine installation/overhaul year from aircraft manufacture year.
  // Engine service status is valued once in maintenanceDelta() after blending.
  return clamp(v,10000,500000);
@@ -236,8 +239,8 @@ function weightedMean(vals){let den=vals.reduce((s,x)=>s+x.w,0);return den?vals.
 function robustSummary(vals){
  if(!vals.length)return null;
  const median=weightedMedian(vals);
- const trimmed=vals.map(x=>({...x,value:clamp(x.value,median*.69,median*1.31)}));
- return{mid:weightedMean(trimmed)*.55+median*.45,median,n:vals.length,w:vals.reduce((s,x)=>s+x.w,0),spread:Math.sqrt(vals.reduce((s,x)=>s+x.w*Math.pow((x.value-median)/median,2),0)/vals.reduce((s,x)=>s+x.w,0))};
+ const winsorized=vals.map(x=>({...x,value:clamp(x.value,median*.69,median*1.31)}));
+ return{mid:weightedMean(winsorized)*.55+median*.45,median,n:vals.length,w:vals.reduce((s,x)=>s+x.w,0),spread:Math.sqrt(vals.reduce((s,x)=>s+x.w*Math.pow((x.value-median)/median,2),0)/vals.reduce((s,x)=>s+x.w,0))};
 }
 function calculate(input){
  const c=pricingConfig(input),source=OBS.find(o=>o.id===c.sourceId);
@@ -248,9 +251,11 @@ function calculate(input){
  const result=robustSummary(using);
  let prior=quotePrior(c);
  const eqWeight=exact.reduce((s,x)=>s+x.w,0);
- const refWeight=clamp(eqWeight/(eqWeight+1.0),.08,.82);
- // If only other variants matched, their model-change formula is highly speculative. Rely on the prior.
- const dataWeight=exact.length===0?.15:exact.length===1?.28:exact.length===2?.43:refWeight;
+ // Evidence strength, not a one-/two-record quota, sets the blend. One unit of
+ // prior weight remains; adding a very weak second ad cannot trigger a 15-point jump.
+ // Family-only adjustments remain speculative and are capped at 15% influence.
+ const evidenceWeight=exact.length?eqWeight:(result?.w??0);
+ const dataWeight=result?Math.min(exact.length ? .82 : .15,evidenceWeight/(evidenceWeight+1)):0;
  const matchedAsk=result?result.mid*dataWeight+prior*(1-dataWeight):prior;
  const riskAdj=maintenanceDelta(c);
  const conditionMultiplier=(1+issueCost(c));
@@ -418,7 +423,7 @@ const ENGINE_NAMES={ul80:'Rotax 912 UL · 80 hp, carb',uls100:'Rotax 912 ULS · 
 function dueMonths(yyyyMm){
  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(String(yyyyMm||'')))return null;
  const [y,m]=yyyyMm.split('-').map(Number);
- return (y-2026)*12+(m-10);
+ return (y-YEAR)*12+(m-MONTH);
 }
 function marketFields(o,c){
  const tbo=o.engineTboHours!=null&&o.engineHours!=null?o.engineTboHours-o.engineHours:null;
@@ -467,7 +472,7 @@ function filteredDatabase(){
 }
 function selectTableSort(key){
  if(tableSort.key===key)tableSort.direction=tableSort.direction==='asc'?'desc':'asc';
- else{tableSort.key=key;tableSort.direction=['date','year','usd','hours','engineHours','tboHours','tboCalendar','repack'].includes(key)?'asc':'asc';}
+ else{tableSort.key=key;tableSort.direction='asc';}
  $('dbSort').value='custom';renderDatabase();
 }
 function setQuickSort(value){
@@ -476,15 +481,16 @@ function setQuickSort(value){
  tableSort={key:m[1],direction:m[2]};renderDatabase();
 }
 function renderScatter(rows,c){
- // Scatter only uses known manufacturing years and specifically excludes unsuitable records.
- const good=rows.filter(o=>o.year!=null&&o.year>=2000&&o.year<=2026&&['current','historical'].includes(o.status)&&o.airworthiness!=='nonairworthy');
- let width=1000,height=245,L=58,R=22,T=20,B=38,maxPrice=300000;
- let x=y=>L+((y-2000)/26)*(width-L-R), y=p=>T+(1-clamp(p,0,maxPrice)/maxPrice)*(height-T-B);
- let el=`<svg class="plot" viewBox="0 0 ${width} ${height}" aria-label="Asking prices of selected Virus and Sinus observations by build year" role="img"><rect width="${width}" height="${height}" fill="#fbfdfc" rx="12"/>`;
- for(const a of [0,100000,200000,300000]){const py=y(a);el+=`<line x1="${L}" y1="${py}" x2="${width-R}" y2="${py}" stroke="#dce6e3"/><text x="${L-8}" y="${py+4}" font-size="11" text-anchor="end" fill="#6d8383">${a===0?'$0':'$'+a/1000+'k'}</text>`}
+ // This is a raw listing-context chart, not the independent valuation pool.
+ const good=rows.filter(o=>o.year!=null&&o.year>=2000&&o.year<=YEAR&&['current','historical'].includes(o.status)&&o.airworthiness!=='nonairworthy');
+ const width=1000,height=245,L=58,R=22,T=20,B=38;
+ const maxPrice=Math.max(300000,Math.ceil(Math.max(0,...good.map(o=>usd(o,c.fxRate)))/100000)*100000);
+ const x=y=>L+((y-2000)/(YEAR-2000))*(width-L-R), y=p=>T+(1-p/maxPrice)*(height-T-B);
+ let el=`<svg class="plot" viewBox="0 0 ${width} ${height}" data-price-max="${maxPrice}" aria-label="Advertised asking prices by build year; hollow points are excluded from valuation" role="img"><rect width="${width}" height="${height}" fill="#fbfdfc" rx="12"/>`;
+ for(let a=0;a<=maxPrice;a+=100000){const py=y(a);el+=`<line x1="${L}" y1="${py}" x2="${width-R}" y2="${py}" stroke="#dce6e3"/><text x="${L-8}" y="${py+4}" font-size="11" text-anchor="end" fill="#6d8383">${a===0?'$0':'$'+a/1000+'k'}</text>`}
  for(const a of [2000,2005,2010,2015,2020,2026]){let xx=x(a);el+=`<text x="${xx}" y="${height-12}" text-anchor="middle" font-size="11" fill="#6d8383">${a}</text>`}
- for(const o of good){const px=x(o.year),py=y(usd(o,c.fxRate)),col=o.family==='virus'?'#178b75':'#d08a49';el+=`<a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer"><circle cx="${px}" cy="${py}" r="${o.flag?4:5}" stroke="#fff" stroke-width="2" fill="${col}" opacity=".77"/><title>${esc((o.year||'?')+' '+vs[o.variant].name+' – '+money(usd(o,c.fxRate))+' – '+o.location)}</title></a>`}
- el+='</svg>';return el;
+ for(const o of good){const price=usd(o,c.fxRate),px=x(o.year),py=y(price),col=o.family==='virus'?'#178b75':'#d08a49',eligible=isEligible(o);el+=`<a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer"><circle data-record-id="${esc(o.id)}" data-price="${price}" cx="${px}" cy="${py}" r="${o.flag?4:5}" stroke="${eligible?'#fff':col}" stroke-width="2" fill="${eligible?col:'#fbfdfc'}" opacity=".77"/><title>${esc((o.year||'?')+' '+vs[o.variant].name+' – '+money(price)+' – '+o.location+(eligible?'':' – excluded from valuation'))}</title></a>`}
+ el+='</svg><p class="note">Raw advertised asks, including historical offers and repeats. Hollow points are excluded from valuation. This is market context, not a fitted depreciation curve; missing-year and archive records are not plotted.</p>';return el;
 }
 function renderDatabase(){
  const c=getConfig();let rows=filteredDatabase();lastDatabase=rows;
@@ -513,7 +519,7 @@ function renderDatabase(){
   const history=o.priceHistory?.length?`<b>Asking history (one aircraft)</b><p>${o.priceHistory.map(h=>esc(h.date)+' · '+money((h.currency||o.currency)==='EUR'?h.price*c.fxRate:h.price)).join('<br>')}</p>`:'';
   return `<tr>
    <td><div class="strong">${esc(vs[o.variant]?.name||o.variant)}</div><span class="subvalue">${esc(o.reg||o.id)} ${o.flag?'<span class="issue">⚠ '+esc(o.flag)+'</span>':''}</span></td>
-   <td class="num">${number(f.year)}</td>
+   <td class="num">${plain(f.year)}</td>
    <td class="num strong">${priceLabel}<span class="subvalue">${esc(priceSub)}</span></td>
    <td class="num">${number(f.hours)}</td>
    <td class="longcell">${plain(f.engine)}</td>

@@ -2,7 +2,7 @@
 
 **Decision:** use other aircraft to challenge the model, and component prices to improve cost references. Do **not** import their absolute prices, fitted age/hour slopes, or equipment premiums into the Virus/Sinus estimate. The external sample does not separate those effects reliably enough.
 
-The production changes are limited to engine-specific cost references and continuous parachute-service allowances. Engine service year and parachute repack year now have interactive curves. The original target corpus, variant anchors, age/hour priors and equipment premiums are unchanged. This is an improvement in provenance and behavior, **not demonstrated predictive accuracy**.
+The production changes in this dated review are limited to engine-specific cost references and continuous parachute-service allowances. Later housekeeping is documented in [MODEL.md](../MODEL.md); the metrics below reproduce the October 18 version. Engine service year and parachute repack year now have interactive curves. The original target corpus, variant anchors, age/hour priors and equipment premiums are unchanged. This is an improvement in provenance and behavior, **not demonstrated predictive accuracy**.
 
 ## What was reviewed
 
@@ -122,4 +122,4 @@ python3 tests/backtest.py
 python3 tests/smoke.py
 ```
 
-`audit_candidates.cjs` reads the baseline commit from git history and uses the production calculator, with only the two declared functions substituted for attribution. It refuses a changed target observation file. The external diagnostics never write application parameters or enter `data/observations.json`.
+`audit_candidates.cjs` reads both the baseline (`71c5459`) and reviewed release (`c158339`) from git history, including frozen observations, interface defaults and graph helpers. It checks that those two versions used identical target evidence, with only the two declared functions substituted for attribution. Later production edits cannot rewrite this historical comparison. Both commits must be available locally; use a full-history checkout or fetch the missing history before reproduction. The external diagnostics never write application parameters or enter `data/observations.json`.

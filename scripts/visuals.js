@@ -35,17 +35,24 @@ function curveSamples(c,axis,domain=axisDomain(c,axis)){
  if(curveCache.has(signature))return curveCache.get(signature);
  const n=a.calendar?domain[1]-domain[0]:48;
  const values=a.choices?a.choices.map(x=>x[0]):Array.from({length:n+1},(_,i)=>domain[0]+(domain[1]-domain[0])*i/n);
- const evaluate=(value,i=value)=>{const r=calculate({...c,[axis]:value});return{x:a.choices?i:value,value,mid:r.midpoint,low:r.low,high:r.high}};
+ const evaluated=new Map();
+ const evaluate=(value,i=value)=>{
+  if(evaluated.has(value))return evaluated.get(value);
+  const r=calculate({...c,[axis]:value}),point={x:a.choices?i:value,value,mid:r.midpoint,low:r.low,high:r.high};
+  evaluated.set(value,point);return point;
+ };
  const anchors=values.map(evaluate),points=[];
- // Resolve maintenance knees and price floors to within $20 of the model.
+ // Check quarter-points as well as midpoints: offsetting bends can hide at the midpoint.
+ // Refine calendar curves too; fractional horizons can put a knee between whole years.
+ // $20 is a sampling tolerance, not a statement about valuation accuracy.
  // This is piecewise-linear sampling, never a decorative smoothing spline.
  const refine=(left,right,depth=0)=>{
-  const middle=evaluate((left.x+right.x)/2);
-  const error=Math.max(...['mid','low','high'].map(key=>Math.abs(middle[key]-(left[key]+right[key])/2)));
+  const samples=[.25,.5,.75].map(f=>[f,evaluate(left.x+(right.x-left.x)*f)]),middle=samples[1][1];
+  const error=Math.max(...samples.flatMap(([f,p])=>['mid','low','high'].map(key=>Math.abs(p[key]-(left[key]+(right[key]-left[key])*f)))));
   if(error>20&&depth<8){refine(left,middle,depth+1);refine(middle,right,depth+1)}else points.push(right);
  };
  points.push(anchors[0]);
- for(let i=1;i<anchors.length;i++){if(a.choices||a.calendar)points.push(anchors[i]);else refine(anchors[i-1],anchors[i])}
+ for(let i=1;i<anchors.length;i++){if(a.choices)points.push(anchors[i]);else refine(anchors[i-1],anchors[i])}
  // Equipment is categorical: display actual scenario prices low to high,
  // without changing the estimates to manufacture a rising staircase.
  if(a.choices){points.sort((a,b)=>a.mid-b.mid);points.forEach((point,i)=>{point.x=i})}
@@ -96,7 +103,7 @@ function drawCurve(svg,prefix,c,r,axis,mini=false,pin=null){
  svg.querySelector('desc').textContent=`${a.note} Current setting: ${axisValueLabel(axis,c[axis])}; purchase midpoint ${money(r.midpoint)}. Other inputs stay fixed.`;
  const grid=Array.from({length:mini?2:4},(_,i)=>yMin+(yMax-yMin)*i/(mini?1:3));
  svg.querySelector('.plot-grid').innerHTML=grid.map(v=>`<line x1="${left}" x2="${right}" y1="${y(v)}" y2="${y(v)}"/><text x="${left-9}" y="${y(v)+4}" text-anchor="end">${compactMoney(v)}</text>`).join('');
- const ticks=a.choices?points.map(p=>[p.x,mini&&axis==='avionics'?({analog:'Analog',legacyGlass:'Legacy',hdx:'HDX',g3x:'G3X',g1000:'G1000*'})[p.value]:axisValueLabel(axis,p.value)]):Array.from({length:mini?3:5},(_,i)=>{const v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);return[v,a.calendar?Math.round(v):fmt(v)+(a.unit==='%'?'%':'')]});
+ const ticks=a.choices?points.map(p=>[p.x,mini&&axis==='avionics'?({analog:'Analog',legacyGlass:'Legacy',hdx:'HDX',g3x:'G3X',g1000:'G1000*'})[p.value]:axisValueLabel(axis,p.value)]):Array.from({length:mini?3:5},(_,i)=>{let v=domain[0]+(domain[1]-domain[0])*i/(mini?2:4);if(a.calendar)v=Math.round(v);return[v,a.calendar?v:fmt(v)+(a.unit==='%'?'%':'')]});
  svg.querySelector('.plot-ticks').innerHTML=ticks.map(([v,label])=>`<text x="${x(v)}" y="${bottom+22}" text-anchor="${v===domain[0]?'start':v===domain[1]?'end':'middle'}">${esc(label)}</text>`).join('');
  svg.querySelector('.plot-line').setAttribute('d',svgCurvePath(points,x,y,'mid',!!a.choices));
  const band=svg.querySelector('.plot-band');

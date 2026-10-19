@@ -1,6 +1,14 @@
 # Work-mode takeover brief — Pipistrel Value Lab
 
-## 18 October 2026 broader-evidence review — latest
+## 19 October 2026 housekeeping and math review — latest
+
+The current calculator uses continuous evidence-strength blending (`Q / (1 + Q)`, capped at .82 with exact evidence, .15 for family-only context, zero without evidence). Fixed 28%/43% one-/two-record quotas were removed so weak records cannot get disproportionate influence or trigger count-based jumps. Source due-repack flags/status normalize consistently to the same service reference (+2950); known navigator and repaired-source normalization paths are corrected without admitting excluded records. Snapshot month/year are derived from ASOF.
+
+Graph sampling now tests quarter-points and calendar intervals as well as midpoints, with a $20 sampling tolerance and exact selected markers. Market scatter expands its price axis and marks excluded context records hollow. Cost inputs enforce UI bounds; tax refunds explicitly mean a fraction of the gross price. Removed unused state, completed the contribution schema example, and froze the October 18 candidate audit to both its baseline and reviewed commits (71c5459 and c158339), including interface defaults and graph helpers. Historical candidate numbers reproduce unchanged.
+
+[MODEL.md](MODEL.md), linked from the README and site, explains every curve, robust comparable aggregation, quality weighting, and the separate external regression. This is not a neural network. No observation, anchor, year/hour rate, equipment premium, engine capitalization fraction or exponent was refitted. Current audit: **14.56% median / 17.71% mean absolute asking error**, **−10.33% mean signed error**, **34/41 in band**. Median and coverage are unchanged; do not interpret the tiny mean change as demonstrated predictive improvement. Validation: 26 model groups, schema checks, reproducible historical audit, and desktop 1440/mobile 390 browser tests pass with zero console errors. UI tests wait for scheduled graph rendering before editing a newly selected calendar axis.
+
+## 18 October 2026 broader-evidence review
 
 The external study is in `research/`: 29 reviewed aircraft records, 24 diagnostic candidates, 19 observations in repeated exact-model groups. Robust/ordinary fits, 2,000 fixed-seed resamples, family exclusions and documentation/engine-history sensitivities reject empirical transfer because of small sample and missing calendar history. No external aircraft enters production comparables. No target observations, age/hour slopes, baseline asks or equipment premiums changed.
 

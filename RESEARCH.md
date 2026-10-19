@@ -117,7 +117,7 @@ The exact algorithm is readable in [scripts/app.js](scripts/app.js), particularl
 2. Shift the prior by about **2.9% per build year**, within a cap; adjust airframe time by approximately **$11–20/hour**, with bounded influence.
 3. For each usable same-family advertisement, normalize variant/reference year and any **known** time and equipment differences. Preserve unknown equipment as unknown; never infer “no parachute” from silence.
 4. Discount a comp for poor identification, stale date, year/hours distant from the **fixed variant reference year and 500-hour anchor**, suspicious price, known duplicate risk, and a different sales/registration market. Year and hour price adjustments still follow the selected aircraft, but the weights do not reshuffle as either slider moves. A foreign-market comp typically carries **55% of same-market base weight**, not the same credibility as a U.S. LSA in a U.S. deal.
-5. Prefer **exact-variant** comps whenever three or more exist. Compute a robust trimmed weighted median/mean instead of taking the arithmetic mean of advertisements. Blend this comparable reference with the prior according to effective matched sample size; strong matched comps contribute at most **82%**.
+5. Prefer **exact-variant** comps whenever three or more exist. Use 55% of a weighted mean winsorized to 69–131% of the weighted median, plus 45% of that median. With exact-variant evidence weight sum `Q`, the comparable share is `min(0.82, Q / (1 + Q))`; family-only evidence has a 15% ceiling and no evidence has zero share. These are judgment weights, not confidence probabilities or a formal effective sample size. See [MODEL.md](MODEL.md) for the complete explanation.
 6. Apply condition, known repair history, uncertain logbooks and engine/repack/prop/gearbox status. A negotiated concession percentage (default **4%**) is an explicit **assumption**, not a reported sold-versus-ask discount.
 7. Display a **wide heuristic interval** (generally ±17–47% around the modeled midpoint). Particularly heterogeneous Sinus Flex has a minimum ±35% band; Explorer a minimum ±30%. **This is not a measured statistical confidence interval** and does not guarantee a sale will fall inside it.
 
@@ -131,23 +131,29 @@ Regression sweeps cover 56 configurations (defaults, all seven variants, and eve
 
 The same 41-aircraft holdout had 14.58% median / 17.71% mean absolute asking-price error before these fixes and 14.48% / 17.75% afterward; range coverage remains 34/41. This is essentially unchanged predictive performance, not an accuracy breakthrough. No age, equipment or engine-cost coefficient was retuned to improve the score.
 
+### Housekeeping and math review — 19 October 2026
+
+Sparse exact-variant evidence now uses the same continuous quality-weight rule as larger samples, replacing fixed one-/two-record blend quotas. Known navigators normalize consistently with other equipment. Both overdue-repack encodings restore the comparable to the same neutral service reference (+$2,950 = $3,200 due allowance minus $250 reference pressure), before target maintenance/absence is applied; no rocket cost is inferred. Known repaired-source normalization no longer depends on the target damage selection. Known-navigator and repaired-source cases currently concern excluded records or future evidence, not new accepted advertisements.
+
+Graph sampling checks off-center bends and calendar horizons as well as midpoints. Market scatter axes expand to include expensive asks and identify excluded context records. Acquisition inputs enforce their displayed bounds; refund percentages are explicitly a share of the gross advertised price. Historical candidate attribution is frozen to its reviewed commits. The dataset, baseline asks, age/hour rates and equipment/engine curve coefficients are unchanged. [MODEL.md](MODEL.md) explains each step and distinguishes research fitting from production assumptions.
+
 ### Evidence holdout audit (not a sales-price test)
 
 The revised audit uses the actual production JavaScript in Node and the **same `recordScenario` mapping as the UI**. For each of 41 eligible records with airframe time, `sourceId` excludes its whole `aircraftId` group, including conservatively grouped suspected duplicates; negotiation is zero. Runtime comp selection also deduplicates groups. Unknowns remain visible and use the model's explicit fallback/reserve assumptions. No coefficient was fitted to these held-out rows.
 
-Overall: **14.56% median absolute asking-price error**, **17.79% mean absolute error**, **−10.46% mean signed error**, and **34/41 asks (82.9%)** inside the heuristic bands. Against the unchanged baseline (14.48% / 17.75%), this is slightly worse, not an accuracy improvement. The cost-source and continuity changes were declared before the audit; no external aircraft-derived age/hour/equipment coefficient passed the transfer gate.
+Overall: **14.56% median absolute asking-price error**, **17.71% mean absolute error**, **−10.33% mean signed error**, and **34/41 asks (82.9%)** inside the heuristic bands. The October 19 housekeeping pass changed the previous mean from 17.79% to 17.71%, with unchanged median and coverage. This is essentially the same retrospective performance, not a sales-price accuracy claim. No curve coefficient was refitted. The October 18 cost-reference review remains reproducible separately.
 
 | Variant | Aircraft | Median absolute error | Mean signed error | In band |
 |---|---:|---:|---:|---:|
-| sinus_classic | 8 | 21.36% | -16.41% | 6/8 |
+| sinus_classic | 8 | 21.08% | -16.06% | 6/8 |
 | sinus_flex | 6 | 24.79% | +2.18% | 5/6 |
-| sinus_max | 1 | 9.66% | -9.66% | 1/1 |
+| sinus_max | 1 | 9.65% | -9.65% | 1/1 |
 | virus_explorer | 5 | 9.22% | -0.98% | 5/5 |
 | virus_long | 3 | 10.10% | -12.48% | 2/3 |
-| virus_sw | 17 | 13.90% | -14.76% | 14/17 |
-| virus_sw121 | 1 | 7.91% | -7.91% | 1/1 |
+| virus_sw | 17 | 13.77% | -14.54% | 14/17 |
+| virus_sw121 | 1 | 9.08% | -9.08% | 1/1 |
 
-Largest residuals: S21 +46.38%, S12 +45.62%, V16 -42.05%, S05 -41.39%, V43 -38.17%, V03 -34.69%. Refurbishment, category differences and missing specifications remain material weaknesses. Full results: [CSV](tests/backtest-results.csv), [summary](tests/backtest-summary.json), [candidate attribution](research/candidate-results.json).
+Largest residuals: S21 +46.38%, S12 +45.62%, V16 -42.05%, S05 -41.22%, V43 -37.50%, V03 -33.95%. Refurbishment, category differences and missing specifications remain material weaknesses. Full results: [CSV](tests/backtest-results.csv), [summary](tests/backtest-summary.json), [historical October 18 attribution](research/candidate-results.json).
 
 The earlier **38-row / 9.92% / 31-in-band** result used different preset imputation and listing-only exclusion. It is retained here as a historical result, **not an apples-to-apples improvement claim**. Manual priors, shared source indexes, unidentified repeats and absence of completed-sale data prevent independent accuracy claims. One-record variant subsets have almost no validation power; even broad band coverage does not establish calibrated probabilities. Unknown history/service reserves explain part of the signed bias and should be reconsidered only with better documentary evidence, not adjusted merely to make this corpus score look better.
 
